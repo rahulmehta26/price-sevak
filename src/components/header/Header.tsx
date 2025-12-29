@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { cn } from '../../utils/cn'
 import { motion, useMotionValueEvent, useScroll } from "motion/react"
+import Button from '../ui/Button'
+import Signin from '../icons/Signin'
 
 const Header = () => {
 
@@ -48,11 +50,29 @@ const Header = () => {
 
                 }}
                 className={cn(
-                    "bg-primary/20 w-[60rem] mx-auto p-4 fixed top-4 rounded-full "
+                    " w-[60rem] mx-auto p-2 pr-2 pl-6 ",
+                    "bg-primary/20 rounded-full",
+                    "fixed top-4",
+                    "flex justify-between items-center"
                 )}
             >
 
-                <span>Price Sevak</span>
+                <div>
+
+                    <span className={cn(
+                        "font-extrabold font-heading tracking-wider text-2xl"
+                    )} >
+                        Price Sevak
+                    </span>
+                </div>
+
+                <div>
+                    <Button
+                        leftIcon={Signin}
+                        variant='primary'
+                        title='Sign In'
+                    />
+                </div>
 
             </motion.div>
 
