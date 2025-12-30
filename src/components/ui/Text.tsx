@@ -9,13 +9,14 @@ interface TextProps {
 }
 
 const variants = {
-    heading: " text-2xl text-primary font-bold font-heading ",
-    subHeading: "text-xl text-primary font-heading",
-    body: "text-primary/60",
-    para: "text-sm text-primary/40",
+    heading: "text-2xl font-bold text-primary",
+    subHeading: "text-xl text-primary",
+    body: "text-secondary",
+    para: "text-sm text-primary/80",
     tags: "text-sm text-primary",
-    base: ""
-}
+    base: "text-primary",
+};
+
 
 type TextElement = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -23,9 +24,9 @@ const Text: React.FC<TextProps> = ({ children, className, variant = "base", as: 
     return (
         <TextComponent
             className={cn(
-                "text-base text-shadow-xs font-body font-normal",
+                "text-base text-shadow-xs font-oswald tracking-wider font-normal",
+                variants[variant],
                 className,
-                variants[variant]
             )}
         >
             {children}

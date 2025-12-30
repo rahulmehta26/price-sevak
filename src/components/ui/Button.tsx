@@ -17,8 +17,8 @@ interface ButtonProps extends HTMLMotionProps<"button"> {
 }
 
 const variants = {
-    primary: "bg-primary text-black text-shadow-xs font-semibold tracking-wider font-body rounded-full",
-    outline: "border-2 border-primary text-shadow-xs font-semibold tracking-wider font-body rounded-full bg-transparent text-primary",
+    primary: "bg-primary text-black text-shadow-xs font-semibold tracking-wider font-oswald rounded-full",
+    outline: "border-2 border-primary text-shadow-xs font-semibold tracking-wider font-oswald rounded-full bg-transparent text-primary",
 };
 
 const Button: React.FC<ButtonProps> = ({

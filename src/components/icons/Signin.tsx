@@ -1,9 +1,8 @@
-import React from 'react'
 import { cn } from '../../utils/cn'
 import { motion } from "motion/react"
-import { drawPath } from '../animations/Hover'
+import { drawPath } from '../animations/hover'
 
-const Signin = ({ className }: { className: string }) => {
+const Signin = ({ className }: { className?: string }) => {
     return (
         <motion.svg
             xmlns="http://www.w3.org/2000/svg"

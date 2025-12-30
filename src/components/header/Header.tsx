@@ -16,7 +16,7 @@ const Header = () => {
 
         const difference = y - lastYPosition.current;
 
-        if (Math.abs(difference) > 40) {
+        if (Math.abs(difference) > 50) {
 
             setIsHidden(difference > 0)
 
@@ -29,7 +29,7 @@ const Header = () => {
         <header
             className={cn(
                 "w-full h-auto relative",
-                "flex justify-center "
+                "flex justify-center"
             )}
         >
             <motion.div
@@ -50,8 +50,8 @@ const Header = () => {
 
                 }}
                 className={cn(
-                    " w-[60rem] mx-auto p-2 pr-2 pl-6 ",
-                    "bg-primary/20 rounded-full",
+                    " w-[30rem] mx-auto p-2 pr-2 pl-6 ",
+                    "bg-secondary rounded-full",
                     "fixed top-4",
                     "flex justify-between items-center"
                 )}
@@ -60,7 +60,7 @@ const Header = () => {
                 <div>
 
                     <span className={cn(
-                        "font-extrabold font-heading tracking-wider text-2xl"
+                        "font-extrabold font-quintessential tracking-wider text-2xl"
                     )} >
                         Price Sevak
                     </span>
