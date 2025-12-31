@@ -37,6 +37,7 @@ const Button: React.FC<ButtonProps> = ({
 
     return (
         <motion.button
+            onClick={onClick}
             initial="initial"
             whileHover="hover"
             whileTap={{

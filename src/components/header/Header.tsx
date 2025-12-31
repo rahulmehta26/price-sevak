@@ -3,6 +3,10 @@ import { cn } from '../../utils/cn'
 import { motion, useMotionValueEvent, useScroll } from "motion/react"
 import Button from '../ui/Button'
 import Signin from '../icons/Signin'
+import { useAuthModal } from '../../store/useAuthModal'
+import { useAuthState } from '../../store/useAuthStore'
+import Signout from '../icons/Signout'
+import { handleGoogleLogout } from '../../utils/googleLogin'
 
 const Header = () => {
 
@@ -24,6 +28,10 @@ const Header = () => {
         }
 
     })
+
+    const open = useAuthModal((state) => state.open);
+
+    const user = useAuthState((s) => s.user)
 
     return (
         <header
@@ -52,7 +60,7 @@ const Header = () => {
                 className={cn(
                     " w-[30rem] mx-auto p-2 pr-2 pl-6 ",
                     "bg-secondary rounded-full",
-                    "fixed top-4",
+                    "fixed top-4 z-20",
                     "flex justify-between items-center"
                 )}
             >
@@ -68,15 +76,15 @@ const Header = () => {
 
                 <div>
                     <Button
-                        leftIcon={Signin}
+                        leftIcon={!user ? Signin : undefined}
                         variant='primary'
-                        title='Sign In'
+                        title={user ? "Sign Out" : 'Sign In'}
+                        onClick={user ? handleGoogleLogout : open}
+                        rightIcon={user ? Signout : undefined}
                     />
                 </div>
 
             </motion.div>
-
-
         </header>
     )
 }
