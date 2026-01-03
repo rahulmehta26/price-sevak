@@ -9,6 +9,7 @@
     --color-primary: #3ecf8e;
     --color-secondary: #3ecf8e33;
     --color-background: #f5f5f5;
+    --color-black: #171717;
 
     --font-quintessential: "Quintessential", serif;
     --font-oswald: "Oswald", sans-serif;
@@ -17,7 +18,7 @@
 @layer base{
 
     body{
-        @apply bg-background
+        @apply bg-background 
     }
 }
 

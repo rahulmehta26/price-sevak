@@ -31,7 +31,7 @@ const Features = () => {
                                 <div
                                     className={cn(
                                         "w-10 h-auto p-2",
-                                        "bg-primary rounded-lg",
+                                        "bg-primary rounded-full",
                                         "flex items-center justify-center",
                                     )}
                                 >

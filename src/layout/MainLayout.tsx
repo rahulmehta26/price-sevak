@@ -4,6 +4,7 @@ import Footer from '../components/footer/Footer'
 import { cn } from '../utils/cn'
 import Authmodal from '../components/ui/Authmodal'
 import { useAuthModal } from '../store/useAuthModal'
+import { AnimatePresence } from 'motion/react'
 
 
 const MainLayout = () => {
@@ -16,9 +17,9 @@ const MainLayout = () => {
                 "w-full min-h-screen relative "
             )}
         >
-            {
-                isOpen && <Authmodal />
-            }
+            <AnimatePresence mode="wait">
+                {isOpen && <Authmodal />}
+            </AnimatePresence>
 
             <Header />
 
