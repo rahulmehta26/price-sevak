@@ -2,17 +2,44 @@ import type React from 'react';
 import { cn } from '../../utils/cn'
 import { useState } from 'react';
 import Button from './Button';
+import { useAuthState } from '../../store/useAuthStore';
+import { useAuthModal } from '../../store/useAuthModal';
+import { addProduct } from '../../services/products';
 
 interface InputProps {
     user?: string;
 }
 
-const Input: React.FC<InputProps> = ({ user }) => {
+const Input: React.FC<InputProps> = () => {
 
     const [url, setUrl] = useState<string>("");
 
+    const user = useAuthState((s) => s.user)
+
+    const open = useAuthModal((s) => s.open)
+
+    const handleAuthModal = () => {
+        if (!user) {
+            open();
+            return;
+        }
+
+    }
+
     const handleSubmit = async (e: any) => {
 
+        e.preventDefault();
+
+        handleAuthModal()
+
+        const result = await addProduct(url);
+
+        if (result.error) {
+            //toast
+        } else {
+            // toast || Product tracked successfully
+            setUrl("");
+        }
     }
 
     return (

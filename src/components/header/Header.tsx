@@ -25,7 +25,7 @@ const Header = () => {
         }
     });
 
-    const open = useAuthModal((state) => state.open);
+    const open = useAuthModal((s) => s.open);
 
     const user = useAuthState((s) => s.user);
 

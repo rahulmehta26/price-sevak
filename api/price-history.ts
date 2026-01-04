@@ -1,6 +1,9 @@
+import { requireUser } from "./utils/auth.js";
 import { supabase } from "./utils/supabase.js";
 
-export default async function handler(req, res) {
+export default async function handler(req: any, res: any) {
+  const user = await requireUser(req);
+
   const { productId } = req.query;
 
   const { data } = await supabase
