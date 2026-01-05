@@ -10,6 +10,7 @@
     --color-secondary: #3ecf8e33;
     --color-background: #f5f5f5;
     --color-black: #171717;
+    --color-red: #c70000;
 
     --font-quintessential: "Quintessential", serif;
     --font-oswald: "Oswald", sans-serif;
@@ -27,4 +28,9 @@
     .icon{
         @apply size-6 
     }
+}
+
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
 }

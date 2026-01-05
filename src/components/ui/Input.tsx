@@ -34,12 +34,12 @@ const Input: React.FC<InputProps> = () => {
 
         const result = await addProduct(url);
 
-        if (result.error) {
-            //toast
-        } else {
-            // toast || Product tracked successfully
-            setUrl("");
-        }
+        // if (result.error) {
+        //     //toast
+        // } else {
+        //     // toast || Product tracked successfully
+        //     setUrl("");
+        // }
     }
 
     return (
@@ -80,7 +80,7 @@ const Input: React.FC<InputProps> = () => {
 
             <Button
                 title="Track Price"
-                className="px-8 shrink-0"
+                className="px-12 shrink-0"
                 type='submit'
             />
         </form>
