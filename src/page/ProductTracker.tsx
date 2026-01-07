@@ -24,7 +24,7 @@ const ProductTracker = ({ products }: { products: Product[] }) => {
                     as="span"
                     variant="base"
                 >
-                    {products?.length} products
+                    {products?.length} {products?.length === 1 ? "product" : "products"}
                 </Text>
             </div>
 
@@ -35,7 +35,11 @@ const ProductTracker = ({ products }: { products: Product[] }) => {
                 )}
             >
 
-                <ProductCard />
+                {
+                    products?.map((product) => (
+                        <ProductCard key={product?.id} product={product} />
+                    ))
+                }
 
             </div>
 
