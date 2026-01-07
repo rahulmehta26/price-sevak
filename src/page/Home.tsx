@@ -1,12 +1,22 @@
+import { useQuery } from "@tanstack/react-query"
 import Input from "../components/ui/Input"
 import Text from "../components/ui/Text"
+import { useAuthState } from "../store/useAuthStore"
 import { cn } from "../utils/cn"
 import Features from "./Features"
 import ProductTracker from "./ProductTracker"
+import { getProducts } from "../services/products"
 
 const Home = () => {
 
-    const product: any[] = [];
+    const user = useAuthState((s) => s.user);
+
+    const { data: products = [], isLoading } = useQuery({
+        queryKey: ['products'],
+        queryFn: getProducts,
+        enabled: !!user,
+        select: (data) => data.products
+    })
 
     return (
         <div
@@ -41,14 +51,20 @@ const Home = () => {
             </section >
 
             {
-                product.length !== 0 ? (
-                    <Features />
-                ) : (
-                    <ProductTracker product={product} />
-                )
+                isLoading ? (
+                    <div>
+                        Loading Ui will be updated
+                    </div>
+                ) :
+                    products.length === 0 ? (
+                        <Features />
+                    ) : (
+                        <ProductTracker products={products} />
+                    )
+
             }
         </div>
-    )
-}
+    );
+};
 
 export default Home
