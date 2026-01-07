@@ -1,12 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cn } from '../../utils/cn';
 import Text from './Text';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { getPriceHistory } from '../../services/products';
 
-const PriceChart = () => {
+const PriceChart = ({ productId }: { productId: string }) => {
 
-    const [data, setData] = useState();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [data, setData] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+
+        async function loadData() {
+            try {
+                const response = await getPriceHistory(productId);
+
+                const history = response?.history || response;
+
+                const chartData = history.map((item) => ({
+                    date: new Date(item.checked_at).toLocaleDateString(),
+                    price: parseFloat(item.price.toString()),
+                }))
+
+                setData(chartData);
+            } catch (error) {
+                console.log("Failed to load price history", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadData();
+    }, [productId])
+
+    if (data.length === 0) {
+        return (
+            <Text
+                as='p'
+                variant='para'
+                className='text-black'
+            >
+                No price history yet. Check back after the first daily update!.
+            </Text>
+        )
+    }
 
     return (
         <section
