@@ -5,6 +5,7 @@ import Button from './Button';
 import { useAuthState } from '../../store/useAuthStore';
 import { useAuthModal } from '../../store/useAuthModal';
 import { addProduct } from '../../services/products';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface InputProps {
     user?: string;
@@ -14,32 +15,36 @@ const Input: React.FC<InputProps> = () => {
 
     const [url, setUrl] = useState<string>("");
 
-    const user = useAuthState((s) => s.user)
+    const user = useAuthState((s) => s.user);
 
-    const open = useAuthModal((s) => s.open)
+    const open = useAuthModal((s) => s.open);
 
-    const handleAuthModal = () => {
-        if (!user) {
-            open();
-            return;
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: addProduct,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+            setUrl("");
+            alert("Product tracked successfully!");
+        },
+        onError: (error: any) => {
+            alert(error.message || "Failed to track product");
         }
-
-    }
+    })
 
     const handleSubmit = async (e: any) => {
 
         e.preventDefault();
 
-        handleAuthModal()
+        if (!user) {
+            open();
+            return;
+        }
 
-        const result = await addProduct(url);
+        if (!url) return alert("Please paste valid url ")
 
-        // if (result.error) {
-        //     //toast
-        // } else {
-        //     // toast || Product tracked successfully
-        //     setUrl("");
-        // }
+        mutation.mutate(url);
     }
 
     return (
@@ -65,7 +70,7 @@ const Input: React.FC<InputProps> = () => {
                     id='url'
                     name='url'
                     type='url'
-                    placeholder='paste pruduct URL '
+                    placeholder='Paste pruduct URL '
                     className={cn(
                         "w-full p-3 px-6",
                         "rounded-full outline-none bg-transparent",
@@ -79,9 +84,10 @@ const Input: React.FC<InputProps> = () => {
             </div>
 
             <Button
-                title="Track Price"
+                title={mutation.isPending ? "Tracking..." : "Track Price"}
                 className="px-12 shrink-0"
                 type='submit'
+                disabled={mutation.isPending}
             />
         </form>
     )
