@@ -2,8 +2,9 @@ import { api } from "../lib/axios";
 import type {
   AddProductResponse,
   DeleteProductResponse,
+  GetPriceHistoryResponse,
   GetProductsResponse,
-} from "../types/product";
+} from "../types/productTypes";
 import supabase from "../utils/supabase/supabase";
 
 async function authHeaders() {
@@ -45,6 +46,17 @@ export async function deleteProduct(
 ): Promise<DeleteProductResponse> {
   const res = await api.delete<DeleteProductResponse>("/products", {
     params: { id },
+    headers: await authHeaders(),
+  });
+
+  return res.data;
+}
+
+export async function getPriceHistory(
+  productId: string
+): Promise<GetPriceHistoryResponse> {
+  const res = await api.get<GetPriceHistoryResponse>("/price-history", {
+    params: { productId },
     headers: await authHeaders(),
   });
 
