@@ -1,8 +1,9 @@
 import ProductCard from "../components/ui/ProductCard"
 import Text from "../components/ui/Text"
+import type { Product } from "../types/productTypes"
 import { cn } from "../utils/cn"
 
-const ProductTracker = ({ product }: { product: any[] }) => {
+const ProductTracker = ({ products }: { products: Product[] }) => {
 
     return (
         <section>
@@ -23,7 +24,7 @@ const ProductTracker = ({ product }: { product: any[] }) => {
                     as="span"
                     variant="base"
                 >
-                    {product?.length} products
+                    {products?.length} products
                 </Text>
             </div>
 
