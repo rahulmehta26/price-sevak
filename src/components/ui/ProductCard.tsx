@@ -8,16 +8,35 @@ import ExternalLink from "../icons/ExternalLink"
 import Line from "../icons/Line"
 import Button from "./Button"
 import Text from "./Text"
-import Image01 from "../../assets/react.svg"
 import PriceChart from "./PriceChart"
+import type { Product } from "../../types/productTypes"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { deleteProduct } from "../../services/products"
 
-const ProductCard = () => {
+const ProductCard = ({ product }: { product: Product }) => {
 
-    const [isHidden, setIsHidden] = useState<boolean>(false)
+    const [isHidden, setIsHidden] = useState<boolean>(false);
+    const queryClient = useQueryClient();
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteProduct,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error: any) => {
+            alert(error.message || "Failed to remove product");
+        },
+    });
 
     const handleToggle = () => {
 
         setIsHidden(prev => !prev);
+    }
+
+    const handleDelete = () => {
+        if (confirm("Remove this product from tracking?")) {
+            deleteMutation.mutate(product.id)
+        }
     }
 
     return (
@@ -43,7 +62,8 @@ const ProductCard = () => {
                 >
 
                     <img
-                        src={Image01}
+                        src={product?.image_url}
+                        alt={product?.name}
                         className={cn(
                             "w-full h-full rounded-full",
                             "object-cover"
@@ -52,7 +72,6 @@ const ProductCard = () => {
 
                 </div>
 
-
                 <div>
 
                     <Text
@@ -60,7 +79,7 @@ const ProductCard = () => {
                         variant="subHeading"
                         className={cn("text-black text-lg font-bold")}
                     >
-                        Prodcut Name
+                        {product?.name}
                     </Text>
 
                     <div className={cn(
@@ -72,7 +91,7 @@ const ProductCard = () => {
                             as="h2"
                             variant="heading"
                         >
-                            INR Price
+                            {product?.currency} {product?.current_price}
                         </Text>
 
                         <motion.div
@@ -128,7 +147,8 @@ const ProductCard = () => {
                     textStyle={cn(" text-xs text-red ")}
                     leftIcon={Delete}
                     leftIconStyle={cn("stroke-red fill-red size-3.5")}
-
+                    onClick={handleDelete}
+                    disabled={deleteMutation.isPending}
                 />
 
             </div>
@@ -137,14 +157,10 @@ const ProductCard = () => {
                 isHidden && (
 
                     <div>
-
-                        <PriceChart />
-
+                        <PriceChart productId={product.id} />
                     </div>
                 )
             }
-
-
         </div>
     )
 }
