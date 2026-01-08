@@ -15,13 +15,16 @@
   "type": "module",
   "dependencies": {
     "@mendable/firecrawl-js": "^4.10.0",
-    "@supabase/supabase-js": "^2.89.0",
+    "@supabase/supabase-js": "^2.90.0",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "node-cron": "^4.2.1",
+    "resend": "^6.6.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
     "nodemon": "^3.1.11",

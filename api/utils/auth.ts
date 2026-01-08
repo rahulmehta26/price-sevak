@@ -3,13 +3,30 @@ import { supabase } from "./supabase.js";
 export async function requireUser(req: any) {
   const auth = req.headers.authorization;
 
-  if (!auth) throw new Error("Unauthorized");
+  console.log("Authorization header:", auth ? "Present" : "Missing");
+
+  if (!auth) throw new Error("No authorization header");
 
   const token = auth.replace("Bearer ", "");
 
-  const { data, error } = await supabase.auth.getUser(token);
+  console.log("Token length:", token.length);
 
-  if (error || !data.user) throw new Error("Unauthorized");
+  try {
+    const { data, error } = await supabase.auth.getUser(token);
 
-  return data.user;
+    if (error) {
+      console.error("Auth error:", error);
+      throw new Error(`Authentication failed: ${error.message}`);
+    }
+
+    if (!data.user) {
+      throw new Error("No user found");
+    }
+
+    console.log("User authenticated:", data.user.email);
+    return data.user;
+  } catch (error) {
+    console.error("requireUser error:", error);
+    throw error;
+  }
 }

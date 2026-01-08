@@ -12,42 +12,42 @@ type ExtractedProduct = {
   productImageUrl?: string;
 };
 
-function isExtractedProduct(data: unknown): data is ExtractedProduct {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    typeof (data as any).productName === "string" &&
-    typeof (data as any).currentPrice === "number"
-  );
-}
-
 export async function scrapeProduct(url: string): Promise<ExtractedProduct> {
-  try {
-    const result = await firecrawl.scrape(url, {
-      formats: ["markdown"],
-      extract: {
-        prompt:
-          "Extract the product name as 'productName', current price as a number as 'currentPrice', currency code (USD, EUR, INR, etc) as 'currencyCode', and product image URL as 'productImageUrl' if available",
+  const result = await firecrawl.scrape(url, {
+    formats: [
+      {
+        type: "json",
         schema: {
           type: "object",
           properties: {
-            productName: { type: "string" },
-            currentPrice: { type: "number" },
-            currencyCode: { type: "string" },
-            productImageUrl: { type: "string" },
+            productName: {
+              type: "string",
+              description: "Product name or title",
+            },
+            currentPrice: {
+              type: "number",
+              description: "Current price as a number",
+            },
+            currencyCode: {
+              type: "string",
+              description: "Currency code like USD, INR, EUR",
+            },
+            productImageUrl: {
+              type: "string",
+              description: "Main product image URL",
+            },
           },
           required: ["productName", "currentPrice"],
         },
+        prompt:
+          "Extract the product name, current price as a number, currency code (USD, EUR, INR, etc), and product image URL if available",
       },
-    });
+    ],
+  });
 
-    if (!isExtractedProduct(result.json)) {
-      throw new Error("Extraction failed or returned invalid data");
-    }
-
-    return result.json;
-  } catch (error: any) {
-    console.error("Firecrawl scrape error:", error);
-    throw new Error(`Failed to scrape product: ${error.message}`);
+  if (!result.json) {
+    throw new Error("Extraction failed or returned invalid data");
   }
+
+  return result.json as ExtractedProduct;
 }

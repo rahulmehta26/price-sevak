@@ -1,34 +1,32 @@
-// import express, { Request, Response } from "express";
-// import { ENV } from "./config/env.js";
-// import { scrapeProduct } from "./services/firecrawl.js";
+import express, { Request, Response } from "express";
+import { ENV } from "./config/env.js";
+import cors from "cors";
+import productsRouter from "./routes/products.js";
+import priceHistoryRouter from "./routes/price-history.js";
+import cronRouter from "./routes/cron.js";
 
-// const app = express();
-// app.use(express.json());
+const app = express();
 
-// app.post("/scrape-product", async (req: Request, res: Response) => {
-//   try {
-//     const { url } = req.body as { url?: string };
+app.use(
+  cors({
+    origin: ENV.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
+  })
+);
 
-//     if (!url) {
-//       return res.status(400).json({ error: "URL is required" });
-//     }
+app.use(express.json());
 
-//     const productData = await scrapeProduct(url);
+app.use("/api/products", productsRouter);
+app.use("/api/price-history", priceHistoryRouter);
+app.use("/api/cron", cronRouter);
 
-//     if (!productData) {
-//       return res.status(500).json({ error: "Failed to scrape product" });
-//     }
+app.use((err: any, req: Request, res: Response, next: any) => {
+  console.log("Error:", err);
+  res.status(500).json({ error: err.message || "Internal server error" });
+});
 
-//     return res.json({
-//       success: true,
-//       data: productData,
-//     });
-//   } catch (error) {
-//     console.error("Scrape error:", error);
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// });
+const PORT = ENV.PORT || 5000;
 
-// app.listen(ENV.PORT ?? 4000, () => {
-//   console.log(`Server running on http://localhost:${ENV.PORT ?? 4000}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${ENV.PORT ?? 4000}`);
+});
