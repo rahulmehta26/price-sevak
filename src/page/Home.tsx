@@ -12,10 +12,9 @@ const Home = () => {
     const user = useAuthState((s) => s.user);
 
     const { data: products = [], isLoading } = useQuery({
-        queryKey: ['products'],
+        queryKey: ['products', user?.id],
         queryFn: getProducts,
         enabled: !!user,
-        select: (data) => data.products
     })
 
     return (
