@@ -102,7 +102,7 @@ router.post("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const user = await requireUser(req);
-    const { id } = req.query;
+    const id = req.query.id as string;
 
     if (!id) {
       return res.status(400).json({ error: "Product ID is required" });
@@ -113,6 +113,11 @@ router.delete("/", async (req, res) => {
       .delete()
       .eq("id", id)
       .eq("user_id", user.id);
+
+    if (error) {
+      console.error("SUPABASE DELETE ERROR 👉", error);
+      return res.status(500).json({ error });
+    }
 
     if (error) throw error;
 

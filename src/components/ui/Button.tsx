@@ -50,6 +50,7 @@ const Button: React.FC<ButtonProps> = ({
                 "px-6 py-3",
                 "cursor-pointer group",
                 "flex justify-center items-center gap-3",
+                "shadow-sm",
                 variants[variant],
                 className
             )}

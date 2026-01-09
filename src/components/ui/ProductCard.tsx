@@ -20,13 +20,25 @@ const ProductCard = ({ product }: { product: Product }) => {
 
     const deleteMutation = useMutation({
         mutationFn: deleteProduct,
-        onSuccess: () => {
+        onMutate: async (id) => {
+            await queryClient.cancelQueries({ queryKey: ["products"] });
+
+            const previous = queryClient.getQueryData<Product[]>(["products"]);
+
+            queryClient.setQueryData<Product[]>(["products"], (old) =>
+                old?.filter((p) => p.id !== id)
+            );
+
+            return { previous };
+        },
+        onError: (_err, _id, context) => {
+            queryClient.setQueryData(["products"], context?.previous);
+        },
+        onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
         },
-        onError: (error: any) => {
-            alert(error.message || "Failed to remove product");
-        },
     });
+
 
     const handleToggle = () => {
 
@@ -44,6 +56,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             className={cn(
                 "h-auto p-8 space-y-6",
                 "bg-secondary rounded-lg",
+                "shadow-md"
             )}
         >
 
@@ -55,7 +68,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                 <div
                     className={cn(
-                        "w-16 h-16 rounded-full",
+                        "w-16 h-16 rounded-lg",
                         "bg-primary",
                         "flex items-center justify-center"
                     )}
@@ -65,9 +78,10 @@ const ProductCard = ({ product }: { product: Product }) => {
                         src={product?.image_url}
                         alt={product?.name}
                         className={cn(
-                            "w-full h-full rounded-full",
+                            "w-full h-full rounded-lg",
                             "object-cover"
                         )}
+                        loading="lazy"
                     />
 
                 </div>

@@ -3,7 +3,6 @@ import type {
   AddProductResponse,
   DeleteProductResponse,
   GetPriceHistoryResponse,
-  GetProductsResponse,
   Product,
 } from "../types/productTypes";
 import supabase from "../utils/supabase/supabase";
@@ -21,8 +20,6 @@ async function authHeaders() {
     console.error("No access token found");
     throw new Error("User not authenticated");
   }
-
-  console.log("Token found:", token.substring(0, 20) + "...");
 
   return {
     Authorization: `Bearer ${token}`,
@@ -71,7 +68,7 @@ export async function deleteProduct(
 
     return res.data;
   } catch (error) {
-    console.error("Delete product error:", error);
+    console.error("Delete product error69:", error);
     throw error;
   }
 }
