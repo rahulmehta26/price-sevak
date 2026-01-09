@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import Home from "./page/Home"
+import Home from "./page/home/Home"
 import MainLayout from "./layout/MainLayout"
 import { useEffect } from "react"
 import supabase from "./utils/supabase/supabase"

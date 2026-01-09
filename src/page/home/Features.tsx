@@ -1,7 +1,7 @@
-import React from 'react'
-import { cn } from '../utils/cn'
-import Text from '../components/ui/Text'
-import { FEATURES, type FeatureProps } from '../constant/features'
+import Text from "../../components/ui/Text"
+import { FEATURES, type FeatureProps } from "../../constant/features"
+import { cn } from "../../utils/cn"
+
 
 const Features = () => {
     return (

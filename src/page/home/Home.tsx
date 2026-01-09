@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import Input from "../components/ui/Input"
-import Text from "../components/ui/Text"
-import { useAuthState } from "../store/useAuthStore"
-import { cn } from "../utils/cn"
+import Input from "../../components/ui/Input"
+import Text from "../../components/ui/Text"
+import { useAuthState } from "../../store/useAuthStore"
+import { cn } from "../../utils/cn"
 import Features from "./Features"
+import { getProducts } from "../../services/products"
 import ProductTracker from "./ProductTracker"
-import { getProducts } from "../services/products"
 
 const Home = () => {
 
