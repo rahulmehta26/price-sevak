@@ -70,7 +70,6 @@ const ProductCard = ({ product }: { product: Product }) => {
                     className={cn(
                         "w-12 md:w-16 h-12 md:h-16 rounded-sm md:rounded-lg",
                         "bg-primary",
-                        "flex items-center justify-center"
                     )}
                 >
 

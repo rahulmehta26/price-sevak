@@ -1,6 +1,19 @@
 import { cn } from '../../utils/cn'
-import { motion } from "motion/react"
-import { drawPath } from '../animations/hover'
+import { motion, type Variants } from "motion/react"
+
+const arrowVariants: Variants = {
+    initial: {
+        x: 0,
+    },
+    hover: {
+        x: 2,
+        transition: {
+            type: "spring",
+            stiffness: 300,
+            damping: 20
+        }
+    }
+}
 
 const Signin = ({ className }: { className?: string }) => {
     return (
@@ -15,9 +28,9 @@ const Signin = ({ className }: { className?: string }) => {
             className={cn("icon", className)}
         >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <motion.path variants={drawPath} d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
-            <motion.path variants={drawPath} d="M3 12h13l-3 -3" />
-            <motion.path variants={drawPath} d="M13 15l3 -3" />
+            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+            <motion.path variants={arrowVariants} d="M3 12h13l-3 -3" />
+            <motion.path variants={arrowVariants} d="M13 15l3 -3" />
         </motion.svg>
     )
 }

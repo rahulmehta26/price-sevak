@@ -13,7 +13,7 @@ const ProductTracker = ({ products }: { products: Product[] }) => {
 
             <div
                 className={cn(
-                    "flex flex-col space-y-2 md:flex items-center justify-between",
+                    "flex flex-col space-y-2 md:flex-row items-center md:justify-between",
                 )}
             >
                 <Text
