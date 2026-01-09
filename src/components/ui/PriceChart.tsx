@@ -52,7 +52,7 @@ const PriceChart = ({ productId }: { productId: string }) => {
             <Text
                 as='h4'
                 variant='subHeading'
-                className={cn("text-black text-lg font-bold")}
+                className={cn("text-black text-sm md:text-lg font-bold")}
             >
                 Price History
             </Text>

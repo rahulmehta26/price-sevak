@@ -20,20 +20,19 @@ const Home = () => {
     return (
         <div
             className={cn(
-                "relative min-h-screen w-5xl ",
-                "pt-36 space-y-12 mx-auto",
+                "relative min-h-screen w-full md:w-2xl lg:w-4xl xl:w-5xl  ",
+                "pt-28 md:pt-36 pb-8 md:pb-12 space-y-12 mx-auto",
             )}
         >
             <section className={cn(
-                "space-y-12",
+                "space-y-8 md:space-y-12",
                 "flex flex-col items-center"
             )} >
-                <Text as="h1" className="text-[3.4rem] font-extrabold text-primary">
+                <Text as="h1" className="text-3xl text-center md:text-[2.24rem] lg:text-[2.98rem] xl:text-[3.4rem] font-extrabold text-primary">
                     Never Miss a Price Drop — Smart Bachat
                 </Text>
 
-
-                <Text as="p" className="text-center text-black/50 text-xl">
+                <Text as="p" className="text-center text-black/50 text-md md:text-xl">
                     Track prices from any e-commerce site.
                     Get instant alerts jab price kam ho. <br />
                     Save money with smart seva.
@@ -41,7 +40,7 @@ const Home = () => {
 
                 <div
                     className={cn(
-                        "w-full px-16",
+                        "w-full px-4 md:px-8 lg:px-16",
                     )}
                 >
                     <Input />

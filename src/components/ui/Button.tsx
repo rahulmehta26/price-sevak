@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({
             className={cn(
                 "px-6 py-3",
                 "cursor-pointer group",
-                "flex justify-center items-center gap-3",
+                "flex justify-center items-center gap-1.5 md:gap-3",
                 "shadow-sm",
                 variants[variant],
                 className
@@ -58,7 +58,7 @@ const Button: React.FC<ButtonProps> = ({
         >
 
             {LeftIcon && (
-                <LeftIcon className={cn("icon", leftIconStyle)} />
+                <LeftIcon className={cn("w-4.5 h-4.5 md:w-6 md:h-6 ", leftIconStyle)} />
             )}
 
             <span

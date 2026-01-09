@@ -9,7 +9,7 @@ const Features = () => {
 
             <div
                 className={cn(
-                    "flex justify-between items-center gap-8"
+                    "grid gap-6 px-4 md:grid-cols-2 lg:grid-cols-3 ",
                 )}
             >
                 {
@@ -18,7 +18,7 @@ const Features = () => {
                             <div
                                 key={id}
                                 className={cn(
-                                    "h-auto p-8",
+                                    "h-auto p-6",
                                     "bg-secondary rounded-lg",
                                     "flex flex-col justify-center items-center gap-6"
                                 )}

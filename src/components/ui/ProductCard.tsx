@@ -54,7 +54,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     return (
         <div
             className={cn(
-                "h-auto p-8 space-y-6",
+                "w-[18rem] md:w-full mx-auto h-auto p-4 md:p-6 lg:p-8 space-y-6",
                 "bg-secondary rounded-lg",
                 "shadow-md"
             )}
@@ -68,7 +68,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                 <div
                     className={cn(
-                        "w-16 h-16 rounded-lg",
+                        "w-12 md:w-16 h-12 md:h-16 rounded-sm md:rounded-lg",
                         "bg-primary",
                         "flex items-center justify-center"
                     )}
@@ -78,7 +78,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                         src={product?.image_url}
                         alt={product?.name}
                         className={cn(
-                            "w-full h-full rounded-lg",
+                            "w-full h-full rounded-sm md:rounded-lg",
                             "object-cover"
                         )}
                         loading="lazy"
@@ -91,7 +91,10 @@ const ProductCard = ({ product }: { product: Product }) => {
                     <Text
                         as="h5"
                         variant="subHeading"
-                        className={cn("text-black text-lg font-bold")}
+                        className={cn(
+                            "text-black  font-bold",
+                            "text-sm md:text-md lg:text-lg"
+                        )}
                     >
                         {product?.name}
                     </Text>
@@ -104,6 +107,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                         <Text
                             as="h2"
                             variant="heading"
+                            className={cn(" text-lg md:text-xl lg:text-2xl ")}
                         >
                             {product?.currency} {product?.current_price}
                         </Text>
@@ -119,7 +123,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                             <Text
                                 as="span"
                                 variant="tags"
-                                className=" text-black "
+                                className=" text-black text-xs lg:text-sm"
                             >
                                 tracking
                             </Text>
@@ -131,7 +135,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
             <div
                 className={cn(
-                    "flex justify-start items-center gap-4"
+                    "flex justify-start items-center gap-4 flex-wrap"
                 )}
             >
 

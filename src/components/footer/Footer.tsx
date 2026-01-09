@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer
             className={cn(
-                " md:w-3xl lg:w-4xl xl:w-5xl w-full mx-auto p-4 space-y-6 ",
+                " md:w-2xl lg:w-4xl xl:w-5xl w-full mx-auto p-4 space-y-6 ",
             )}
         >
             <div

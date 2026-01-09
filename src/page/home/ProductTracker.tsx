@@ -7,11 +7,13 @@ import ProductCard from "../../components/ui/ProductCard"
 const ProductTracker = ({ products }: { products: Product[] }) => {
 
     return (
-        <section>
+        <section
+            className={cn("w-full")}
+        >
 
             <div
                 className={cn(
-                    "flex items-center justify-between",
+                    "flex flex-col space-y-2 md:flex items-center justify-between",
                 )}
             >
                 <Text
@@ -31,8 +33,8 @@ const ProductTracker = ({ products }: { products: Product[] }) => {
 
             <div
                 className={cn(
-                    "pt-8",
-                    "grid md:grid-cols-2 gap-8"
+                    "pt-8 w-full",
+                    "grid md:grid-cols-2 gap-6 md:gap-8"
                 )}
             >
 

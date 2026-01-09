@@ -52,13 +52,13 @@ const Input: React.FC<InputProps> = () => {
             onSubmit={handleSubmit}
             className={cn(
                 "w-full",
-                "flex justify-center items-center gap-8"
+                "flex flex-col md:flex-row justify-start items-center gap-8"
             )}
         >
 
             <div
                 className={cn(
-                    "flex-1",
+                    "w-full md:flex-1",
                     "border-2 border-primary/60 rounded-full",
                     "focus-within:border-primary",
                     "flex justify-start items-center"
@@ -72,7 +72,7 @@ const Input: React.FC<InputProps> = () => {
                     type='url'
                     placeholder='Paste pruduct URL '
                     className={cn(
-                        "w-full p-3 px-6",
+                        "w-full p-3 px-3 md:px-6",
                         "rounded-full outline-none bg-transparent",
                         "text-md font-oswald tracking-wider",
                         " placeholder:text-primary/80 "
@@ -85,7 +85,7 @@ const Input: React.FC<InputProps> = () => {
 
             <Button
                 title={mutation.isPending ? "Tracking..." : "Track Price"}
-                className="px-12 shrink-0"
+                className="lg:px-12 md:px-8 shrink-0"
                 type='submit'
                 disabled={mutation.isPending}
             />
