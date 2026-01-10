@@ -6,6 +6,7 @@ import { useAuthState } from '../../store/useAuthStore';
 import { useAuthModal } from '../../store/useAuthModal';
 import { addProduct } from '../../services/products';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '../../store/useToast';
 
 interface InputProps {
     user?: string;
@@ -19,6 +20,8 @@ const Input: React.FC<InputProps> = () => {
 
     const open = useAuthModal((s) => s.open);
 
+    const addToast = useToast((s) => s.addToast)
+
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
@@ -26,9 +29,19 @@ const Input: React.FC<InputProps> = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
             setUrl("");
-            alert("Product tracked successfully!");
+            addToast({
+                title: "Product tracked successfully",
+                description: "We'll notify you when the price drops.",
+                type: "success",
+                duration: 5000
+            })
         },
         onError: (error: any) => {
+
+            addToast({
+                title: "Failed to track product",
+                type: "error"
+            })
             alert(error.message || "Failed to track product");
         }
     })
@@ -42,7 +55,7 @@ const Input: React.FC<InputProps> = () => {
             return;
         }
 
-        if (!url) return alert("Please paste valid url ")
+        if (!url) return addToast({ title: "Please enter a product URL", type: "error" })
 
         mutation.mutate(url);
     }
@@ -79,7 +92,6 @@ const Input: React.FC<InputProps> = () => {
                     )}
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    required
                 />
             </div>
 

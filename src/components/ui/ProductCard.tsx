@@ -68,7 +68,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                 <div
                     className={cn(
-                        "w-12 md:w-16 h-12 md:h-16 rounded-sm md:rounded-lg",
+                        "md:w-auto shrink-0 h-12 md:h-16 rounded-sm md:rounded-lg",
                         "bg-primary",
                     )}
                 >
@@ -92,7 +92,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                         variant="subHeading"
                         className={cn(
                             "text-black  font-bold",
-                            "text-sm md:text-md lg:text-lg"
+                            "text-sm md:text-md lg:text-lg line-clamp-2 "
                         )}
                     >
                         {product?.name}

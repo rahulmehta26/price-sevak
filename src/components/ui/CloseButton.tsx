@@ -1,4 +1,3 @@
-import React from 'react'
 import { cn } from '../../utils/cn'
 
 interface CloseButtonProps {
@@ -21,7 +20,7 @@ const CloseButton = ({ onClick, className }: CloseButtonProps) => {
             <span className={cn(
                 "block w-4 h-0.5 rounded-full",
                 "bg-primary/70 group-hover:bg-primary",
-                "transition-color duration-300 rotate-45 "
+                "transition-colors duration-300 rotate-45 "
             )} />
 
             <span className={cn(

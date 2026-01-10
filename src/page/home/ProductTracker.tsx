@@ -33,7 +33,7 @@ const ProductTracker = ({ products }: { products: Product[] }) => {
 
             <div
                 className={cn(
-                    "pt-8 w-full",
+                    "pt-8 w-full h-auto",
                     "grid md:grid-cols-2 gap-6 md:gap-8"
                 )}
             >
