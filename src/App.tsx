@@ -4,6 +4,7 @@ import MainLayout from "./layout/MainLayout"
 import { useEffect } from "react"
 import supabase from "./utils/supabase/supabase"
 import { useAuthState } from "./store/useAuthStore"
+import PageNotFound from "./page/error/PageNotFound"
 
 function App() {
 
@@ -21,7 +22,6 @@ function App() {
         setAuth(data.session);
 
       } catch (error) {
-        console.error("Auth init error:", error)
 
         setAuth(null);
       }
@@ -44,7 +44,11 @@ function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
+
         <Route index element={<Home />} />
+
+        <Route path="*" element={<PageNotFound />} />
+
       </Route>
     </Routes>
   )

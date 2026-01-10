@@ -5,6 +5,7 @@ import { cn } from '../utils/cn'
 import Authmodal from '../components/ui/Authmodal'
 import { useAuthModal } from '../store/useAuthModal'
 import { AnimatePresence } from 'motion/react'
+import ErrorBoundary from '../page/error/ErrorBoundary'
 
 
 const MainLayout = () => {
@@ -23,7 +24,12 @@ const MainLayout = () => {
 
             <Header />
 
-            <Outlet />
+            <ErrorBoundary>
+
+                <Outlet />
+
+            </ErrorBoundary>
+
 
             <Footer />
 
