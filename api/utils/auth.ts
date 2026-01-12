@@ -3,13 +3,9 @@ import { supabase } from "./supabase.js";
 export async function requireUser(req: any) {
   const auth = req.headers.authorization;
 
-  console.log("Authorization header:", auth ? "Present" : "Missing");
-
   if (!auth) throw new Error("No authorization header");
 
   const token = auth.replace("Bearer ", "");
-
-  console.log("Token length:", token.length);
 
   try {
     const { data, error } = await supabase.auth.getUser(token);

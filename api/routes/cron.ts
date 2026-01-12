@@ -6,16 +6,13 @@ import { sendPriceDropAlert } from "../utils/email.js";
 
 const router = express.Router();
 
-// POST /api/cron/check-prices - Check all product prices
 router.post("/check-prices", async (req, res) => {
   try {
-    // Verify cron secret
     const authHeader = req.headers.authorization;
     if (authHeader !== `Bearer ${ENV.CRON_SECRET}`) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    // Get all products (using service role to bypass RLS)
     const { data: products, error: productsError } = await supabase
       .from("products")
       .select("*");
@@ -44,7 +41,6 @@ router.post("/check-prices", async (req, res) => {
         const newPrice = parseFloat(productData.currentPrice.toString());
         const oldPrice = parseFloat(product.current_price);
 
-        // Update product
         await supabase
           .from("products")
           .update({
@@ -56,7 +52,6 @@ router.post("/check-prices", async (req, res) => {
           })
           .eq("id", product.id);
 
-        // Add price history if changed
         if (oldPrice !== newPrice) {
           await supabase.from("price_history").insert({
             product_id: product.id,
@@ -66,7 +61,6 @@ router.post("/check-prices", async (req, res) => {
 
           results.priceChanges++;
 
-          // Send email if price dropped
           if (newPrice < oldPrice) {
             const {
               data: { user },
@@ -105,7 +99,6 @@ router.post("/check-prices", async (req, res) => {
   }
 });
 
-// GET /api/cron/check-prices - Test endpoint
 router.get("/check-prices", (req, res) => {
   res.json({
     message: "Price check endpoint is working. Use POST to trigger.",

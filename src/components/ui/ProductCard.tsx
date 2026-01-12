@@ -51,6 +51,10 @@ const ProductCard = ({ product }: { product: Product }) => {
         }
     }
 
+    const handleExternalLink = () => {
+        window.open(product.url, "_blank", "noopener,noreferrer");
+    };
+
     return (
         <div
             className={cn(
@@ -155,7 +159,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                     textStyle={cn(" text-xs text-black ")}
                     leftIcon={ExternalLink}
                     leftIconStyle={cn("size-3.5 text-black stroke-3")}
-
+                    onClick={handleExternalLink}
                 />
                 <Button
                     title="Remove"

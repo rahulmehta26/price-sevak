@@ -77,20 +77,20 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
     return (
         <motion.section
             layout
-            drag="x"
+            drag
             dragMomentum={false}
             dragElastic={0.2}
-            dragConstraints={{ left: -200, right: 200 }}
+            dragConstraints={{ top: -120, bottom: 120, left: -500, right: 200 }}
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            whileDrag={{ scale: 1.02, opacity: 0.9 }}
             onMouseEnter={pauseTimer}
             onMouseLeave={resumeTimer}
             onTouchStart={pauseTimer}
             onTouchEnd={resumeTimer}
             onDragStart={pauseTimer}
-            onDragEnd={resumeTimer}
             className={cn(
                 "px-4 py-3",
                 "w-full md:max-w-sm lg:w-80",
