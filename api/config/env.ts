@@ -10,4 +10,6 @@ export const ENV = {
   RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
   CRON_SECRET: process.env.CRON_SECRET,
   FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
+  BACKEND_URL:
+    process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`,
 };

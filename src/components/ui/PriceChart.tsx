@@ -15,7 +15,12 @@ const PriceChart = ({ productId }: { productId: string }) => {
             try {
                 const response = await getPriceHistory(productId);
 
-                const history = response?.history || response;
+                const history = Array.isArray(response) ? response : (response?.history || []);
+
+                if (!Array.isArray(history) || history.length === 0) {
+                    setData([]);
+                    return;
+                }
 
                 const chartData = history.map((item) => ({
                     date: new Date(item.checked_at).toLocaleDateString(),
