@@ -42,7 +42,6 @@ const Input: React.FC<InputProps> = () => {
                 title: "Failed to track product",
                 type: "error"
             })
-            alert(error.message || "Failed to track product");
         }
     })
 

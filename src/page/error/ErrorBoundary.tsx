@@ -12,6 +12,7 @@ interface ErrorBoundaryProps {
 interface ErrorBoundaryState {
     hasError: boolean;
     error: Error | null;
+    errorInfo: React.ErrorInfo | null;
 }
 
 
@@ -25,11 +26,12 @@ class ErrorBoundary extends React.PureComponent<
         this.state = {
             hasError: false,
             error: null,
+            errorInfo: null
         };
     }
 
 
-    static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
         return {
             hasError: true,
             error,
@@ -44,15 +46,21 @@ class ErrorBoundary extends React.PureComponent<
             (process as any).env.NODE_ENV === "development";
 
         if (isDev) {
-            console.error("ErrorBoundary caught an error:", error);
-            console.error("Component stack:", errorInfo.componentStack);
+            console.group('🔴 ErrorBoundary caught an error');
+            console.error('Error:', error);
+            console.error('Error Message:', error.message);
+            console.error('Component Stack:', errorInfo.componentStack);
+            console.groupEnd();
         }
+
+        this.setState({ errorInfo })
     }
 
     resetError = (): void => {
         this.setState({
             hasError: false,
             error: null,
+            errorInfo: null
         });
     };
 

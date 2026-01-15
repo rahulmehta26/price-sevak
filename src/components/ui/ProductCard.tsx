@@ -12,11 +12,14 @@ import PriceChart from "./PriceChart"
 import type { Product } from "../../types/productTypes"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteProduct } from "../../services/products"
+import { useToast } from "../../store/useToast"
 
 const ProductCard = ({ product }: { product: Product }) => {
 
     const [isHidden, setIsHidden] = useState<boolean>(false);
     const queryClient = useQueryClient();
+
+    const addToast = useToast((s) => s.addToast)
 
     const deleteMutation = useMutation({
         mutationFn: deleteProduct,
@@ -30,6 +33,13 @@ const ProductCard = ({ product }: { product: Product }) => {
             );
 
             return { previous };
+        },
+        onSuccess: () => {
+            addToast({
+                title: "Product removed",
+                description: "Product removed from tracking successfully",
+                type: "success"
+            })
         },
         onError: (_err, _id, context) => {
             queryClient.setQueryData(["products"], context?.previous);
@@ -46,9 +56,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     }
 
     const handleDelete = () => {
-        if (confirm("Remove this product from tracking?")) {
-            deleteMutation.mutate(product.id)
-        }
+        deleteMutation.mutate(product.id)
     }
 
     const handleExternalLink = () => {
