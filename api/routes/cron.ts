@@ -17,7 +17,8 @@ router.post("/check-prices", async (req, res) => {
 
     console.log("✅ Cron job authorized, starting price check...");
 
-    // 2. Get all products using service role (bypasses RLS)
+    //2. Fetch all products (service role)
+
     const { data: products, error: productsError } = await supabase
       .from("products")
       .select("*");
@@ -37,87 +38,92 @@ router.post("/check-prices", async (req, res) => {
       alertsSent: 0,
     };
 
-    // 3. Check each product
-    if (products && products.length > 0) {
-      for (const product of products) {
-        try {
-          console.log(`\n🔍 Checking: ${product.name}`);
+    if (!products || products.length === 0) {
+      return res.json({
+        success: true,
+        message: "No products to check",
+        results,
+      });
+    }
 
-          // Scrape current price
-          const productData = await scrapeProduct(product.url);
+    // 3. Process each product
 
-          if (!productData.currentPrice) {
-            console.log(`⚠️  No price found for ${product.name}`);
-            results.failed++;
-            continue;
-          }
+    for (const product of products) {
+      try {
+        console.log(`\n🔍 Checking: ${product.name}`);
 
-          const newPrice = parseFloat(productData.currentPrice.toString());
-          const oldPrice = parseFloat(product.current_price);
+        // Scrape current price
+        const productData = await scrapeProduct(product.url);
 
-          console.log(`💰 Old: ${oldPrice}, New: ${newPrice}`);
+        if (!productData.currentPrice) {
+          console.log(`⚠️  No price found for ${product.name}`);
+          results.failed++;
+          continue;
+        }
 
-          // Update product
-          await supabase
-            .from("products")
-            .update({
-              current_price: newPrice,
-              currency: productData.currencyCode || product.currency,
-              name: productData.productName || product.name,
-              image_url: productData.productImageUrl || product.image_url,
-              updated_at: new Date().toISOString(),
-            })
-            .eq("id", product.id);
+        const newPrice = parseFloat(productData.currentPrice.toString());
+        const oldPrice = parseFloat(product.current_price);
 
-          results.updated++;
+        console.log(`💰 Old: ${oldPrice}, New: ${newPrice}`);
 
-          // If price changed, add to history
-          if (oldPrice !== newPrice) {
-            await supabase.from("price_history").insert({
-              product_id: product.id,
-              price: newPrice,
-              currency: productData.currencyCode || product.currency,
-            });
+        // Update product
+        await supabase
+          .from("products")
+          .update({
+            current_price: newPrice,
+            currency: productData.currencyCode || product.currency,
+            name: productData.productName || product.name,
+            image_url: productData.productImageUrl || product.image_url,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", product.id);
 
-            results.priceChanges++;
-            console.log(`📊 Price changed! Added to history`);
+        results.updated++;
 
-            // If price dropped, send email
-            if (newPrice < oldPrice) {
-              console.log(`📉 Price dropped! Sending email alert...`);
+        // If price changed, add to history
+        if (oldPrice !== newPrice) {
+          await supabase.from("price_history").insert({
+            product_id: product.id,
+            price: newPrice,
+            currency: productData.currencyCode || product.currency,
+          });
 
-              const {
-                data: { user },
-                error: userError,
-              } = await supabase.auth.admin.getUserById(product.user_id);
+          results.priceChanges++;
+          console.log(`📊 Price changed! Added to history`);
 
-              if (userError) {
-                console.error(`❌ Error getting user: ${userError.message}`);
-              } else if (user?.email) {
-                const emailResult = await sendPriceDropAlert(
-                  user.email,
-                  product,
-                  oldPrice,
-                  newPrice
-                );
+          // If price dropped, send email
+          if (newPrice < oldPrice) {
+            const {
+              data: { user },
+              error: userError,
+            } = await supabase.auth.admin.getUserById(product?.user_id);
 
-                if (emailResult.success) {
-                  results.alertsSent++;
-                  console.log(`✅ Email sent to ${user.email}`);
-                } else {
-                  console.error(`❌ Email failed: ${emailResult.error}`);
-                }
-              } else {
-                console.log(`⚠️  No email found for user ${product.user_id}`);
+            if (!userError && user?.email) {
+              const emailProduct = {
+                name: productData.productName || product.name,
+                image_url: productData.productImageUrl || product.image_url,
+                currency: productData.currencyCode || product.currency,
+                url: product.url,
+              };
+
+              const emailResult = await sendPriceDropAlert(
+                user.email,
+                emailProduct,
+                oldPrice,
+                newPrice
+              );
+
+              if (emailResult?.success) {
+                results.alertsSent++;
               }
             }
-          } else {
-            console.log(`✓ Price unchanged`);
           }
-        } catch (error: any) {
-          console.error(`❌ Error processing ${product.name}:`, error.message);
-          results.failed++;
+        } else {
+          console.log(`✓ Price unchanged`);
         }
+      } catch (error: any) {
+        console.error(`❌ Error processing ${product.name}:`, error.message);
+        results.failed++;
       }
     }
 
