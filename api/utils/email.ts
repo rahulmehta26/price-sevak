@@ -14,7 +14,7 @@ export async function sendPriceDropAlert(
     const percentageDrop = ((priceDrop / oldPrice) * 100).toFixed(1);
 
     const { data, error } = await resend.emails.send({
-      from: ENV.RESEND_FROM_EMAIL,
+      from: `Price Sevak ${ENV.RESEND_FROM_EMAIL}`,
       to: userEmail,
       subject: `🎉 Price Drop Alert: ${product.name}`,
       html: `

@@ -1,8 +1,6 @@
-import { motion } from 'motion/react'
-import { cn } from '../../utils/cn'
-import { drawPath } from '../animations/hover'
+import { cn } from "../../utils/cn";
 
-const ChevronUp = ({ className }: { className?: string }) => {
+const FilterIcon = ({ className }: { className?: string }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -15,9 +13,9 @@ const ChevronUp = ({ className }: { className?: string }) => {
             className={cn("icon", className)}
         >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <motion.path variants={drawPath} d="M6 15l6 -6l6 6" />
+            <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227" />
         </svg>
-    )
-}
+    );
+};
 
-export default ChevronUp
+export default FilterIcon;

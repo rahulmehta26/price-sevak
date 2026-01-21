@@ -5,6 +5,11 @@ import { useEffect } from "react"
 import supabase from "./utils/supabase/supabase"
 import { useAuthState } from "./store/useAuthStore"
 import PageNotFound from "./page/error/PageNotFound"
+import Overview from "./page/overview/Overview"
+import Products from "./page/product/Products"
+import Activity from "./page/activity/Activity"
+import ProductDetail from "./page/product/ProductDetail"
+import Alert from "./page/alert/Alert"
 
 function App() {
 
@@ -46,6 +51,12 @@ function App() {
       <Route element={<MainLayout />}>
 
         <Route index element={<Home />} />
+
+        <Route path="/overview" element={<Overview />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/activity" element={<Activity />} />
+        <Route path="/product-detail/:id" element={<ProductDetail />} />
+        <Route path="/alerts" element={<Alert />} />
 
         <Route path="*" element={<PageNotFound />} />
 

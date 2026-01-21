@@ -1,25 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quintessential&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 
 @import "tailwindcss";
 
 @theme inline{
 
-    --color-primary: #3ecf8e;
-    --color-secondary: #3ecf8e33;
-    --color-background: #f5f5f5;
+    --color-background: #060606;
+    --color-foreground: #f5f5f5;
+    --color-primary: #D477A5;
+    --color-secondary: #A764B4;
     --color-black: #171717;
     --color-red: #c70000;
+    --color-success: #06BB96;
+    --color-gold: #FECF42;
 
-    --font-quintessential: "Quintessential", serif;
     --font-oswald: "Oswald", sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-mono: "Space Mono", monospace;
+
+    --radius-sm:0.375rem;
+
+
+    --shadow: 2px 2px 0px var(--color-foreground);
+    --shadow-sm: 3px 3px 0px var(--color-foreground);
 }
 
 @layer base{
 
     body{
-        @apply bg-background 
+        @apply bg-background font-inter text-foreground
     }
 }
 
@@ -28,6 +39,22 @@
     .icon{
         @apply size-6 
     }
+
+    .border{
+        @apply border-[2px] border-solid border-foreground
+    }
+
+    .gradient-bg{
+        @apply bg-linear-to-r from-primary/20 via-primary/10 to-primary/5
+    }
+
+    .gradient-text{
+        @apply bg-linear-to-r from-primary via-primary/80 to-primary/70 bg-clip-text text-transparent;
+    }
+    .page-container{
+     @apply  relative min-h-screen w-full pt-24 lg:pt-28 pb-8 md:pb-12 space-y-8
+    }
+
 }
 
 .recharts-wrapper:focus,

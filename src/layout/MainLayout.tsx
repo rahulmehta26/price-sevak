@@ -15,7 +15,8 @@ const MainLayout = () => {
     return (
         <main
             className={cn(
-                "w-full min-h-screen relative "
+                "min-h-screen mx-auto relative",
+                "w-[18rem] md:w-2xl lg:w-4xl xl:w-5xl"
             )}
         >
             <AnimatePresence mode="wait">

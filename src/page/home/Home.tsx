@@ -1,66 +1,72 @@
-import { useQuery } from "@tanstack/react-query"
-import Input from "../../components/ui/Input"
 import Text from "../../components/ui/Text"
 import { useAuthState } from "../../store/useAuthStore"
 import { cn } from "../../utils/cn"
 import Features from "./Features"
-import { getProducts } from "../../services/products"
-import ProductTracker from "./ProductTracker"
+import Badge from "../../components/ui/Badge"
+import Button from "../../components/ui/Button"
+import RightArrow from "../../components/icons/RightArrow"
+import { useNavigate } from "react-router-dom"
 
 const Home = () => {
 
     const user = useAuthState((s) => s.user);
 
-    const { data: products = [], isLoading } = useQuery({
-        queryKey: ['products', user?.id],
-        queryFn: getProducts,
-        enabled: !!user,
-    })
+    const navigate = useNavigate();
+
+    const handleNavigation = () => {
+
+        if (!user) return;
+        navigate("/overview")
+    }
 
     return (
         <div
-            className={cn(
-                "relative min-h-screen w-full md:w-2xl lg:w-4xl xl:w-5xl  ",
-                "pt-28 md:pt-36 pb-8 md:pb-12 space-y-12 mx-auto",
-            )}
+            className={cn("page-container")}
         >
             <section className={cn(
-                "space-y-8 md:space-y-12",
+                "space-y-12",
                 "flex flex-col items-center"
             )} >
-                <Text as="h1" className="text-3xl text-center md:text-[2.24rem] lg:text-[2.98rem] xl:text-[3.4rem] font-extrabold text-primary">
-                    Never Miss a Price Drop — Smart Bachat
+
+                <Badge title="Smart Price Tracking for Smart Shoppers" />
+
+                <Text as="h1" className={cn(
+                    "md:text-[2.24rem] text-4xl lg:text-8xl",
+                    "text-center tracking-normal font-extrabold text-foreground"
+                )}>
+                    Never Miss a Price Drop <br /> <span className={cn("gradient-text")} >Smart Bachat</span>
                 </Text>
 
-                <Text as="p" className="text-center text-black/50 text-md md:text-xl">
+                <Text as="p" className={cn("text-center text-foreground/50 text-md md:text-xl")}>
                     Track prices from any e-commerce site.
                     Get instant alerts jab price kam ho. <br />
                     Save money with smart seva.
                 </Text>
 
                 <div
-                    className={cn(
-                        "w-full px-4 md:px-8 lg:px-16",
-                    )}
+                    className=" flex flex-col justify-center items-center gap-4 "
                 >
-                    <Input />
+                    <Button
+                        title="Start Tracking "
+                        variant="primary"
+                        className="px-10"
+                        rightIcon={RightArrow}
+                        onClick={handleNavigation}
+                    />
+
+                    <Text
+                        as="span"
+                        variant="tags"
+                        className="text-shadow-none"
+                    >
+                        No credit card required • Free forever available
+                    </Text>
                 </div>
 
             </section >
 
-            {
-                isLoading ? (
-                    <div>
-                        Loading Ui will be updated
-                    </div>
-                ) :
-                    products.length === 0 ? (
-                        <Features />
-                    ) : (
-                        <ProductTracker products={products} />
-                    )
+            <Features />
 
-            }
         </div>
     );
 };

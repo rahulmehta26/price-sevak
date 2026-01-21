@@ -110,10 +110,7 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
                         as="p"
                         variant="para"
                         className={cn(
-                            toast.type === "error" && "text-red-800",
-                            toast.type === "success" && "text-green-800",
-                            toast.type === "info" && "text-blue-800"
-
+                            "text-foreground font-mono",
                         )}
                     >
                         {
@@ -127,10 +124,7 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
                                 as="p"
                                 variant="para"
                                 className={cn(
-                                    "text-sm mt-1",
-                                    toast.type === "error" && "text-red-800",
-                                    toast.type === "success" && "text-green-800",
-                                    toast.type === "info" && "text-blue-800"
+                                    "text-sm mt-1 text-foreground",
                                 )}
                             >
                                 {

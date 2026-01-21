@@ -1,67 +1,24 @@
 import type React from 'react';
 import { cn } from '../../utils/cn'
-import { useState } from 'react';
 import Button from './Button';
-import { useAuthState } from '../../store/useAuthStore';
-import { useAuthModal } from '../../store/useAuthModal';
-import { addProduct } from '../../services/products';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useToast } from '../../store/useToast';
+import Search from '../icons/Search';
 
 interface InputProps {
-    user?: string;
+    value: string;
+    onChange: (value: string) => void;
+    onSubmit?: (e: React.FormEvent) => void;
+    isLoading?: boolean;
+    showButton?: boolean;
+    placeholder?: string;
 }
 
-const Input: React.FC<InputProps> = () => {
-
-    const [url, setUrl] = useState<string>("");
-
-    const user = useAuthState((s) => s.user);
-
-    const open = useAuthModal((s) => s.open);
-
-    const addToast = useToast((s) => s.addToast)
-
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: addProduct,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["products"] });
-            setUrl("");
-            addToast({
-                title: "Product tracked successfully",
-                description: "We'll notify you when the price drops.",
-                type: "success",
-                duration: 5000
-            })
-        },
-        onError: (error: any) => {
-
-            addToast({
-                title: "Failed to track product",
-                type: "error"
-            })
-        }
-    })
-
-    const handleSubmit = async (e: any) => {
-
-        e.preventDefault();
-
-        if (!user) {
-            open();
-            return;
-        }
-
-        if (!url) return addToast({ title: "Please enter a product URL", type: "error" })
-
-        mutation.mutate(url);
-    }
+const Input: React.FC<InputProps> = ({
+    value, onChange, onSubmit, isLoading = false, showButton = false, placeholder = "search"
+}) => {
 
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
             className={cn(
                 "w-full",
                 "flex flex-col md:flex-row justify-start items-center gap-8"
@@ -70,36 +27,42 @@ const Input: React.FC<InputProps> = () => {
 
             <div
                 className={cn(
-                    "w-full md:flex-1",
-                    "border-2 border-primary/60 rounded-full",
-                    "focus-within:border-primary",
-                    "flex justify-start items-center"
+                    "w-full pl-4",
+                    "border border-foreground/60 rounded-sm",
+                    "focus-within:border-foreground",
+                    "flex items-center"
                 )}
-
             >
 
+                <Search />
+
                 <input
-                    id='url'
-                    name='url'
-                    type='url'
-                    placeholder='Paste pruduct URL '
+                    type="text"
+                    placeholder={placeholder}
                     className={cn(
-                        "w-full p-3 px-3 md:px-6",
-                        "rounded-full outline-none bg-transparent",
+                        "w-full p-3 px-4 md:px-6",
+                        "rounded-sm outline-none bg-transparent",
                         "text-md font-oswald tracking-wider",
-                        " placeholder:text-primary/80 "
+                        "placeholder:text-foreground/80"
                     )}
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
                 />
             </div>
 
-            <Button
-                title={mutation.isPending ? "Tracking..." : "Track Price"}
-                className="lg:px-12 md:px-8 shrink-0"
-                type='submit'
-                disabled={mutation.isPending}
-            />
+            {
+                showButton &&
+                (
+
+                    <Button
+                        title={isLoading ? "Tracking..." : "Track Price"}
+                        className=" shrink-0"
+                        type='submit'
+                        disabled={isLoading}
+                    />
+                )
+            }
+
         </form>
     )
 }

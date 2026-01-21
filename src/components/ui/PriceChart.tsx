@@ -43,7 +43,7 @@ const PriceChart = ({ productId }: { productId: string }) => {
             <Text
                 as='p'
                 variant='para'
-                className='text-black'
+                className='text-foreground font-mono tracking-normal'
             >
                 No price history yet. Check back after the first daily update!.
             </Text>
@@ -57,25 +57,29 @@ const PriceChart = ({ productId }: { productId: string }) => {
             <Text
                 as='h4'
                 variant='subHeading'
-                className={cn("text-black text-sm md:text-lg font-bold")}
+                className={cn("text-foreground text-sm md:text-lg font-normal")}
             >
                 Price History
             </Text>
 
-            <ResponsiveContainer width="100%" height={200} style={{ paddingLeft: 0 }} >
+            <ResponsiveContainer width="100%" height={100} style={{ paddingLeft: 0 }} >
 
                 <LineChart data={data} margin={{ top: 10, right: 10, bottom: 10, left: 0 }} >
 
-                    <CartesianGrid strokeDasharray="3 3" stroke='var(--color-black)' />
+                    {/* <CartesianGrid strokeDasharray="3 3" stroke='var(--color-foreground)' /> */}
 
-                    <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke='var(--color-black)' />
-                    <YAxis tick={{ fontSize: 12 }} stroke='var(--color-black)' />
+                    <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke='var(--color-foreground)' />
+                    {/* <YAxis tick={{ fontSize: 12 }} stroke='var(--color-foreground)' /> */}
 
                     <Tooltip
                         contentStyle={{
                             background: "white",
                             border: "1px solid var(--color-black)",
                             borderRadius: "6px",
+                        }}
+
+                        labelStyle={{
+                            color: "black"
                         }}
                     />
 

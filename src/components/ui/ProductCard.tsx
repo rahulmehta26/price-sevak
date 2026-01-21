@@ -1,11 +1,5 @@
-import { useState } from "react"
 import { motion } from "motion/react"
 import { cn } from "../../utils/cn"
-import ChevronDown from "../icons/ChevronDown"
-import ChevronUp from "../icons/ChevronUp"
-import Delete from "../icons/Delete"
-import ExternalLink from "../icons/ExternalLink"
-import Line from "../icons/Line"
 import Button from "./Button"
 import Text from "./Text"
 import PriceChart from "./PriceChart"
@@ -13,11 +7,16 @@ import type { Product } from "../../types/productTypes"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteProduct } from "../../services/products"
 import { useToast } from "../../store/useToast"
+import TrendDown from "../icons/TrendDown"
+import ChevronRight from "../icons/ChevronRight"
+import Bell from "../icons/Bell"
+import { useNavigate } from "react-router-dom"
 
 const ProductCard = ({ product }: { product: Product }) => {
 
-    const [isHidden, setIsHidden] = useState<boolean>(false);
     const queryClient = useQueryClient();
+
+    const navigate = useNavigate();
 
     const addToast = useToast((s) => s.addToast)
 
@@ -49,26 +48,25 @@ const ProductCard = ({ product }: { product: Product }) => {
         },
     });
 
+    // const handleDelete = () => {
+    //     deleteMutation.mutate(product.id)
+    // }
 
-    const handleToggle = () => {
-
-        setIsHidden(prev => !prev);
+    const handleDetailNavigation = () => {
+        navigate(`/product-detail/${product.id}`)
     }
 
-    const handleDelete = () => {
-        deleteMutation.mutate(product.id)
+    const handleAlertNavigation = () => {
+        navigate("/alerts")
     }
-
-    const handleExternalLink = () => {
-        window.open(product.url, "_blank", "noopener,noreferrer");
-    };
 
     return (
         <div
             className={cn(
-                "w-[18rem] md:w-full mx-auto h-auto p-4 md:p-6 lg:p-8 space-y-6",
-                "bg-secondary rounded-lg",
-                "shadow-md"
+                "relative z-10",
+                "w-full mx-auto h-auto p-3 md:p-4 lg:p-4 space-y-6",
+                "bg-foreground/10 backdrop-blur-md border rounded-sm",
+                "shadow hover:shadow-sm"
             )}
         >
 
@@ -80,8 +78,9 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                 <div
                     className={cn(
-                        "md:w-auto shrink-0 h-12 md:h-16 rounded-sm md:rounded-lg",
-                        "bg-primary",
+                        "w-20 h-20 bg-muted",
+                        "border rounded-sm ",
+                        "shrink-0 overflow-hidden",
                     )}
                 >
 
@@ -89,7 +88,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                         src={product?.image_url}
                         alt={product?.name}
                         className={cn(
-                            "w-full h-full rounded-sm md:rounded-lg",
+                            "w-full h-full rounded-sm",
                             "object-cover"
                         )}
                         loading="lazy"
@@ -97,13 +96,15 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                 </div>
 
-                <div>
+                <div
+                    className="space-y-3"
+                >
 
                     <Text
                         as="h5"
                         variant="subHeading"
                         className={cn(
-                            "text-black  font-bold",
+                            "text-foreground font-semibold font-inter tracking-normal",
                             "text-sm md:text-md lg:text-lg line-clamp-2 "
                         )}
                     >
@@ -118,25 +119,25 @@ const ProductCard = ({ product }: { product: Product }) => {
                         <Text
                             as="h2"
                             variant="heading"
-                            className={cn(" text-lg md:text-xl lg:text-2xl ")}
+                            className={cn(" text-md md:text-md lg:text-xl text-success font-mono ")}
                         >
-                            {product?.currency} {product?.current_price}
+                            <Text as="span" variant="body" className={cn("text-foregorund")} >₹</Text> {product?.current_price}
                         </Text>
 
                         <motion.div
                             whileInView="hover"
                             className={cn(
-                                "w-fit px-4 py-0.5 bg-primary rounded-full",
-                                "flex justify-center items-center gap-2"
+                                "w-fit px-2 md:px-4 py-1 bg-success/20 rounded-sm",
+                                "flex justify-center items-center gap-2 md:gap-3"
                             )}
                         >
-                            <Line className={cn("size-3.5 text-black stroke-3")} />
+                            <TrendDown className={cn("size-4 text-success stroke-2")} />
                             <Text
                                 as="span"
                                 variant="tags"
-                                className=" text-black text-xs lg:text-sm"
+                                className=" text-success text-xs lg:text-sm"
                             >
-                                tracking
+                                16.5%
                             </Text>
                         </motion.div>
                     </div>
@@ -144,52 +145,36 @@ const ProductCard = ({ product }: { product: Product }) => {
                 </div>
             </div>
 
+            <PriceChart productId={product?.id} />
+
             <div
                 className={cn(
-                    "flex justify-start items-center gap-4 flex-wrap"
+                    "flex flex-col lg:flex-row justify-center items-center gap-4 shrink-0 flex-wrap"
                 )}
             >
 
                 <Button
-                    title={isHidden ? "Hide Chart" : "Show More"}
+                    title="Set Alert"
                     variant="outline"
-                    className={cn(" px-3 py-0.5 gap-1.5 border-black hover:bg-primary/20 transition-colors duration-300 ")}
-                    textStyle={cn(" text-xs text-black ")}
-                    leftIcon={isHidden ? ChevronUp : ChevronDown}
-                    leftIconStyle={cn("size-4 text-black stroke-4")}
+                    className={cn("flex-1 gap-2 ")}
+                    textStyle={cn(" text-xs text-foreground ")}
+                    leftIcon={Bell}
+                    leftIconStyle={cn("stroke-foreground")}
                     type="button"
-                    onClick={handleToggle}
+                    onClick={handleAlertNavigation}
                 />
                 <Button
-                    title="View Product"
-                    variant="outline"
-                    className={cn(" px-3 py-0.5 gap-1.5 border-black hover:bg-primary/20 transition-colors duration-300 ")}
-                    textStyle={cn(" text-xs text-black ")}
-                    leftIcon={ExternalLink}
-                    leftIconStyle={cn("size-3.5 text-black stroke-3")}
-                    onClick={handleExternalLink}
+                    title="View Details"
+                    variant="primary"
+                    className={cn(" flex-1 gap-2 ")}
+                    rightIcon={ChevronRight}
+                    textStyle={cn("text-background")}
+                    rightIconStyle={cn("text-background")}
+                    type="button"
+                    onClick={handleDetailNavigation}
                 />
-                <Button
-                    title="Remove"
-                    variant="outline"
-                    className={cn(" px-3 py-0.5 gap-1.5 border-red hover:bg-red/20 transition-colors duration-300 ")}
-                    textStyle={cn(" text-xs text-red ")}
-                    leftIcon={Delete}
-                    leftIconStyle={cn("stroke-red fill-red size-3.5")}
-                    onClick={handleDelete}
-                    disabled={deleteMutation.isPending}
-                />
-
             </div>
 
-            {
-                isHidden && (
-
-                    <div>
-                        <PriceChart productId={product.id} />
-                    </div>
-                )
-            }
         </div>
     )
 }

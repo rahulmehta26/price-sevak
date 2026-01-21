@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { cn } from "../../utils/cn";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import Button from "../ui/Button";
@@ -8,6 +8,8 @@ import { useAuthState } from "../../store/useAuthStore";
 import Signout from "../icons/Signout";
 import { handleGoogleLogout } from "../../utils/googleLogin";
 import Text from "../ui/Text";
+import RightArrow from "../icons/RightArrow";
+import NavItems from "./NavItems";
 
 const Header = () => {
     const [isHidden, setIsHidden] = useState<boolean>(false);
@@ -49,8 +51,8 @@ const Header = () => {
                     stiffness: 100,
                 }}
                 className={cn(
-                    "md:w-[40rem] w-[18rem] mx-auto p-2 pr-2 pl-6 ",
-                    "bg-secondary backdrop-blur-md rounded-full",
+                    "md:w-2xl lg:w-4xl xl:w-5xl w-[18rem] mx-auto px-4 py-3 ",
+                    "bg-foreground/20 backdrop-blur-md rounded-sm",
                     "fixed top-4 z-20",
                     "flex justify-between items-center"
                 )}
@@ -58,49 +60,43 @@ const Header = () => {
                 <div>
                     <span
                         className={cn(
-                            "font-extrabold font-quintessential tracking-wider text-md md:text-2xl"
+                            "font-extrabold font-oswald tracking-wider text-md md:text-2xl"
                         )}
                     >
                         Price Sevak
                     </span>
                 </div>
 
-                <div className={cn("flex justify-center items-center gap-4")}>
-                    {user && (
-                        <button
-                            onClick={() => setIsProfileOpen(true)}
-                            className={cn(
-                                "w-10 h-10",
-                                "bg-primary rounded-full ",
-                                "md:pointer-events-none"
-                            )}
-                        >
-                            <img
-                                src={
-                                    user?.user_metadata?.avatar_url ||
-                                    user?.user_metadata?.picture
-                                }
-                                alt={`${user?.user_metadata?.name?.charAt(0)}`}
-                                referrerPolicy="no-referrer"
-                                className={cn("w-full h-full object-cover rounded-full")}
-                                loading="lazy"
-                            />
-                        </button>
-                    )}
+                {
+                    !user ? (
 
-                    <Button
-                        leftIcon={!user ? Signin : undefined}
-                        variant="primary"
-                        title={user ? "Sign Out" : "Sign In"}
-                        onClick={user ? handleGoogleLogout : open}
-                        rightIcon={user ? Signout : undefined}
-                        className={cn(
-                            "px-3 md:px-6 py-1.5 md:py-3",
-                            user && " hidden md:flex "
-                        )}
-                        textStyle="text-sm md:text-base"
-                    />
-                </div>
+                        <div className={cn("flex justify-center items-center gap-4")}>
+
+                            <Button
+                                leftIcon={Signin}
+                                variant="outline"
+                                title="Sign In"
+                                onClick={open}
+                                className={cn(
+                                    user && " hidden md:flex "
+                                )}
+                            />
+
+                            <Button
+                                variant="primary"
+                                title="Get Started"
+                                // onClick={}
+                                rightIcon={RightArrow}
+                                className={cn(
+                                    user && " hidden md:flex "
+                                )}
+                            />
+                        </div>
+                    ) : (
+                        <NavItems />
+                    )
+                }
+
             </motion.div>
 
             {/* Mobile menu modal */}

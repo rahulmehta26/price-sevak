@@ -10,7 +10,7 @@ const CloseButton = ({ onClick, className }: CloseButtonProps) => {
         <button
             onClick={onClick}
             className={cn(
-                "w-8 h-8 rounded-full bg-black",
+                "w-8 h-8 rounded-sm bg-foreground/20",
                 "absolute top-4 right-4",
                 "cursor-pointer group stroke-2",
                 "flex flex-col justify-center items-center",
@@ -19,13 +19,13 @@ const CloseButton = ({ onClick, className }: CloseButtonProps) => {
         >
             <span className={cn(
                 "block w-4 h-0.5 rounded-full",
-                "bg-primary/70 group-hover:bg-primary",
+                "bg-foreground/70 group-hover:bg-foreground",
                 "transition-colors duration-300 rotate-45 "
             )} />
 
             <span className={cn(
                 "block w-4 h-0.5 rounded-full",
-                "bg-primary/70 group-hover:bg-primary",
+                "bg-foreground/70 group-hover:bg-foreground",
                 "transition-color duration-300 rotate-[-45deg] "
             )} />
 

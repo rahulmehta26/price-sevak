@@ -6,7 +6,9 @@ const Footer = () => {
     return (
         <footer
             className={cn(
-                " md:w-2xl lg:w-4xl xl:w-5xl w-full mx-auto p-4 space-y-6 ",
+                " md:w-2xl lg:w-4xl xl:w-5xl w-full mx-auto px-4 py-2 space-y-6 ",
+                "bg-foreground/20 backdrop-blur-md ",
+                "rounded-t-sm"
             )}
         >
             <div
@@ -17,7 +19,7 @@ const Footer = () => {
                     <Text
                         as="span"
                         variant="heading"
-                        className={cn("font-quintessential font-extrabold")}
+                        className={cn("font-quintessential text-foreground font-extrabold")}
                     >
                         Price Sevak
                     </Text>
@@ -25,17 +27,22 @@ const Footer = () => {
                     <Text
                         as="p"
                         variant="para"
-                        className={cn("text-base text-primary")}
+                        className={cn("text-base text-foreground/70")}
                     >
                         Smarter prices, better Bachat.
                     </Text>
                 </div>
+
+                <Text as="p" variant="para" className="text-sm text-foreground font-normal md:text-center">
+                    © 2026 Price Sevak. All rights reserved. Built with ❤️
+                </Text>
+
                 <div
                     className={cn(
                         "space-y-2"
                     )}
                 >
-                    <Text as="h4" className="font-semibold" variant="subHeading">
+                    <Text as="h4" className="font-normal text-foreground" variant="subHeading">
                         Contact
                     </Text>
 
@@ -51,9 +58,6 @@ const Footer = () => {
                 </div>
             </div>
 
-            <Text as="p" variant="para" className="text-sm text-primary font-semibold md:text-center">
-                © 2026 Price Sevak. All rights reserved. Built with ❤️ for developers.
-            </Text>
         </footer>
     );
 };

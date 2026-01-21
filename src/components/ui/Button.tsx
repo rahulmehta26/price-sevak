@@ -17,8 +17,8 @@ interface ButtonProps extends HTMLMotionProps<"button"> {
 }
 
 const variants = {
-    primary: "bg-primary text-black text-shadow-xs font-semibold tracking-wider font-oswald rounded-full",
-    outline: "border-2 border-primary text-shadow-xs font-semibold tracking-wider font-oswald rounded-full bg-transparent text-primary",
+    primary: "bg-primary text-black",
+    outline: "hover:bg-primary/10 bg-transparent",
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -47,10 +47,12 @@ const Button: React.FC<ButtonProps> = ({
                 }
             }}
             className={cn(
-                "px-6 py-3",
+                "px-3 md:px-4 py-2 md:py-3",
+                "border rounded-sm",
+                "shadow hover:shadow-sm ",
+                "transition-all duration-200 ease-in-out",
                 "cursor-pointer group",
                 "flex justify-center items-center gap-1.5 md:gap-3",
-                "shadow-sm",
                 variants[variant],
                 className
             )}
@@ -58,12 +60,18 @@ const Button: React.FC<ButtonProps> = ({
         >
 
             {LeftIcon && (
-                <LeftIcon className={cn("w-4.5 h-4.5 md:w-6 md:h-6 ", leftIconStyle)} />
+                <LeftIcon className={cn(
+                    "w-4.5 h-4.5 md:w-6 md:h-6 ",
+                    variant === "outline" ? "stroke-primary" : "text-background",
+                    leftIconStyle
+                )} />
             )}
 
             <span
                 className={cn(
-                    "text-base",
+                    "text-sm md:text-base",
+                    "font-mono font-bold tracking-normal text-shadow-xs ",
+                    variant === "outline" ? "text-primary" : "text-background",
                     textStyle
                 )}
             >
@@ -71,7 +79,10 @@ const Button: React.FC<ButtonProps> = ({
             </span>
 
             {RightIcon && (
-                <RightIcon className={cn("icon", rightIconStyle)} />
+                <RightIcon className={cn(
+                    "icon",
+                    variant === "outline" ? "stroke-primary" : "text-background",
+                    rightIconStyle)} />
             )}
 
         </motion.button>
