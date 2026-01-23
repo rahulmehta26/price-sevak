@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
 
     const { data: existingProduct } = await supabase
       .from("products")
-      .select("id, current_price")
+      .select("id, current_price, original_price")
       .eq("user_id", user.id)
       .eq("url", url)
       .single();
@@ -61,6 +61,7 @@ router.post("/", async (req, res) => {
           url,
           name: productData.productName,
           current_price: productData.currentPrice,
+          original_price: isUpdate ? existingProduct.original_price : newPrice,
           currency: productData.currencyCode,
           image_url: productData.productImageUrl,
           updated_at: new Date().toISOString(),
@@ -68,7 +69,7 @@ router.post("/", async (req, res) => {
         {
           onConflict: "user_id,url",
           ignoreDuplicates: false,
-        }
+        },
       )
       .select()
       .single();
@@ -84,6 +85,38 @@ router.post("/", async (req, res) => {
         price: newPrice,
         currency: currency,
       });
+    }
+
+    if (!isUpdate) {
+      const { error: alertError } = await supabase.from("alerts").insert({
+        user_id: user.id,
+        product_id: product.id,
+        is_active: false,
+        email_enabled: false,
+      });
+
+      if (alertError) {
+        console.error("⚠️ Alert creation error:", alertError);
+      } else {
+        console.log("🔔 Created inactive alert");
+      }
+
+      const { error: activityError } = await supabase
+        .from("activities")
+        .insert({
+          user_id: user.id,
+          product_id: product.id,
+          type: "check",
+          product_name: productData.productName,
+          new_price: newPrice,
+          description: `Started tracking ${productData.productName}`,
+        });
+
+      if (activityError) {
+        console.error("⚠️ Activity log error:", activityError);
+      } else {
+        console.log("📝 Logged activity");
+      }
     }
 
     return res.json({
