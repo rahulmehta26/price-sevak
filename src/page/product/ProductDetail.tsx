@@ -162,7 +162,7 @@ const ProductDetail = () => {
                     <StatsBlock
                         title="Highest Price"
                         value="34, 990"
-                        valueStyle="text-red"
+                        valueStyle="text-destructive"
 
                     />
 
@@ -235,7 +235,7 @@ const ProductDetail = () => {
 
                     <div className="space-x-2" >
                         <Text as="span" variant="tags" className={cn("text-foreground font-mono font-normal", "tracking-normal")} ><Text as="span" className="text-foreground text-xs" >₹ </Text>27,900</Text>
-                        <Text as="span" variant="tags" className={cn("text-red font-mono font-normal", "tracking-normal")} >+1,500</Text>
+                        <Text as="span" variant="tags" className={cn("text-destructive font-mono font-normal", "tracking-normal")} >+1,500</Text>
                     </div>
                 </div>
 

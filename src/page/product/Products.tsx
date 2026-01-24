@@ -49,7 +49,7 @@ const Products = () => {
                     "p-4 w-full",
                     "bg-foreground/10 backdrop-blur-md rounded-sm",
                     "shadow hover:shadow-sm",
-                    "flex justify-between items-center gap-4"
+                    "flex flex-col md:flex-row justify-between items-center gap-4"
                 )}
             >
                 <Input
@@ -63,7 +63,6 @@ const Products = () => {
                     onChange={setFilter}
                     options={filterOptions}
                 />
-
 
             </section>
 

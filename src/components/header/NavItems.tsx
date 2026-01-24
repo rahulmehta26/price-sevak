@@ -28,7 +28,7 @@ const NavItems = () => {
                             <div
                                 className={cn(
                                     "px-4 py-2",
-                                    "rounded-sm",
+                                    "rounded-sm group",
                                     activeIndex === items?.id ? "bg-primary" : "",
                                     activeIndex !== items?.id ? "hover:bg-primary/20" : ""
                                 )}
@@ -38,7 +38,7 @@ const NavItems = () => {
                                     variant="base"
                                     className={cn(
                                         "font-bold tracking-normal font-mono",
-                                        activeIndex === items?.id ? "text-background" : "text-foreground hover:text-primary"
+                                        activeIndex === items?.id ? "text-background" : "text-foreground group-hover:text-primary"
                                     )}
                                 >
                                     {

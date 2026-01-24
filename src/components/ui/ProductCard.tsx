@@ -11,6 +11,9 @@ import TrendDown from "../icons/TrendDown"
 import ChevronRight from "../icons/ChevronRight"
 import Bell from "../icons/Bell"
 import { useNavigate } from "react-router-dom"
+import { calculatePriceChange, formatCurrency, getTrendColor } from "../../utils/priceCalculation"
+import TrendUp from "../icons/TrendUp"
+import Delete from "../icons/Delete"
 
 const ProductCard = ({ product }: { product: Product }) => {
 
@@ -48,9 +51,9 @@ const ProductCard = ({ product }: { product: Product }) => {
         },
     });
 
-    // const handleDelete = () => {
-    //     deleteMutation.mutate(product.id)
-    // }
+    const handleDelete = () => {
+        deleteMutation.mutate(product.id)
+    }
 
     const handleDetailNavigation = () => {
         navigate(`/product-detail/${product.id}`)
@@ -59,6 +62,11 @@ const ProductCard = ({ product }: { product: Product }) => {
     const handleAlertNavigation = () => {
         navigate("/alerts")
     }
+
+    const priceChange = calculatePriceChange(product);
+    const isDecrease = priceChange < 0;
+    const isIncrease = priceChange > 0;
+    const trendColor = getTrendColor(priceChange);
 
     return (
         <div
@@ -69,13 +77,11 @@ const ProductCard = ({ product }: { product: Product }) => {
                 "shadow hover:shadow-sm"
             )}
         >
-
             <div
                 className={cn(
                     "flex justify-start items-center gap-4"
                 )}
             >
-
                 <div
                     className={cn(
                         "w-20 h-20 bg-muted",
@@ -113,7 +119,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
                     <div className={cn(
                         " w-full",
-                        "flex justify-start items-center gap-4"
+                        "flex justify-start items-center flex-wrap gap-4"
                     )} >
 
                         <Text
@@ -121,25 +127,58 @@ const ProductCard = ({ product }: { product: Product }) => {
                             variant="heading"
                             className={cn(" text-md md:text-md lg:text-xl text-success font-mono ")}
                         >
-                            <Text as="span" variant="body" className={cn("text-foregorund")} >₹</Text> {product?.current_price}
+                            <Text as="span" variant="body" className={cn("text-foregorund")} >₹</Text> {formatCurrency(product?.current_price)}
                         </Text>
 
-                        <motion.div
-                            whileInView="hover"
+                        {(isDecrease || isIncrease) ? (
+                            <motion.div whileInView="hover" className={cn(
+                                "w-fit px-2 md:px-4 py-1 rounded-sm",
+                                "flex justify-center items-center gap-2 md:gap-3",
+                                trendColor
+                            )}>
+                                {isDecrease && <TrendDown className={cn("size-4 stroke-2")} />}
+                                {isIncrease && <TrendUp className={cn("size-4 stroke-2")} />}
+                                <Text as="span" variant="tags" className="text-xs lg:text-sm">
+                                    {Math.abs(priceChange)}%
+                                </Text>
+                            </motion.div>
+                        ) : (
+
+                            <motion.div
+                                whileInView="hover"
+                                className={cn(
+                                    "w-fit px-2 md:px-4 py-1 bg-foreground/20 rounded-sm",
+                                    "flex justify-center items-center gap-2 md:gap-3"
+                                )}
+                            >
+                                <Text
+                                    as="span"
+                                    variant="tags"
+                                    className=" text-foreground/80 text-xs lg:text-sm"
+                                >
+                                    0%
+                                </Text>
+                            </motion.div>
+                        )
+                        }
+
+                        <motion.button
+                            whileHover="hover"
+                            whileTap={{
+                                scale: [0.95, 1, 1.05, 1],
+
+                            }}
+                            onClick={handleDelete}
                             className={cn(
-                                "w-fit px-2 md:px-4 py-1 bg-success/20 rounded-sm",
-                                "flex justify-center items-center gap-2 md:gap-3"
+                                "w-10 h-10",
+                                "rounded-sm border",
+                                "bg-destructive/10 cursor-pointer",
+                                "flex justify-center shrink-0 items-center"
                             )}
                         >
-                            <TrendDown className={cn("size-4 text-success stroke-2")} />
-                            <Text
-                                as="span"
-                                variant="tags"
-                                className=" text-success text-xs lg:text-sm"
-                            >
-                                16.5%
-                            </Text>
-                        </motion.div>
+                            <Delete className={cn("fill-destructive stroke-destructive")} />
+                        </motion.button>
+
                     </div>
 
                 </div>
@@ -156,7 +195,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 <Button
                     title="Set Alert"
                     variant="outline"
-                    className={cn("flex-1 gap-2 ")}
+                    className={cn("shrink-0 gap-2 ")}
                     textStyle={cn(" text-xs text-foreground ")}
                     leftIcon={Bell}
                     leftIconStyle={cn("stroke-foreground")}
@@ -166,7 +205,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 <Button
                     title="View Details"
                     variant="primary"
-                    className={cn(" flex-1 gap-2 ")}
+                    className={cn("shrink-0 gap-2 ")}
                     rightIcon={ChevronRight}
                     textStyle={cn("text-background")}
                     rightIconStyle={cn("text-background")}
@@ -179,4 +218,4 @@ const ProductCard = ({ product }: { product: Product }) => {
     )
 }
 
-export default ProductCard
+export default ProductCard;

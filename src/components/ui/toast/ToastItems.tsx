@@ -6,9 +6,9 @@ import CloseButton from "../CloseButton";
 import { useEffect, useRef, useState } from "react";
 
 const typeStyle = {
-    success: "border-green-500 bg-green-500/10 text-green-400",
-    error: "border-red-500 bg-red-500/10 text-red-400",
-    info: "border-blue-500 bg-blue-500/10 text-blue-400",
+    success: "border-green-500 bg-linear-to-l from-green-500/30 via-green-500/20 to-green-500/10 text-green-400",
+    error: "border-red-500 bg-linear-to-l from-red-500/30 via-red-500/20 to-red-500/10 text-red-400",
+    info: "border-blue-500 bg-linear-to-l from-blue-500/30 via-blue-500/20 to-blue-500/10 text-blue-400",
 
 }
 
@@ -96,7 +96,8 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
                 "w-full md:max-w-sm lg:w-80",
                 "border rounded-lg shadow-md backdrop-blur-md",
                 "pointer-events-auto cursor-grab active:cursor-grabbing",
-                typeStyle[toast.type]
+                typeStyle[toast.type],
+
             )}
         >
 

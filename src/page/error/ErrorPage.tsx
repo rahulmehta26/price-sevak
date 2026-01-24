@@ -47,11 +47,11 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                 <div
                     className={cn(
                         "w-24 h-24 mx-auto",
-                        "bg-red/10 rounded-full",
+                        "bg-destructive/10 rounded-full",
                         "flex items-center justify-center"
                     )}
                 >
-                    <Error className='w-12 h-12 text-red' />
+                    <Error className='w-12 h-12 text-destructive ' />
                 </div>
 
                 <div className="space-y-4">
@@ -98,25 +98,25 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                         transition={{ delay: 0.2 }}
                         className={cn(
                             "mt-8 p-6",
-                            "bg-red/5 rounded-lg",
-                            "border-2 border-red/20",
+                            "bg-destructive/5 rounded-lg",
+                            "border-2 border-destructive/20",
                             "text-left"
                         )}
                     >
                         <Text
                             as="h3"
                             variant="subHeading"
-                            className="text-red font-bold mb-4"
+                            className="text-destructive  font-bold mb-4"
                         >
                             🐛 Development Error Details
                         </Text>
 
                         <div className="space-y-2">
-                            <Text as="p" variant="base" className="text-red font-bold">
+                            <Text as="p" variant="base" className="text-destructive  font-bold">
                                 {error.name}
                             </Text>
 
-                            <Text as="p" variant="para" className="text-red/80">
+                            <Text as="p" variant="para" className="text-destructive/80">
                                 {error.message}
                             </Text>
 
@@ -125,7 +125,7 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                                     className={cn(
                                         "mt-4 p-4",
                                         "bg-black/5 rounded",
-                                        "text-xs text-red/70",
+                                        "text-xs text-destructive/70",
                                         "overflow-x-auto",
                                         "font-mono"
                                     )}

@@ -70,7 +70,7 @@ const NotFoundSVG = () => {
                             <path
                                 style={{
                                     fill: "none",
-                                    stroke: "var(--color-red)",
+                                    stroke: "var(--color-destructive )",
                                     strokeMiterlimit: 10,
                                 }}
                                 d="M275.138,84.352c0,1.092-0.885,1.978-1.978,1.978 c-1.092,0-1.978-0.886-1.978-1.978s0.885-1.978,1.978-1.978C274.252,82.374,275.138,83.26,275.138,84.352z"
@@ -82,7 +82,7 @@ const NotFoundSVG = () => {
                                     <path
                                         style={{
                                             fill: "none",
-                                            stroke: "var(--color-red)",
+                                            stroke: "var(--color-destructive)",
                                             strokeLinejoin: "round",
                                             strokeMiterlimit: 10,
                                         }}
@@ -93,7 +93,7 @@ const NotFoundSVG = () => {
                                     <circle
                                         style={{
                                             fill: "none",
-                                            stroke: "var(--color-red)",
+                                            stroke: "var(--color-destructive )",
                                             strokeWidth: 3,
                                             strokeMiterlimit: 10,
                                         }}
@@ -104,7 +104,7 @@ const NotFoundSVG = () => {
                                     <line
                                         style={{
                                             fill: "none",
-                                            stroke: "var(--color-red)",
+                                            stroke: "var(--color-destructive )",
                                             strokeWidth: 3,
                                             strokeMiterlimit: 10,
                                         }}

@@ -7,7 +7,7 @@ const Footer = () => {
         <footer
             className={cn(
                 " md:w-2xl lg:w-4xl xl:w-5xl w-full mx-auto px-4 py-2 space-y-6 ",
-                "bg-foreground/20 backdrop-blur-md ",
+                "bg-foreground/10 backdrop-blur-md ",
                 "rounded-t-sm"
             )}
         >

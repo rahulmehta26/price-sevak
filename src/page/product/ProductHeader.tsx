@@ -52,7 +52,7 @@ const ProductHeader = () => {
 
         <>
             <section
-                className={cn("flex justify-between items-center")}
+                className={cn("flex justify-between items-center flex-wrap gap-4")}
             >
                 <div
                     className=' space-y-2 '

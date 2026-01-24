@@ -5,27 +5,7 @@ import type {
   GetPriceHistoryResponse,
   Product,
 } from "../types/productTypes";
-import supabase from "../utils/supabase/supabase";
-
-async function authHeaders() {
-  const { data, error } = await supabase.auth.getSession();
-
-  if (error) {
-    console.log("Session error:", error);
-    throw new Error("Failed to get session");
-  }
-  const token = data.session?.access_token;
-
-  if (!token) {
-    console.error("No access token found");
-    throw new Error("User not authenticated");
-  }
-
-  return {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  };
-}
+import { authHeaders } from "./authHeader";
 
 export async function getProducts(): Promise<Product[]> {
   try {
@@ -47,7 +27,7 @@ export async function addProduct(url: string): Promise<AddProductResponse> {
       { url },
       {
         headers: await authHeaders(),
-      }
+      },
     );
 
     return res.data;
@@ -58,7 +38,7 @@ export async function addProduct(url: string): Promise<AddProductResponse> {
 }
 
 export async function deleteProduct(
-  id: string
+  id: string,
 ): Promise<DeleteProductResponse> {
   try {
     const res = await api.delete<DeleteProductResponse>("/products", {
@@ -74,7 +54,7 @@ export async function deleteProduct(
 }
 
 export async function getPriceHistory(
-  productId: string
+  productId: string,
 ): Promise<GetPriceHistoryResponse> {
   try {
     const res = await api.get<GetPriceHistoryResponse>("/price-history", {
