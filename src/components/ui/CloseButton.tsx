@@ -21,13 +21,15 @@ const CloseButton = ({ onClick, className, iconStyle }: CloseButtonProps) => {
             <span className={cn(
                 "block w-4 h-0.5 rounded-full",
                 "bg-foreground/70 group-hover:bg-foreground",
-                "transition-colors duration-300 rotate-45 "
+                "transition-colors duration-300 rotate-45 ",
+                iconStyle
             )} />
 
             <span className={cn(
                 "block w-4 h-0.5 rounded-full",
                 "bg-foreground/70 group-hover:bg-foreground",
-                "transition-color duration-300 rotate-[-45deg] "
+                "transition-color duration-300 rotate-[-45deg] ",
+                iconStyle
             )} />
 
         </button>

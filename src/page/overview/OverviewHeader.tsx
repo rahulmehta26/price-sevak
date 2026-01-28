@@ -4,9 +4,9 @@ import Package from "../../components/icons/Package";
 import Text from "../../components/ui/Text";
 import { cn } from "../../utils/cn";
 import TrendDown from "../../components/icons/TrendDown";
-import { useProducts } from "../../hooks/useProducts";
 import { useAlert } from "../../hooks/useAlert";
 import { calculatePriceChange } from "../../utils/priceCalculation";
+import { useProducts } from "../../hooks/useProducts";
 
 const OverviewHeader = () => {
     const { data: products = [] } = useProducts();

@@ -1,4 +1,4 @@
-import type { Variants } from "motion";
+import type { Variants } from "motion/react";
 
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -9,7 +9,7 @@ export const fadeUp: Variants = {
   },
 };
 
-export const scaleIn = {
+export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.8 },
   show: {
     opacity: 1,
@@ -18,7 +18,7 @@ export const scaleIn = {
   },
 };
 
-export const drawPath = {
+export const drawPath: Variants = {
   hidden: { pathLength: 0, opacity: 0 },
   show: {
     pathLength: 1,
@@ -27,7 +27,7 @@ export const drawPath = {
   },
 };
 
-export const stagger = {
+export const stagger: Variants = {
   show: {
     transition: {
       staggerChildren: 0.15,

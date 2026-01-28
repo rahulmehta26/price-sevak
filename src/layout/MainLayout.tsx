@@ -7,14 +7,10 @@ import { useAuthModal } from '../store/useAuthModal'
 import { AnimatePresence } from 'motion/react'
 import ErrorBoundary from '../page/error/ErrorBoundary'
 import MobileMenu from '../components/header/MobileMenu'
-import { useMobileMenu } from '../store/useMobileMenu'
-
 
 const MainLayout = () => {
 
     const isOpen = useAuthModal((state) => state.isOpen);
-
-    const { open, close } = useMobileMenu();
 
     return (
         <main
@@ -29,10 +25,7 @@ const MainLayout = () => {
 
             <Header />
 
-            <MobileMenu
-                isMobileOpen={open}
-                onClick={() => close()}
-            />
+            <MobileMenu />
 
             <ErrorBoundary>
 

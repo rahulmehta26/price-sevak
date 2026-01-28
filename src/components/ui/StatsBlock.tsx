@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import { cn } from '../../utils/cn'
 import Text from './Text'
 
@@ -9,13 +9,13 @@ interface StatsBlockProps {
     valueStyle?: string;
 }
 
-const StatsBlock = ({ title, value, titleStyle, valueStyle }: StatsBlockProps) => {
+const StatsBlock = memo(({ title, value, titleStyle, valueStyle }: StatsBlockProps) => {
     return (
         <div
             className={cn(
                 "p-4 space-y-3",
                 "border rounded-sm ",
-                "bg-foreground/10 backdrop-blur-md"
+                "bg-foreground/10 shadow backdrop-blur-md"
             )}
         >
 
@@ -37,6 +37,6 @@ const StatsBlock = ({ title, value, titleStyle, valueStyle }: StatsBlockProps) =
 
         </div>
     )
-}
+});
 
 export default StatsBlock

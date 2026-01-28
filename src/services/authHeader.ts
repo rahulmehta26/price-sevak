@@ -4,13 +4,11 @@ export async function authHeaders() {
   const { data, error } = await supabase.auth.getSession();
 
   if (error) {
-    console.log("Session error:", error);
-    throw new Error("Failed to get session");
+    throw new Error(`Authentication failed: ${error.message}`);
   }
   const token = data.session?.access_token;
 
   if (!token) {
-    console.error("No access token found");
     throw new Error("User not authenticated");
   }
 

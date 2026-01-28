@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { cn } from "../../utils/cn";
+import { useMobileMenu } from "../../store/useMobileMenu";
 
 const barVariants: Variants = {
     closed: (i: number) => ({
@@ -14,23 +15,23 @@ const barVariants: Variants = {
     }),
 };
 
-const MobileMenuButton = ({
-    isMobileOpen,
-    handleToggle,
-}: {
-    isMobileOpen: boolean;
-    handleToggle: () => void;
-}) => {
+const MobileMenuButton = () => {
+
+    const open = useMobileMenu((s) => s.open);
+    const toggle = useMobileMenu((s) => s.toggle);
+
     return (
         <div className="lg:hidden flex justify-between items-center">
             <motion.button
-                onClick={handleToggle}
+                onClick={toggle}
                 className={cn(
                     "relative w-10 h-10",
                     "flex items-center justify-center rounded-md",
                     "bg-foreground/1 backdrop-blur-xs cursor-pointer"
                 )}
-
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-controls="mobile-menu"
+                aria-expanded={open}
             >
                 <div className="relative w-6 h-5">
                     {[0, 1, 2].map((i) => (
@@ -38,7 +39,7 @@ const MobileMenuButton = ({
                             key={i}
                             custom={i}
                             variants={barVariants}
-                            animate={isMobileOpen ? "open" : "closed"}
+                            animate={open ? "open" : "closed"}
                             transition={{ duration: 0.25, ease: "easeInOut" }}
                             className={cn(
                                 "absolute left-0 top-1/2",

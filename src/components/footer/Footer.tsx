@@ -34,7 +34,7 @@ const Footer = () => {
                 </div>
 
                 <Text as="p" variant="para" className="text-sm text-foreground font-normal md:text-center">
-                    © 2026 Price Sevak. All rights reserved. Built with ❤️
+                    © {new Date().getFullYear()} Price Sevak. All rights reserved. Built with ❤️
                 </Text>
 
                 <div

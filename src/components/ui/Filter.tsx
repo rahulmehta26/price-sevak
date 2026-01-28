@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import FilterIcon from '../icons/FilterIcon'
 import ChevronDown from '../icons/ChevronDown'
 import { cn } from '../../utils/cn'

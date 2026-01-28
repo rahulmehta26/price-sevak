@@ -14,7 +14,6 @@ export const getActivities = async (
 
     return res.data;
   } catch (error) {
-    console.error("Get activities error:", error);
     throw error;
   }
 };
@@ -32,7 +31,6 @@ export const getGroupedActivities = async (): Promise<
 
     return res.data;
   } catch (error) {
-    console.error("Get grouped activities error:", error);
     throw error;
   }
 };

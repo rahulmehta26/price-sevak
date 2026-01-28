@@ -9,8 +9,8 @@ const ToastContainer = () => {
     return (
         <div
             className={cn(
-                "fixed z-50",
-                "top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)]",
+                "fixed z-[99999]",
+                "top-[5.2rem] left-1/2 -translate-x-1/2 w-[calc(100%-2rem)]",
                 "md:top-6 md:right-6 md:left-auto md:translate-x-0 md:w-auto",
                 "flex flex-col gap-3 pointer-events-none"
             )}

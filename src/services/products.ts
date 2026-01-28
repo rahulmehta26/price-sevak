@@ -15,7 +15,6 @@ export async function getProducts(): Promise<Product[]> {
 
     return res.data;
   } catch (error) {
-    console.error("Get the products error:", error);
     throw error;
   }
 }
@@ -32,7 +31,6 @@ export async function addProduct(url: string): Promise<AddProductResponse> {
 
     return res.data;
   } catch (error) {
-    console.error("Add product error:", error);
     throw error;
   }
 }
@@ -48,7 +46,6 @@ export async function deleteProduct(
 
     return res.data;
   } catch (error) {
-    console.error("Delete product error69:", error);
     throw error;
   }
 }
@@ -64,7 +61,6 @@ export async function getPriceHistory(
 
     return res.data;
   } catch (error) {
-    console.error("Get price history error:", error);
     throw error;
   }
 }

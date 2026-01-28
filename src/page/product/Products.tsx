@@ -8,6 +8,7 @@ import ProductCard from '../../components/ui/productCard/ProductCard'
 import { useProducts } from '../../hooks/useProducts'
 import Loader from '../../components/ui/Loader'
 import EmptyState from '../../components/ui/EmptyState'
+import { useDebounce } from '../../hooks/useDebounce.ts'
 
 const filterOptions: SelectOption[] = [
     { label: "All Products", value: "all" },
@@ -23,10 +24,12 @@ const Products = () => {
 
     const { data: products = [], isLoading } = useProducts();
 
+    const debouncedSearch = useDebounce(search, 300);
+
     const filteredProducts = useMemo(() => {
         let result = products
             .filter(p =>
-                p?.name?.toLowerCase().includes(search.toLowerCase())
+                p?.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
             )
 
         if (filter === "low-high") {

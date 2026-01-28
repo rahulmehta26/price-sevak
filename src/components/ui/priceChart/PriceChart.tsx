@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
     LineChart,
     Line,
@@ -14,6 +14,7 @@ import Text from "../Text"
 import Loader from "../Loader"
 import EmptyState from "../EmptyState"
 import { getPriceHistory } from "../../../services/products"
+import { useToast } from "../../../store/useToast"
 
 interface PriceChartProps {
     productId: string
@@ -60,8 +61,11 @@ const PriceChart = ({
     yAxis = true,
     cartesianGrid = true,
 }: PriceChartProps) => {
+
     const [data, setData] = useState<ChartItem[]>([])
     const [loading, setLoading] = useState(true)
+
+    const addToast = useToast((s) => s.addToast);
 
     useEffect(() => {
         async function loadData() {
@@ -93,7 +97,10 @@ const PriceChart = ({
 
                 setData(chartData)
             } catch (err) {
-                console.error("Failed to load price history", err)
+                addToast({
+                    title: "Failed to load price history",
+                    type: "error"
+                })
             } finally {
                 setLoading(false)
             }

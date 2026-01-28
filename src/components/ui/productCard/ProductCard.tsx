@@ -3,8 +3,9 @@ import type { Product } from "../../../types/productTypes";
 import ActionButton from "./ActionButton";
 import ProductImage from "./ProductImage";
 import ProductInfo from "./ProductInfo";
+import { memo } from "react";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = memo(({ product }: { product: Product }) => {
     return (
         <div
             className={cn(
@@ -23,6 +24,6 @@ const ProductCard = ({ product }: { product: Product }) => {
             <ActionButton productId={product?.id} />
         </div>
     );
-};
+});
 
 export default ProductCard;

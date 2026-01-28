@@ -6,11 +6,8 @@ import Button from "../ui/Button";
 import Signout from "../icons/Signout";
 import { handleGoogleLogout } from "../../utils/googleLogin";
 import MobileMenuButton from "./MobileMenuButton";
-import { useMobileMenu } from "../../store/useMobileMenu";
 
 const NavItems = () => {
-
-    const { open, toggle } = useMobileMenu();
 
     return (
 
@@ -57,10 +54,7 @@ const NavItems = () => {
 
             {/* Mobile menu modal */}
 
-            <MobileMenuButton
-                handleToggle={toggle}
-                isMobileOpen={open}
-            />
+            <MobileMenuButton />
 
         </div >
     );

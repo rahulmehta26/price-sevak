@@ -1,19 +1,26 @@
 import { Route, Routes } from "react-router-dom"
 import Home from "./page/home/Home"
 import MainLayout from "./layout/MainLayout"
-import { useEffect } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
 import supabase from "./utils/supabase/supabase"
 import { useAuthState } from "./store/useAuthStore"
-import PageNotFound from "./page/error/PageNotFound"
-import Overview from "./page/overview/Overview"
-import Products from "./page/product/Products"
-import Activity from "./page/activity/Activity"
-import ProductDetail from "./page/product/product-details/ProductDetail"
-import Alert from "./page/alert/Alert"
+import Loader from "./components/ui/Loader"
+import { useToast } from "./store/useToast"
+
+const Overview = lazy(() => import("./page/overview/Overview"));
+const Products = lazy(() => import("./page/product/Products"));
+const Activity = lazy(() => import("./page/activity/Activity"));
+const ProductDetail = lazy(() => import("./page/product/product-details/ProductDetail"));
+const Alert = lazy(() => import("./page/alert/Alert"));
+const PageNotFound = lazy(() => import("./page/error/PageNotFound"));
 
 function App() {
 
   const setAuth = useAuthState((s) => s.setAuth);
+
+  const addToast = useToast((s) => s.addToast)
+
+  const [isAuthReady, setIsAuthReady] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -29,6 +36,13 @@ function App() {
       } catch (error) {
 
         setAuth(null);
+
+        addToast({
+          title: "Failed to restore your session. Please sign in again.",
+          type: "error"
+        });
+      } finally {
+        setIsAuthReady(true);
       }
     }
 
@@ -46,19 +60,71 @@ function App() {
 
   }, [setAuth])
 
+  if (!isAuthReady) return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Loader text="Initializing..." />
+    </div>
+  );
+
   return (
     <Routes>
       <Route element={<MainLayout />}>
 
         <Route index element={<Home />} />
 
-        <Route path="/overview" element={<Overview />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/activity" element={<Activity />} />
-        <Route path="/product-detail/:id" element={<ProductDetail />} />
-        <Route path="/alerts" element={<Alert />} />
+        <Route
+          path="/overview"
+          element={
+            <Suspense fallback={<Loader text="Loading page..." />}>
+              <Overview />
+            </Suspense>
+          }
+        />
 
-        <Route path="*" element={<PageNotFound />} />
+        <Route
+          path="/products"
+          element={
+            <Suspense fallback={<Loader text="Loading page..." />}>
+              <Products />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="/activity"
+          element={
+            <Suspense fallback={<Loader text="Loading page..." />}>
+              <Activity />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="/product-detail/:id"
+          element={
+            <Suspense fallback={<Loader text="Loading page..." />}>
+              <ProductDetail />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="/alerts"
+          element={
+            <Suspense fallback={<Loader text="Loading page..." />}>
+              <Alert />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<Loader text="Loading page..." />}>
+              <PageNotFound />
+            </Suspense>
+          }
+        />
 
       </Route>
     </Routes>

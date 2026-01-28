@@ -12,7 +12,7 @@ export const handleGoogleLogin = async () => {
       },
     });
   } catch (error) {
-    console.error("Google login failed:", error);
+    throw error;
   }
 };
 
@@ -24,6 +24,6 @@ export const handleGoogleLogout = async () => {
 
     useAuthState.getState().logOut();
   } catch (error) {
-    console.error("Logout failed:", error);
+    throw error;
   }
 };

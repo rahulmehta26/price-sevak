@@ -38,7 +38,7 @@ const AlertCard: React.FC<AlertCardProps> = ({ alert }) => {
                 type: 'success'
             })
         },
-        onError: (error, previousState) => {
+        onError: (previousState) => {
             setIsOn(!previousState);
             addToast({
                 title: "Failed to update alert",

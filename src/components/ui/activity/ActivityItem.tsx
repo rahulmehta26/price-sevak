@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { ACTIVITY_META, type ActivityType } from "../../../config/activity.config";
 import type { Activity } from "../../../types/productTypes"
 import { cn } from "../../../utils/cn"
@@ -8,7 +9,7 @@ interface ActivityItemProps {
     time: string
 }
 
-const ActivityItem = ({ activity, time }: ActivityItemProps) => {
+const ActivityItem = memo(({ activity, time }: ActivityItemProps) => {
 
     const { icon: Icon, color } = ACTIVITY_META[activity.type as ActivityType]
 
@@ -84,6 +85,6 @@ const ActivityItem = ({ activity, time }: ActivityItemProps) => {
             </Text>
         </div>
     )
-}
+});
 
 export default ActivityItem

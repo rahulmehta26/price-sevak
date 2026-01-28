@@ -10,7 +10,6 @@ export const getAlerts = async (): Promise<Alert[]> => {
 
     return res.data;
   } catch (error) {
-    console.error("Get alerts error:", error);
     throw error;
   }
 };
@@ -33,7 +32,6 @@ export const createAlert = async (
 
     return res.data;
   } catch (error) {
-    console.error("Create alert error:", error);
     throw error;
   }
 };
@@ -53,7 +51,6 @@ export const updateAlert = async (
 
     return res.data;
   } catch (error) {
-    console.error("Update alert error:", error);
     throw error;
   }
 };
@@ -68,7 +65,6 @@ export const deleteAlert = async (
 
     return res.data;
   } catch (error) {
-    console.error("Delete alert error:", error);
     throw error;
   }
 };

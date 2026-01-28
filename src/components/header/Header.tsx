@@ -8,9 +8,11 @@ import { useAuthState } from "../../store/useAuthStore";
 import { handleGoogleLogin } from "../../utils/googleLogin";
 import RightArrow from "../icons/RightArrow";
 import NavItems from "./NavItems";
+import { useToast } from "../../store/useToast";
 
 const Header = () => {
     const [isHidden, setIsHidden] = useState<boolean>(false);
+    const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
 
     const lastYPosition = useRef<number>(0);
 
@@ -30,10 +32,29 @@ const Header = () => {
 
     const user = useAuthState((s) => s.user);
 
-    const handleLogin = () => {
+    const addToast = useToast((s) => s.addToast);
+
+    const handleLogin = async () => {
+
+        if (isLoggingIn) return;
+
         if (!user) return open();
 
-        handleGoogleLogin();
+        setIsLoggingIn(true);
+
+        try {
+
+            await handleGoogleLogin();
+
+        } catch (error) {
+            addToast({
+                title: "Login Failed",
+                description: `${error}`,
+                type: "error"
+            })
+        } finally {
+            setIsLoggingIn(false);
+        }
     }
 
     return (
@@ -80,19 +101,15 @@ const Header = () => {
                                 variant="outline"
                                 title="Sign In"
                                 onClick={open}
-                                className={cn(
-                                    user && " hidden md:flex "
-                                )}
+                                className={cn(" hidden md:flex ")}
                             />
 
                             <Button
                                 variant="primary"
-                                title="Get Started"
+                                title={isLoggingIn ? "Logging in..." : "Get Started"}
                                 onClick={handleLogin}
                                 rightIcon={RightArrow}
-                                className={cn(
-                                    user && " hidden md:flex "
-                                )}
+                                className={cn(" hidden md:flex ")}
                             />
                         </div>
                     ) : (

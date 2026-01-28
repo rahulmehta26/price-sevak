@@ -2,7 +2,6 @@ import { cn } from "../../utils/cn"
 import TrendDown from "../../components/icons/TrendDown"
 import ProductCard from "../../components/ui/productCard/ProductCard"
 import Text from "../../components/ui/Text"
-import { useProducts } from "../../hooks/useProducts"
 import { useNavigate } from "react-router-dom"
 import { useMemo } from "react"
 import { calculateStats } from "../../utils/priceCalculation"
@@ -13,6 +12,7 @@ import Loader from "../../components/ui/Loader"
 import OverviewStats from "./OverviewStats"
 import PageHeader from "../../components/ui/PageHeader"
 import ActivitySection from "./ActivitySection"
+import { useProducts } from "../../hooks/useProducts"
 
 const Overview = () => {
 
