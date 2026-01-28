@@ -98,7 +98,6 @@ router.post("/", async (req, res) => {
       if (alertError) {
         console.error("⚠️ Alert creation error:", alertError);
       } else {
-        console.log("🔔 Created inactive alert");
       }
 
       const { error: activityError } = await supabase
@@ -115,7 +114,6 @@ router.post("/", async (req, res) => {
       if (activityError) {
         console.error("⚠️ Activity log error:", activityError);
       } else {
-        console.log("📝 Logged activity");
       }
     }
 
@@ -127,7 +125,6 @@ router.post("/", async (req, res) => {
         : "Product added successfully!",
     });
   } catch (error: any) {
-    console.log("Add product error:", error);
     return res.status(500).json({ error: error.message });
   }
 });
@@ -148,7 +145,6 @@ router.delete("/", async (req, res) => {
       .eq("user_id", user.id);
 
     if (error) {
-      console.error("SUPABASE DELETE ERROR 👉", error);
       return res.status(500).json({ error });
     }
 

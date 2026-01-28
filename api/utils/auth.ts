@@ -11,7 +11,6 @@ export async function requireUser(req: any) {
     const { data, error } = await supabase.auth.getUser(token);
 
     if (error) {
-      console.error("Auth error:", error);
       throw new Error(`Authentication failed: ${error.message}`);
     }
 
@@ -19,10 +18,8 @@ export async function requireUser(req: any) {
       throw new Error("No user found");
     }
 
-    console.log("User authenticated:", data.user.email);
     return data.user;
   } catch (error) {
-    console.error("requireUser error:", error);
     throw error;
   }
 }

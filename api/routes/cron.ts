@@ -11,11 +11,8 @@ router.post("/check-prices", async (req, res) => {
     // 1. Verify authorization
     const authHeader = req.headers.authorization;
     if (authHeader !== `Bearer ${ENV.CRON_SECRET}`) {
-      console.log("❌ Unauthorized cron request");
       return res.status(401).json({ error: "Unauthorized" });
     }
-
-    console.log("✅ Cron job authorized, starting price check...");
 
     //2. Fetch products with ACTIVE alerts only
 
@@ -42,7 +39,6 @@ router.post("/check-prices", async (req, res) => {
       .eq("is_active", true);
 
     if (alertsError) {
-      console.error("❌ Database error:", alertsError);
       throw alertsError;
     }
 
@@ -74,20 +70,16 @@ router.post("/check-prices", async (req, res) => {
         : alertData.products;
 
       if (!product) {
-        console.log(`⚠️ Product not found for alert ${product.id}`);
         results.failed++;
         results.errors.push(`Alert ${product.id}: Product not found`);
         continue;
       }
 
       try {
-        console.log(`\n🔍 Checking: ${product.name}`);
-
         // Scrape current price
         const productData = await scrapeProduct(product.url);
 
         if (!productData.currentPrice) {
-          console.log(`⚠️  No price found for ${product.name}`);
           results.failed++;
           results.errors.push(`${product.name}: No price found`);
 
@@ -104,8 +96,6 @@ router.post("/check-prices", async (req, res) => {
         const newPrice = parseFloat(productData.currentPrice.toString());
         const oldPrice = parseFloat(product.current_price);
 
-        console.log(`💰 Old: ${oldPrice}, New: ${newPrice}`);
-
         // Update product
         const { error: updateError } = await supabase
           .from("products")
@@ -119,7 +109,6 @@ router.post("/check-prices", async (req, res) => {
           .eq("id", product.id);
 
         if (updateError) {
-          console.error(`   ❌ Update failed:`, updateError);
           results.failed++;
           results.errors.push(`${product.name}: Update failed`);
           continue;
@@ -129,7 +118,6 @@ router.post("/check-prices", async (req, res) => {
 
         if (oldPrice === newPrice) {
           results.unchanged++;
-          console.log(`✓ Price unchanged`);
           continue;
         }
 
@@ -166,8 +154,6 @@ router.post("/check-prices", async (req, res) => {
           (!alert.target_price || newPrice <= alert.target_price);
 
         if (shouldSendEmail) {
-          console.log(`   📧 Sending email alert...`);
-
           // Get user email
           const {
             data: { user },
@@ -175,7 +161,6 @@ router.post("/check-prices", async (req, res) => {
           } = await supabase.auth.admin.getUserById(alert.user_id);
 
           if (userError) {
-            console.error(`   ❌ User fetch error:`, userError);
             results.errors.push(`${product.name}: Failed to fetch user`);
           } else if (user?.email) {
             const emailProduct = {
@@ -194,7 +179,6 @@ router.post("/check-prices", async (req, res) => {
 
             if (emailResult?.success) {
               results.alertsSent++;
-              console.log(`   ✅ Email sent to ${user.email}`);
 
               // Log alert triggered
               await supabase.from("activities").insert({
@@ -208,13 +192,11 @@ router.post("/check-prices", async (req, res) => {
                 description: `Email alert sent: Price dropped to ${product.currency} ${newPrice}`,
               });
             } else {
-              console.error(`   ❌ Email failed:`, emailResult?.error);
               results.errors.push(`${product.name}: Email sending failed`);
             }
           }
         }
       } catch (error: any) {
-        console.error(`   ❌ Error processing ${product.name}:`, error.message);
         results.failed++;
         results.errors.push(`${product.name}: ${error.message}`);
 
@@ -229,31 +211,12 @@ router.post("/check-prices", async (req, res) => {
       }
     }
 
-    console.log("\n📊 Price check completed!");
-    console.log("⏰ Finished at:", new Date().toISOString());
-    console.log("Results:", {
-      total: results.total,
-      updated: results.updated,
-      unchanged: results.unchanged,
-      priceDrops: results.priceDrops,
-      priceRises: results.priceRises,
-      alertsSent: results.alertsSent,
-      failed: results.failed,
-      errorCount: results.errors.length,
-    });
-
-    if (results.errors.length > 0) {
-      console.log("\n❌ Errors:");
-      results.errors.forEach((err) => console.log(`   - ${err}`));
-    }
-
     return res.json({
       success: true,
       message: "Price check completed",
       results,
     });
   } catch (error: any) {
-    console.error("❌ Cron job error:", error);
     return res.status(500).json({
       success: false,
       error: error.message,

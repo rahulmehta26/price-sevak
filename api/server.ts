@@ -25,12 +25,9 @@ app.use("/api/alerts", alertsRouter);
 app.use("/api/activities", activitiesRouter);
 
 app.use((err: any, req: Request, res: Response, next: any) => {
-  console.log("Error:", err);
   res.status(500).json({ error: err.message || "Internal server error" });
 });
 
 const PORT = ENV.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${ENV.PORT ?? 4000}`);
-});
+app.listen(PORT, () => {});

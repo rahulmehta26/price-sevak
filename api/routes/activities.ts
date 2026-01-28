@@ -22,7 +22,6 @@ router.get("/", async (req, res) => {
 
     res.json(data || []);
   } catch (error: any) {
-    console.error("Get activities error:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -69,7 +68,6 @@ router.get("/grouped", async (req, res) => {
 
     res.json(response);
   } catch (error: any) {
-    console.error("Get grouped activities error:", error);
     res.status(500).json({ error: error.message });
   }
 });

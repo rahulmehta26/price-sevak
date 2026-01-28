@@ -7,7 +7,7 @@ export async function sendPriceDropAlert(
   userEmail: string,
   product: any,
   oldPrice: number,
-  newPrice: number
+  newPrice: number,
 ) {
   try {
     const priceDrop = oldPrice - newPrice;
@@ -102,13 +102,11 @@ export async function sendPriceDropAlert(
     });
 
     if (error) {
-      console.error("Resend error:", error);
       return { error };
     }
 
     return { success: true, data };
   } catch (error: any) {
-    console.error("Email error:", error);
     return { error: error.message };
   }
 }
