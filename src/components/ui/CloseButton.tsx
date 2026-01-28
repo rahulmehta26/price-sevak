@@ -1,11 +1,12 @@
 import { cn } from '../../utils/cn'
 
 interface CloseButtonProps {
-    onClick: () => void
-    className?: string
+    onClick: () => void;
+    className?: string;
+    iconStyle?: string;
 }
 
-const CloseButton = ({ onClick, className }: CloseButtonProps) => {
+const CloseButton = ({ onClick, className, iconStyle }: CloseButtonProps) => {
     return (
         <button
             onClick={onClick}

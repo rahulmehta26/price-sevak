@@ -14,9 +14,10 @@ const Authmodal = () => {
     return (
         <section
             className={cn(
-                "bg-black/50 w-full h-full text-white ",
-                "absolute top-0 right-0 z-40",
-                "flex justify-center items-center"
+                "bg-background/50 w-full h-screen",
+                "fixed inset-0 z-40",
+                "flex justify-center items-center",
+                "backdrop-blur-sm"
             )}
             onClick={close}
         >
@@ -37,17 +38,20 @@ const Authmodal = () => {
                 onClick={(e) => e.stopPropagation()}
             >
 
-                <CloseButton onClick={close} />
+                <CloseButton
+                    onClick={close}
+                    className={cn("bg-background/40")}
+                />
 
                 <div
                     className="space-y-4"
                 >
 
-                    <Text as="h3" variant="heading" className="text-black text-center" >
+                    <Text as="h3" variant="heading" className="text-background text-center" >
                         Sign in to continue
                     </Text>
 
-                    <Text as="h3" className=" text-black font-bold " >
+                    <Text as="h3" className=" text-background font-bold " >
                         Your assistant for smart price alerts.
 
                     </Text>
@@ -56,7 +60,7 @@ const Authmodal = () => {
 
                 <Button
                     title="Continue with Google"
-                    className="bg-black px-8 w-full"
+                    className="bg-background px-8 w-full"
                     textStyle="text-primary"
                     leftIcon={Google}
                     onClick={handleGoogleLogin}
@@ -68,15 +72,15 @@ const Authmodal = () => {
 
                     <Text
                         as="p"
-                        className="text-black/70 text-sm text-center"
+                        className="text-background/70 text-sm text-center"
                     >
                         We use Google to securely sign you in. No passwords required.
                     </Text>
 
-                    <Text as="p" variant="para" className="text-black/50 text-center">
+                    <Text as="p" variant="para" className="text-background/60 text-center">
                         By continuing, you agree to our{" "}
-                        <Text as="span" variant="para" className="underline text-black/50 cursor-pointer">Terms</Text> and{" "}
-                        <Text as="span" variant="para" className="underline text-black/50 cursor-pointer">Privacy Policy</Text>.
+                        <Text as="span" variant="para" className="underline text-background/60 cursor-pointer">Terms</Text> and{" "}
+                        <Text as="span" variant="para" className="underline text-background/60 cursor-pointer">Privacy Policy</Text>.
                     </Text>
                 </div>
 

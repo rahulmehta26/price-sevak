@@ -1,18 +1,37 @@
-import ChevronRight from "../../components/icons/ChevronRight"
-import TrendDown from "../../components/icons/TrendDown"
-import ProductCard from "../../components/ui/ProductCard"
-import Text from "../../components/ui/Text"
 import { cn } from "../../utils/cn"
-import StatsBlock from "../../components/ui/StatsBlock"
-import ActivityTimeline from "../../components/ui/ActivityTimeline"
+import TrendDown from "../../components/icons/TrendDown"
+import ProductCard from "../../components/ui/productCard/ProductCard"
+import Text from "../../components/ui/Text"
 import { useProducts } from "../../hooks/useProducts"
 import { useNavigate } from "react-router-dom"
+import { useMemo } from "react"
+import { calculateStats } from "../../utils/priceCalculation"
+import OverviewHeader from "./OverviewHeader"
+import HoverSlideButton from "../../components/ui/HoverSlideButton"
+import EmptyState from "../../components/ui/EmptyState"
+import Loader from "../../components/ui/Loader"
+import OverviewStats from "./OverviewStats"
+import PageHeader from "../../components/ui/PageHeader"
+import ActivitySection from "./ActivitySection"
 
 const Overview = () => {
 
     const { data: products = [], isLoading } = useProducts();
 
     const navigate = useNavigate();
+
+    const stats = useMemo(() => calculateStats(products), [products]);
+
+    const trackingSince = useMemo(() => {
+        if (products.length === 0) return "N/A";
+
+        const earliest = products.reduce((min, p) => new Date(p.created_at) < new Date(min.created_at) ? p : min);
+
+        return new Date(earliest.created_at).toLocaleDateString("en-IN", {
+            month: "short",
+            year: "numeric",
+        })
+    }, [products]);
 
     const handleProductNavigation = () => {
         navigate("/products")
@@ -22,31 +41,25 @@ const Overview = () => {
         navigate("/activity")
     }
 
+    if (isLoading) return (
+        <div
+            className={cn("flex justify-center items-center h-screen")}
+        >
+            <Loader />
+        </div>
+    )
+
     return (
         <section
             className={cn("page-container")}
         >
 
-            <div>
+            <PageHeader
+                title="Overview"
+                subTitle="Track prices, catch deals, save money."
+            />
 
-                <Text
-                    as="h4"
-                    variant="heading"
-                    className={cn("text-foreground font-semibold")}
-                >
-                    Overview
-                </Text>
-
-                <Text
-                    as="span"
-                    variant="tags"
-                    className={cn("text-foreground/60 text-xs md:text-base font-normal")}
-                >
-                    Track prices, catch deals, save money.
-                </Text>
-            </div>
-
-            {/* <OverviewHeader /> */}
+            <OverviewHeader />
 
             <div>
 
@@ -69,115 +82,34 @@ const Overview = () => {
                         </Text>
                     </div>
 
-                    <button
-                        className={cn(
-                            "lg:p-4 lg:py-2 lg:hover:bg-primary/10 rounded-sm ",
-                            "transition-colors duration-200 ease-in-out",
-                            "group cursor-pointer",
-                            "flex justify-start items-center gap-2"
-                        )}
-                        type="button"
-                        onClick={handleProductNavigation}
-                    >
-                        <Text
-                            as="span"
-                            variant="tags"
-                            className={cn("text-foreground group-hover:text-primary font-normal font-mono")}
-                        >
-                            View All
-                        </Text>
-
-                        <ChevronRight className={cn("w-4.5 h-4.5 group-hover:text-primary")} />
-                    </button>
+                    <HoverSlideButton onClick={handleProductNavigation} />
                 </div>
 
-                <div
-                    className={cn(
-                        "pt-6",
-                        "grid gap-6 md:grid-cols-2 lg:grid-cols-2 ",
-                    )}
-                >
-                    {
-                        products?.map((product: any) => <ProductCard key={product?.id} product={product} />)
-                    }
-
-                </div>
-
-                <div className=" border-b-4 border-foreground border-dashed my-12 " />
-
-                <div
-                    className={cn("flex justify-start items-center flex-wrap gap-4")}
-                >
-
-                    <StatsBlock
-                        title="Avg. Savings"
-                        value="₹4,200"
-                        valueStyle={cn("text-success")}
+                {products.length === 0 ? (
+                    <EmptyState
+                        title="No products tracked yet"
+                        description="Start by adding products to track their prices"
+                        showButton={true}
                     />
+                ) : (
+                    <>
+                        <div className={cn("pt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-2")}>
+                            {products.slice(0, 4).map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
 
-                    <StatsBlock
-                        title="Best Drop"
-                        value="-17%"
-                        valueStyle={cn("text-success")}
-                    />
+                        <div className="border-b-4 border-foreground border-dashed my-12" />
 
-                    <StatsBlock
-                        title="Alert Triggered"
-                        value="8"
-                        valueStyle={cn("font-bold")}
-                    />
+                        <OverviewStats stats={stats} trackingSince={trackingSince} />
 
-                    <StatsBlock
-                        title="Tracking Since"
-                        value="₹4,200"
-                        valueStyle={cn("font-bold")}
-                    />
-                </div>
-
-                <div className=" border-b-4 border-foreground border-dashed my-12 " />
-
+                        <div className="border-b-4 border-foreground border-dashed my-12" />
+                    </>
+                )}
 
             </div>
 
-            <div
-                className={cn("space-y-4")}
-            >
-                <div
-                    className={cn("flex justify-between items-center")}
-                >
-
-                    <Text
-                        as="h4"
-                        variant="subHeading"
-                        className={cn("text-foreground text-md md:text-lg")}
-                    >
-                        Activity
-                    </Text>
-
-                    <button
-                        className={cn(
-                            "lg:p-4 lg:py-2 lg:hover:bg-primary/10 rounded-sm ",
-                            "transition-colors duration-200 ease-in-out",
-                            "group cursor-pointer",
-                            "flex justify-start items-center gap-2"
-                        )}
-                        type="button"
-                        onClick={handleActivityNavigation}
-                    >
-                        <Text
-                            as="span"
-                            variant="tags"
-                            className={cn("text-foreground group-hover:text-primary font-normal font-mono")}
-                        >
-                            View All
-                        </Text>
-
-                        <ChevronRight className={cn("w-4.5 h-4.5 group-hover:text-primary")} />
-                    </button>
-                </div>
-
-                <ActivityTimeline />
-            </div>
+            <ActivitySection handleActivityNavigation={handleActivityNavigation} />
         </section>
     )
 }

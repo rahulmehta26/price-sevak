@@ -1,57 +1,69 @@
-import { Link } from "react-router-dom"
-import { navItems } from "../../constant/navItems"
-import { cn } from "../../utils/cn"
-import Text from "../ui/Text"
-import { useState } from "react"
+import { NavLink } from "react-router-dom";
+import { navItems } from "../../constant/navItems";
+import { cn } from "../../utils/cn";
+import Text from "../ui/Text";
+import Button from "../ui/Button";
+import Signout from "../icons/Signout";
+import { handleGoogleLogout } from "../../utils/googleLogin";
+import MobileMenuButton from "./MobileMenuButton";
+import { useMobileMenu } from "../../store/useMobileMenu";
 
 const NavItems = () => {
 
-    const [activeIndex, setActiveIndex] = useState<number>(1);
+    const { open, toggle } = useMobileMenu();
 
-    const handleActiveBar = (id: number) => {
-        setActiveIndex(id)
-    }
     return (
-        <div
-            className={cn(
-                "flex justify-between items-center gap-4",
-            )}
-        >
-            {
-                navItems?.map((items) => {
-                    return (
-                        <Link
-                            key={items?.id}
-                            to={items?.href}
-                            onClick={() => handleActiveBar(items?.id)}
-                        >
-                            <div
-                                className={cn(
-                                    "px-4 py-2",
-                                    "rounded-sm group",
-                                    activeIndex === items?.id ? "bg-primary" : "",
-                                    activeIndex !== items?.id ? "hover:bg-primary/20" : ""
-                                )}
-                            >
+
+        <div>
+            <div className={cn("hidden lg:flex justify-between items-center gap-4")}>
+                {navItems.map((item) => (
+                    <NavLink
+                        key={item.id}
+                        to={item.href}
+                        className={cn(
+                            "relative px-4 py-2",
+                            "rounded-sm group"
+                        )}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                {!isActive && <span className="hover-slide-bg" />}
+
                                 <Text
                                     as="span"
                                     variant="base"
                                     className={cn(
-                                        "font-bold tracking-normal font-mono",
-                                        activeIndex === items?.id ? "text-background" : "text-foreground group-hover:text-primary"
+                                        "font-bold tracking-normal font-mono relative z-10",
+                                        isActive
+                                            ? "text-background bg-primary px-2 py-2 rounded-sm"
+                                            : "text-foreground group-hover:text-primary"
                                     )}
                                 >
-                                    {
-                                        items?.name
-                                    }
+                                    {item.name}
                                 </Text>
-                            </div>
-                        </Link>
-                    )
-                })
-            }
-        </div>
-    )
-}
+                            </>
+                        )}
+                    </NavLink>
+                ))}
 
-export default NavItems
+                <Button
+                    title="Sign out"
+                    className={cn("py-2 md:py-2")}
+                    rightIcon={Signout}
+                    onClick={handleGoogleLogout}
+                />
+
+            </div>
+
+            {/* Mobile menu modal */}
+
+            <MobileMenuButton
+                handleToggle={toggle}
+                isMobileOpen={open}
+            />
+
+        </div >
+    );
+};
+
+export default NavItems;

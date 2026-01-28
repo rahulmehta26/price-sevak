@@ -1,7 +1,7 @@
 import { cn } from "../../utils/cn"
 import Text from "../../components/ui/Text"
 import type { Product } from "../../types/productTypes"
-import ProductCard from "../../components/ui/ProductCard"
+import ProductCard from "../../components/ui/productCard/ProductCard"
 
 
 const ProductTracker = ({ products }: { products: Product[] }) => {

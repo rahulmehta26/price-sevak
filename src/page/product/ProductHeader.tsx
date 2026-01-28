@@ -8,6 +8,7 @@ import { addProduct } from '../../services/products'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '../../store/useToast'
 import X from '../../components/icons/X'
+import { useProducts } from '../../hooks/useProducts'
 
 const ProductHeader = () => {
 
@@ -16,13 +17,17 @@ const ProductHeader = () => {
 
     const addToast = useToast((s) => s.addToast)
 
+    const { data: products = [] } = useProducts();
+
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: addProduct,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
+            queryClient.invalidateQueries({ queryKey: ['alerts'] });
             setUrl("");
+            setIsHidden(false)
             addToast({
                 title: "Product tracked successfully",
                 description: "We'll notify you when the price drops.",
@@ -34,6 +39,7 @@ const ProductHeader = () => {
 
             addToast({
                 title: "Failed to track product",
+                description: error?.message || "Please try again",
                 type: "error"
             })
         }
@@ -43,7 +49,7 @@ const ProductHeader = () => {
 
         e.preventDefault();
 
-        if (!url) return addToast({ title: "Please enter a product URL", type: "info" });
+        if (!url.trim()) return addToast({ title: "Please enter a product URL", type: "info" });
 
         mutation.mutate(url);
     }
@@ -71,7 +77,7 @@ const ProductHeader = () => {
                         variant='body'
                         className={cn("text-foreground/60 font-mono font-normal tracking-normal text-sm")}
                     >
-                        8 products been tracked
+                        {products?.length} {products.length === 1 ? 'product' : 'products'} being tracked
                     </Text>
 
                 </div>
@@ -98,10 +104,11 @@ const ProductHeader = () => {
                     >
                         <Input
                             value={url}
-                            placeholder='Track products...'
+                            placeholder='Paste product URL here...'
                             onChange={setUrl}
                             showButton
                             onSubmit={handleSubmit}
+                            isLoading={mutation.isPending}
                         />
                     </section>
                 )

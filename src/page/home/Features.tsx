@@ -64,7 +64,7 @@ const Features = () => {
                                         "flex items-center justify-center",
                                     )}
                                 >
-                                    <Icon className={cn("text-primary")} />
+                                    <Icon className={cn("text-primary stroke-primary")} />
                                 </div>
 
                                 <Text as='span' variant='heading' className={cn("text-foreground font-normal")} >
@@ -72,7 +72,7 @@ const Features = () => {
 
                                 </Text>
 
-                                <Text as='p' variant='para' className={cn('text-foreground/70 text-start font-normal')} >
+                                <Text as='p' variant='para' className={cn('text-foreground/70 text-start font-light')} >
                                     {desc}
                                 </Text>
                             </div>

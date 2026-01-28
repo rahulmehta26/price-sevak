@@ -30,7 +30,7 @@ export const calculateStats = (product: Product[]) => {
   if (!product || product.length === 0) {
     return {
       avgSavings: 0,
-      bestFrop: 0,
+      bestDrop: 0,
       totalTracking: 0,
     };
   }
@@ -59,7 +59,7 @@ export const calculateStats = (product: Product[]) => {
   return {
     avgSavings: Math.round(avgSavings),
     bestDrop: Number(bestDrop.toFixed(2)),
-    tottalTracking: product.length,
+    totalTracking: product.length,
   };
 };
 

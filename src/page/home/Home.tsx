@@ -34,7 +34,7 @@ const Home = () => {
                     "md:text-[2.24rem] text-4xl lg:text-8xl",
                     "text-center tracking-normal font-extrabold text-foreground"
                 )}>
-                    Never Miss a Price Drop <br /> <span className={cn("gradient-text")} >Smart Bachat</span>
+                    Never Miss a Price Drop <br /> <span className={cn("gradient-text text-shadow")} >Smart Bachat</span>
                 </Text>
 
                 <Text as="p" className={cn("text-center text-foreground/50 text-md md:text-xl")}>

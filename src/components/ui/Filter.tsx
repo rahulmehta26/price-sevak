@@ -25,7 +25,7 @@ const Filter = ({
                 "focus-within:border-foreground cursor-pointer",
                 "flex justify-between items-center gap-4"
             )}
-            onClick={() => setOpen(prev => !prev)}
+            onClick={() => setOpen(o => o || true)}
         >
             <div className={cn("flex items-center gap-4 w-full")}>
                 <FilterIcon className="stroke-1 text-foreground" />

@@ -1,75 +1,109 @@
-import React from 'react'
-import { cn } from '../../utils/cn'
-import Text from '../../components/ui/Text'
-import ActivityTimeline from '../../components/ui/ActivityTimeline'
+import { cn } from "../../utils/cn";
+import Text from "../../components/ui/Text";
+import { useQuery } from "@tanstack/react-query";
+import { getGroupedActivities } from "../../services/activities";
+import EmptyState from "../../components/ui/EmptyState";
+import Loader from "../../components/ui/Loader";
+import PageHeader from "../../components/ui/PageHeader";
+import ActivityItem from "../../components/ui/activity/ActivityItem";
+
+const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const dateStr = date.toDateString();
+    const todayStr = today.toDateString();
+    const yesterdayStr = yesterday.toDateString();
+
+    if (dateStr === todayStr) return "Today";
+    if (dateStr === yesterdayStr) return "Yesterday";
+
+    return date.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    });
+};
+
+const formatTime = (dateString: string): string => {
+    return new Date(dateString).toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+};
 
 const Activity = () => {
+    const { data: groupedActivities = [], isLoading } = useQuery({
+        queryKey: ["activities-grouped"],
+        queryFn: getGroupedActivities,
+    });
+
+    if (isLoading) {
+        return (
+            <section
+                className={cn("flex items-center justify-center h-screen")}
+            >
+                <Loader text="Loading activities..." />
+            </section>
+        );
+    }
+
     return (
-        <section
-            className={cn("page-container")}
-        >
+        <section className={cn("page-container")}>
 
-            <div>
+            <PageHeader
+                title="Activity"
+                subTitle="Your complete price tracking history."
+            />
 
-                <Text
-                    as="h4"
-                    variant="heading"
-                    className={cn("text-foreground font-semibold")}
-                >
-                    Activity
-                </Text>
+            {groupedActivities.length === 0 ? (
 
-                <Text
-                    as="span"
-                    variant="tags"
-                    className={cn("text-foreground/60 text-xs md:text-base font-light")}
-                >
-                    Your complete price tracking history.
-                </Text>
-            </div>
+                <EmptyState
+                    title="No activities yet"
+                    description="Start tracking products to see your activity history"
+                    showButton={true}
+                />
+            ) : (
+                <>
+                    {groupedActivities.map((group, groupIndex) => (
+                        <div key={group.date}>
+                            <Text
+                                as="span"
+                                variant="tags"
+                                className={cn("text-foreground text-xs md:text-base font-mono")}
+                            >
+                                {formatDate(group.date)}
+                            </Text>
 
-            <Text
-                as="span"
-                variant="tags"
-                className={cn("text-foreground text-xs md:text-base font-mono")}
-            >
-                Today
-            </Text>
+                            <div className={cn("flex justify-center mt-6")}>
+                                <section
+                                    className={cn(
+                                        "p-2 md:p-4 py-4 w-full md:w-[50rem]",
+                                        "bg-foreground/10 backdrop-blur-2xl rounded-sm",
+                                    )}
+                                >
+                                    <div className="space-y-4">
+                                        {group.activities.map((activity) => (
+                                            <ActivityItem
+                                                key={activity?.id}
+                                                time={formatTime(activity?.created_at)}
+                                                activity={activity} />
+                                        ))}
+                                    </div>
+                                </section>
+                            </div>
 
-            <div
-                className={cn("flex justify-center mt-6 ")}
-            >
-
-                <ActivityTimeline className={cn("w-[50rem]")} />
-
-            </div>
-
-            <div className=" border-b-4 border-foreground border-dashed my-12 " />
-
-
-            <Text
-                as="span"
-                variant="tags"
-                className={cn("text-foreground text-xs md:text-base font-mono")}
-            >
-                Yesterday
-            </Text>
-
-            <div
-                className={cn("flex justify-center mt-6 ")}
-            >
-
-                <ActivityTimeline className={cn("w-[50rem]")} />
-
-            </div>
-
-
-            <div className=" border-b-4 border-foreground border-dashed my-12 " />
-
-            {/* This will be mapped as per the data */}
-
+                            {groupIndex < groupedActivities.length - 1 && (
+                                <div className="border-b-4 border-foreground border-dashed my-12" />
+                            )}
+                        </div>
+                    ))}
+                </>
+            )}
         </section>
-    )
-}
+    );
+};
 
-export default Activity
+export default Activity;

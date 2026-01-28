@@ -26,10 +26,14 @@ const Select = ({
     const selected = options.find(o => o.value === value)
 
     return (
-        <div className="relative">
+        <div
+            className="relative"
+            onClick={(e) => e.stopPropagation()}
+        >
             <button
                 type="button"
-                className="w-full text-left"
+                className={cn("w-full text-left")}
+                onClick={() => onOpenChange(true)}
             >
                 <span className={cn(
                     "text-ellipsis cursor-pointer font-mono text-sm",
@@ -42,11 +46,12 @@ const Select = ({
             {open && (
                 <>
                     <div
-                        className="fixed inset-0 z-50"
+                        className={cn("fixed inset-0 z-40 cursor-default")}
                         onClick={(e) => {
                             e.stopPropagation()
                             onOpenChange(false)
                         }}
+                        style={{ cursor: "default" }}
                     />
 
                     <div
@@ -69,8 +74,8 @@ const Select = ({
                                     "w-full px-2 py-3 ",
                                     "text-center font-mono text-sm ",
                                     "cursor-pointer",
-                                    "hover:bg-primary/10",
-                                    value === option.value && "bg-primary/50 rounded-sm"
+                                    "hover:bg-primary/10 rounded-sm",
+                                    value === option.value && "bg-primary/50"
                                 )}
                             >
                                 {option.label}

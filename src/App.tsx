@@ -8,7 +8,7 @@ import PageNotFound from "./page/error/PageNotFound"
 import Overview from "./page/overview/Overview"
 import Products from "./page/product/Products"
 import Activity from "./page/activity/Activity"
-import ProductDetail from "./page/product/ProductDetail"
+import ProductDetail from "./page/product/product-details/ProductDetail"
 import Alert from "./page/alert/Alert"
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
     initAuth();
 
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (Event, session) => {
+      (_event, session) => {
         setAuth(session);
       }
     );

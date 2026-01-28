@@ -4,8 +4,10 @@ import ProductHeader from './ProductHeader'
 import Input from '../../components/ui/Input'
 import Filter from '../../components/ui/Filter'
 import type { SelectOption } from '../../components/ui/Select'
-import ProductCard from '../../components/ui/ProductCard'
+import ProductCard from '../../components/ui/productCard/ProductCard'
 import { useProducts } from '../../hooks/useProducts'
+import Loader from '../../components/ui/Loader'
+import EmptyState from '../../components/ui/EmptyState'
 
 const filterOptions: SelectOption[] = [
     { label: "All Products", value: "all" },
@@ -22,21 +24,38 @@ const Products = () => {
     const { data: products = [], isLoading } = useProducts();
 
     const filteredProducts = useMemo(() => {
-
-        let result = products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
+        let result = products
+            .filter(p =>
+                p?.name?.toLowerCase().includes(search.toLowerCase())
+            )
 
         if (filter === "low-high") {
-            result.sort((a, b) => a.current_price - b.current_price)
+            result = [...result].sort((a, b) => a.current_price - b.current_price)
         }
 
         if (filter === "high-low") {
-            result.sort((a, b) => b.current_price - a.current_price)
+            result = [...result].sort((a, b) => b.current_price - a.current_price)
         }
+
         if (filter === "recent") {
-            result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+            result = [...result].sort(
+                (a, b) =>
+                    new Date(b.created_at).getTime() -
+                    new Date(a.created_at).getTime()
+            )
         }
+
         return result
     }, [products, search, filter])
+
+
+    if (isLoading) return (
+        <div
+            className={cn("flex justify-center items-center h-screen")}
+        >
+            <Loader text="Loading products..." />
+        </div>
+    )
 
     return (
         <section
@@ -47,7 +66,7 @@ const Products = () => {
             <section
                 className={cn(
                     "p-4 w-full",
-                    "bg-foreground/10 backdrop-blur-md rounded-sm",
+                    "bg-foreground/10 rounded-sm",
                     "shadow hover:shadow-sm",
                     "flex flex-col md:flex-row justify-between items-center gap-4"
                 )}
@@ -72,9 +91,16 @@ const Products = () => {
                     "grid gap-6 md:grid-cols-2 lg:grid-cols-2 ",
                 )}
             >
-                {
-                    products?.map((product) => <ProductCard key={product?.id} product={product} />)
-                }
+                {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product) => <ProductCard key={product?.id} product={product} />)
+                ) : (
+                    <div className="col-span-full flex justify-center">
+                        <EmptyState
+                            title="No products found"
+                            description="Try adjusting your search or filters"
+                        />
+                    </div>
+                )}
 
             </div>
         </section>

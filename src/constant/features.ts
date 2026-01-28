@@ -1,51 +1,53 @@
-import type { ElementType } from "react";
+import type React from "react";
 import Bell from "../components/icons/Bell";
-import Lightning from "../components/icons/Lightning";
-import Shield from "../components/icons/Shield";
+import TrendDown from "../components/icons/TrendDown";
+import Toggle from "../components/icons/Toggle";
+import Chart from "../components/icons/Chart";
+import Monitar from "../components/icons/Monitar";
+import Dashboard from "../components/icons/Dashboard";
 
 export interface FeatureProps {
   id: number;
   title: string;
   desc: string;
-  icon: ElementType;
+  icon: React.ElementType;
 }
 
 export const FEATURES: FeatureProps[] = [
   {
     id: 1,
-    title: "Track Price Drops",
-    desc: "Monitor prices across multiple products and get notified when they drop to your target.",
-    icon: Lightning,
+    title: "Automatic Price Tracking",
+    desc: "Add any product URL and we'll track its price automatically. Works with Amazon, Flipkart, Myntra, and more.",
+    icon: TrendDown,
   },
   {
     id: 2,
-    title: "Reliable Monitoring",
-    desc: "Built to work across major e-commerce platforms with stable and consistent price checks.",
-    icon: Shield,
+    title: "Email Alerts",
+    desc: "Get instant email notifications when prices drop below your target. Never miss a deal again.",
+    icon: Bell,
   },
   {
     id: 3,
-    title: "Smart Alerts",
-    desc: "Get instant alerts when the price drops below your desired value — no manual checking needed.",
-    icon: Bell,
+    title: "Price History Charts",
+    desc: "Visual charts show price trends over time with lowest, highest, and average prices at a glance.",
+    icon: Chart,
   },
   {
     id: 4,
-    title: "Price History",
-    desc: "View detailed price history charts to make informed purchasing decisions.",
-    icon: Bell,
+    title: "Daily Monitoring",
+    desc: "All tracked products are automatically checked every 24 hours for the latest prices.",
+    icon: Monitar,
   },
-
   {
     id: 5,
-    title: "Real-time Updates",
-    desc: "Prices are checked multiple times daily to ensure you have the latest data.",
-    icon: Bell,
+    title: "Activity Dashboard",
+    desc: "See all price changes, alerts triggered, and tracking history in one organized timeline.",
+    icon: Dashboard,
   },
   {
     id: 6,
-    title: "Deal Score",
-    desc: "Our algorithm rates each deal from 0-100 so you know when to buy.",
-    icon: Bell,
+    title: "Toggle Control",
+    desc: "Enable or disable alerts for any product with a simple toggle. Full control over notifications.",
+    icon: Toggle,
   },
 ];
