@@ -1,13 +1,11 @@
 import { useToast } from "../store/useToast";
 import supabase from "../utils/supabase/supabase";
 
-const addToast = useToast((s) => s.addToast);
-
 export async function authHeaders() {
   const { data, error } = await supabase.auth.getSession();
 
   if (error) {
-    addToast({
+    useToast.getState().addToast({
       title: "Session expired",
       description: "Please sign in again",
       type: "warning",
@@ -18,7 +16,7 @@ export async function authHeaders() {
   const token = data.session?.access_token;
 
   if (!token) {
-    addToast({
+    useToast.getState().addToast({
       title: "Authentication required",
       description: "Please sign in to continue",
       type: "info",

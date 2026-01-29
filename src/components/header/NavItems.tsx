@@ -4,8 +4,8 @@ import { cn } from "../../utils/cn";
 import Text from "../ui/Text";
 import Button from "../ui/Button";
 import Signout from "../icons/Signout";
-import { handleGoogleLogout } from "../../utils/googleLogin";
 import MobileMenuButton from "./MobileMenuButton";
+import { logout } from "../../services/auth";
 
 const NavItems = () => {
 
@@ -47,7 +47,7 @@ const NavItems = () => {
                     title="Sign out"
                     className={cn("py-2 md:py-2")}
                     rightIcon={Signout}
-                    onClick={handleGoogleLogout}
+                    onClick={logout}
                 />
 
             </div>

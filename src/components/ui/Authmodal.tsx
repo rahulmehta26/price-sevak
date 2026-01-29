@@ -1,11 +1,11 @@
 import { motion } from "motion/react"
 import { useAuthModal } from "../../store/useAuthModal"
 import { cn } from "../../utils/cn"
-import { handleGoogleLogin } from "../../utils/googleLogin"
 import Google from "../icons/Google"
 import Button from "./Button"
 import CloseButton from "./CloseButton"
 import Text from "./Text"
+import { loginWithGoogle } from "../../services/auth"
 
 const Authmodal = () => {
 
@@ -63,7 +63,7 @@ const Authmodal = () => {
                     className="bg-background px-8 w-full"
                     textStyle="text-primary"
                     leftIcon={Google}
-                    onClick={handleGoogleLogin}
+                    onClick={loginWithGoogle}
                 />
 
                 <div

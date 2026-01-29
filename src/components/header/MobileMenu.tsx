@@ -4,10 +4,9 @@ import { cn } from "../../utils/cn";
 import Signout from "../icons/Signout";
 import Button from "../ui/Button";
 import { navItems } from "../../constant/navItems";
-import { handleGoogleLogout } from "../../utils/googleLogin";
 import { useMobileMenu } from "../../store/useMobileMenu";
 import { useEffect } from "react";
-
+import { logout } from "../../services/auth";
 
 const MobileMenu = () => {
 
@@ -78,7 +77,7 @@ const MobileMenu = () => {
                                 title="Sign out"
                                 className="mt-2"
                                 rightIcon={Signout}
-                                onClick={handleGoogleLogout}
+                                onClick={logout}
                             />
                         </div>
                     </motion.div>

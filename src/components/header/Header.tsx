@@ -5,10 +5,10 @@ import Button from "../ui/Button";
 import Signin from "../icons/Signin";
 import { useAuthModal } from "../../store/useAuthModal";
 import { useAuthState } from "../../store/useAuthStore";
-import { handleGoogleLogin } from "../../utils/googleLogin";
 import RightArrow from "../icons/RightArrow";
 import NavItems from "./NavItems";
 import { useToast } from "../../store/useToast";
+import { loginWithGoogle } from "../../services/auth";
 
 const Header = () => {
     const [isHidden, setIsHidden] = useState<boolean>(false);
@@ -44,7 +44,7 @@ const Header = () => {
 
         try {
 
-            await handleGoogleLogin();
+            await loginWithGoogle();
 
         } catch (error) {
             addToast({
