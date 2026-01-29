@@ -38,8 +38,9 @@ function App() {
         setAuth(null);
 
         addToast({
-          title: "Failed to restore your session. Please sign in again.",
-          type: "error"
+          title: "Please sign in again to continue",
+          type: "info",
+          duration: 5000,
         });
       } finally {
         setIsAuthReady(true);

@@ -1,69 +1,75 @@
-import { useMemo, useState } from 'react'
-import { cn } from '../../utils/cn'
-import ProductHeader from './ProductHeader'
-import Input from '../../components/ui/Input'
-import Filter from '../../components/ui/Filter'
-import type { SelectOption } from '../../components/ui/Select'
-import ProductCard from '../../components/ui/productCard/ProductCard'
-import { useProducts } from '../../hooks/useProducts'
-import Loader from '../../components/ui/Loader'
-import EmptyState from '../../components/ui/EmptyState'
-import { useDebounce } from '../../hooks/useDebounce.ts'
+import { useEffect, useMemo, useState } from "react";
+import { cn } from "../../utils/cn";
+import ProductHeader from "./ProductHeader";
+import Input from "../../components/ui/Input";
+import Filter from "../../components/ui/Filter";
+import type { SelectOption } from "../../components/ui/Select";
+import ProductCard from "../../components/ui/productCard/ProductCard";
+import { useProducts } from "../../hooks/useProducts";
+import Loader from "../../components/ui/Loader";
+import EmptyState from "../../components/ui/EmptyState";
+import { useDebounce } from "../../hooks/useDebounce.ts";
+import { useToast } from "../../store/useToast.ts";
 
 const filterOptions: SelectOption[] = [
     { label: "All Products", value: "all" },
     { label: "Low → High", value: "low-high" },
     { label: "High → Low", value: "high-low" },
-    { label: "Recently Added", value: "recent" }
-]
+    { label: "Recently Added", value: "recent" },
+];
 
 const Products = () => {
+    const [search, setSearch] = useState<string>("");
+    const [filter, setFilter] = useState<string>("all");
 
-    const [search, setSearch] = useState<string>("")
-    const [filter, setFilter] = useState<string>("all")
+    const { data: products = [], isLoading, error } = useProducts();
 
-    const { data: products = [], isLoading } = useProducts();
+    const addToast = useToast((s) => s.addToast);
 
     const debouncedSearch = useDebounce(search, 300);
 
     const filteredProducts = useMemo(() => {
-        let result = products
-            .filter(p =>
-                p?.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
-            )
+        let result = products.filter((p) =>
+            p?.name?.toLowerCase().includes(debouncedSearch.toLowerCase()),
+        );
 
         if (filter === "low-high") {
-            result = [...result].sort((a, b) => a.current_price - b.current_price)
+            result = [...result].sort((a, b) => a.current_price - b.current_price);
         }
 
         if (filter === "high-low") {
-            result = [...result].sort((a, b) => b.current_price - a.current_price)
+            result = [...result].sort((a, b) => b.current_price - a.current_price);
         }
 
         if (filter === "recent") {
             result = [...result].sort(
                 (a, b) =>
-                    new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime()
-            )
+                    new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+            );
         }
 
-        return result
-    }, [products, search, filter])
+        return result;
+    }, [products, search, filter]);
 
+    if (isLoading)
+        return (
+            <div className={cn("flex justify-center items-center h-screen")}>
+                <Loader text="Loading products..." />
+            </div>
+        );
 
-    if (isLoading) return (
-        <div
-            className={cn("flex justify-center items-center h-screen")}
-        >
-            <Loader text="Loading products..." />
-        </div>
-    )
+    useEffect(() => {
+        if (error) {
+            addToast({
+                title: "Failed to load products",
+                description: "Please refresh the page",
+                type: "error",
+            });
+        }
+    }, [error, addToast]);
 
     return (
-        <section
-            className={cn("page-container")}
-        >
+        <section className={cn("page-container")}>
             <ProductHeader />
 
             <section
@@ -71,31 +77,23 @@ const Products = () => {
                     "p-4 w-full",
                     "bg-foreground/10 rounded-sm",
                     "shadow hover:shadow-sm",
-                    "flex flex-col md:flex-row justify-between items-center gap-4"
+                    "flex flex-col md:flex-row justify-between items-center gap-4",
                 )}
             >
                 <Input
                     value={search}
-                    placeholder='Search products...'
+                    placeholder="Search products..."
                     onChange={setSearch}
                 />
 
-                <Filter
-                    value={filter}
-                    onChange={setFilter}
-                    options={filterOptions}
-                />
-
+                <Filter value={filter} onChange={setFilter} options={filterOptions} />
             </section>
 
-            <div
-                className={cn(
-                    "pt-6",
-                    "grid gap-6 md:grid-cols-2 lg:grid-cols-2 ",
-                )}
-            >
+            <div className={cn("pt-6", "grid gap-6 md:grid-cols-2 lg:grid-cols-2 ")}>
                 {filteredProducts.length > 0 ? (
-                    filteredProducts.map((product) => <ProductCard key={product?.id} product={product} />)
+                    filteredProducts.map((product) => (
+                        <ProductCard key={product?.id} product={product} />
+                    ))
                 ) : (
                     <div className="col-span-full flex justify-center">
                         <EmptyState
@@ -104,10 +102,9 @@ const Products = () => {
                         />
                     </div>
                 )}
-
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Products
+export default Products;

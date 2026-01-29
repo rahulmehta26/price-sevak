@@ -49,7 +49,7 @@ const Header = () => {
         } catch (error) {
             addToast({
                 title: "Login Failed",
-                description: `${error}`,
+                description: "Please try again",
                 type: "error"
             })
         } finally {

@@ -1,5 +1,8 @@
 import { useAuthState } from "../store/useAuthStore";
+import { useToast } from "../store/useToast";
 import supabase from "./supabase/supabase";
+
+const addToast = useToast((s) => s.addToast);
 
 export const handleGoogleLogin = async () => {
   try {
@@ -12,7 +15,11 @@ export const handleGoogleLogin = async () => {
       },
     });
   } catch (error) {
-    throw error;
+    addToast({
+      title: "Login failed",
+      description: "Unable to sign in with Google. Please try again.",
+      type: "error",
+    });
   }
 };
 
@@ -23,7 +30,17 @@ export const handleGoogleLogout = async () => {
     if (error) throw error;
 
     useAuthState.getState().logOut();
+
+    addToast({
+      title: "Signed out successfully",
+      type: "success",
+      duration: 2000,
+    });
   } catch (error) {
-    throw error;
+    addToast({
+      title: "Logout failed",
+      description: "Please try again or refresh the page",
+      type: "error",
+    });
   }
 };

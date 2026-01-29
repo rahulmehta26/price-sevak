@@ -9,7 +9,7 @@ const typeStyle = {
     success: "border-green-500 bg-linear-to-l from-green-500/30 via-green-500/20 to-green-500/10 text-green-400",
     error: "border-red-500 bg-linear-to-l from-red-500/30 via-red-500/20 to-red-500/10 text-red-400",
     info: "border-blue-500 bg-linear-to-l from-blue-500/30 via-blue-500/20 to-blue-500/10 text-blue-400",
-
+    warning: "border-amber-500 bg-linear-to-l from-amber-500/30 via-amber-500/20 to-amber-500/10 text-amber-400",
 }
 
 const DEFAULT_DURATION = 3000;

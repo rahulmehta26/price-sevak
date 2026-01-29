@@ -23,8 +23,7 @@ export const useDeleteProduct = () => {
 
     onSuccess: () => {
       addToast({
-        title: "Product removed",
-        description: "Product removed from tracking successfully",
+        title: "Product removed from tracking successfully",
         type: "success",
       });
     },
