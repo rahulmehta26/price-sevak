@@ -18,6 +18,13 @@ app.use(
 
 app.use(express.json());
 
+app.get("/health", (req: Request, res: Response) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime(),
+  });
+});
+
 app.use("/api/products", productsRouter);
 app.use("/api/price-history", priceHistoryRouter);
 app.use("/api/cron", cronRouter);
