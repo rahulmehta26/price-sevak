@@ -3,7 +3,7 @@ import type { Alert } from '../../types/productTypes'
 import type React from 'react';
 import Toggle from '../../components/ui/Toggle';
 import Text from '../../components/ui/Text';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '../../store/useToast';
 import { updateAlert } from '../../services/alerts';
@@ -12,7 +12,7 @@ interface AlertCardProps {
     alert: Alert;
 }
 
-const AlertCard: React.FC<AlertCardProps> = ({ alert }) => {
+const AlertCard: React.FC<AlertCardProps> = memo(({ alert }) => {
 
     const queryClient = useQueryClient();
 
@@ -121,6 +121,5 @@ const AlertCard: React.FC<AlertCardProps> = ({ alert }) => {
 
         </section>
     )
-}
-
+});
 export default AlertCard
