@@ -1,40 +1,42 @@
-import { Route, Routes } from "react-router-dom"
-import Home from "./page/home/Home"
-import MainLayout from "./layout/MainLayout"
-import { lazy, Suspense, useEffect, useState } from "react"
-import supabase from "./utils/supabase/supabase"
-import { useAuthState } from "./store/useAuthStore"
-import Loader from "./components/ui/Loader"
-import { useToast } from "./store/useToast"
+import { Route, Routes } from "react-router-dom";
+import Home from "./page/home/Home";
+import MainLayout from "./layout/MainLayout";
+import { lazy, Suspense, useEffect, useState } from "react";
+import supabase from "./utils/supabase/supabase";
+import { useAuthState } from "./store/useAuthStore";
+import Loader from "./components/ui/Loader";
+import { useToast } from "./store/useToast";
+import { useApiHealth } from "./hooks/useApiHealth";
+import EmptyState from "./components/ui/EmptyState";
+import { cn } from "./utils/cn";
 
 const Overview = lazy(() => import("./page/overview/Overview"));
 const Products = lazy(() => import("./page/product/Products"));
 const Activity = lazy(() => import("./page/activity/Activity"));
-const ProductDetail = lazy(() => import("./page/product/product-details/ProductDetail"));
+const ProductDetail = lazy(
+  () => import("./page/product/product-details/ProductDetail"),
+);
 const Alert = lazy(() => import("./page/alert/Alert"));
 const PageNotFound = lazy(() => import("./page/error/PageNotFound"));
 
 function App() {
-
   const setAuth = useAuthState((s) => s.setAuth);
 
-  const addToast = useToast((s) => s.addToast)
+  const addToast = useToast((s) => s.addToast);
+
+  const { isChecking, isHealthy } = useApiHealth();
 
   const [isAuthReady, setIsAuthReady] = useState<boolean>(false);
 
   useEffect(() => {
-
     const initAuth = async () => {
-
       try {
         const { data, error } = await supabase.auth.getSession();
 
         if (error) throw error;
 
         setAuth(data.session);
-
       } catch (error) {
-
         setAuth(null);
 
         addToast({
@@ -45,32 +47,43 @@ function App() {
       } finally {
         setIsAuthReady(true);
       }
-    }
+    };
 
     initAuth();
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setAuth(session);
-      }
+      },
     );
 
     return () => {
       listener.subscription.unsubscribe();
-    }
+    };
+  }, [setAuth]);
 
-  }, [setAuth])
+  if (!isAuthReady)
+    return (
+      <div className={cn("min-h-screen flex items-center justify-center bg-background")}>
+        <Loader text="Initializing..." />
+      </div>
+    );
 
-  if (!isAuthReady) return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Loader text="Initializing..." />
-    </div>
-  );
+  if (isChecking) return <Loader text="Connecting..." />;
+
+  if (!isHealthy)
+    return (
+      <div className={cn("min-h-screen flex items-center justify-center")}>
+        <EmptyState
+          title="Backend Unavailable"
+          description="Our servers are temporarily down. Please try again later."
+        />
+      </div>
+    );
 
   return (
     <Routes>
       <Route element={<MainLayout />}>
-
         <Route index element={<Home />} />
 
         <Route
@@ -126,10 +139,9 @@ function App() {
             </Suspense>
           }
         />
-
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
