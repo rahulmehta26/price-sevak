@@ -6,7 +6,7 @@ import Button from "../ui/Button";
 import Signout from "../icons/Signout";
 import MobileMenuButton from "./MobileMenuButton";
 import { logout } from "../../services/auth";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const routePreloadMap: Record<string, () => Promise<unknown>> = {
     "/overview": () => import("../../page/overview/Overview"),

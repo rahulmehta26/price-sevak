@@ -1,9 +1,10 @@
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
+import { api } from "../../lib/axios";
 
 export async function scrapeProduct(url: string) {
   try {
-    const { data } = await axios.post(
-      "/api/scrape-product",
+    const { data } = await api.post(
+      "/scrape-product",
       { url },
       {
         headers: {
