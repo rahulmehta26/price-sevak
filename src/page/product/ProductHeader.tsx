@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { cn } from '../../utils/cn'
 import Button from '../../components/ui/Button'
 import Plus from '../../components/icons/Plus'
@@ -10,10 +10,14 @@ import { useToast } from '../../store/useToast'
 import X from '../../components/icons/X'
 import { useProducts } from '../../hooks/useProducts'
 
+const RATE_LIMIT_MS = 5000;
+
 const ProductHeader = () => {
 
     const [url, setUrl] = useState<string>("");
     const [isHidden, setIsHidden] = useState<boolean>(false);
+
+    const rateLimitRef = useRef(false);
 
     const addToast = useToast((s) => s.addToast)
 
@@ -35,24 +39,47 @@ const ProductHeader = () => {
                 duration: 5000
             })
         },
-        onError: (error: any) => {
+        onError: (error: unknown) => {
+
+            const message = error instanceof Error ? error.message : "Please try again";
 
             addToast({
                 title: "Failed to track product",
-                description: error?.message || "Please try again",
-                type: "error"
+                description: message,
+                type: "error",
             })
         }
     })
 
-    const handleSubmit = async (e: React.FormEvent) => {
-
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!url.trim()) return addToast({ title: "Please enter a product URL", type: "info" });
+        if (rateLimitRef.current) {
+            addToast({
+                title: "Please wait",
+                description: "You're adding products too quickly",
+                type: "info",
+            });
+            return;
+        }
+
+        if (!url.trim()) {
+            addToast({
+                title: "Please enter a product URL",
+                type: "info",
+            });
+            return;
+        }
+
+        rateLimitRef.current = true;
+
+        setTimeout(() => {
+            rateLimitRef.current = false;
+        }, RATE_LIMIT_MS);
 
         mutation.mutate(url);
-    }
+    };
+
 
     return (
 
