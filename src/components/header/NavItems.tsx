@@ -6,8 +6,29 @@ import Button from "../ui/Button";
 import Signout from "../icons/Signout";
 import MobileMenuButton from "./MobileMenuButton";
 import { logout } from "../../services/auth";
+import { useRef, useState } from "react";
+
+const routePreloadMap: Record<string, () => Promise<unknown>> = {
+    "/overview": () => import("../../page/overview/Overview"),
+    "/products": () => import("../../page/product/Products"),
+    "/activity": () => import("../../page/activity/Activity"),
+    "/alerts": () => import("../../page/alert/Alert"),
+};
 
 const NavItems = () => {
+
+    const preLoadedRef = useRef<Set<string>>(new Set());
+
+    const handlerMouseEnter = (path: string) => {
+
+        if (preLoadedRef.current.has(path)) return;
+
+        const preLoad = routePreloadMap[path];
+
+        if (!preLoad) return;
+
+        preLoadedRef.current.add(path);
+    }
 
     return (
 
@@ -21,6 +42,8 @@ const NavItems = () => {
                             "relative px-4 py-2",
                             "rounded-sm group"
                         )}
+                        onMouseEnter={() => handlerMouseEnter(item.href)}
+                        onTouchStart={() => handlerMouseEnter(item.href)}
                     >
                         {({ isActive }) => (
                             <>
