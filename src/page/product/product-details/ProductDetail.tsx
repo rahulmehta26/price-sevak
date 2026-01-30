@@ -14,8 +14,8 @@ import Return from "../../../components/icons/Return";
 import ProductStats from "./ProductStats";
 import ProductInfo from "./ProductInfo";
 import PriceHistoryLog from "./PriceHistoryLog";
-import ProductImage from "./ProductImage";
 import BackButton from "./BackButton";
+import ProductImage from "../../../components/ui/ProductImage";
 
 const ProductDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -70,7 +70,7 @@ const ProductDetail = () => {
                     "flex justify-center md:justify-start gap-10 flex-wrap md:flex-nowrap items-center",
                 )}
             >
-                <ProductImage productImage={product?.image_url} />
+                <ProductImage productImage={product?.image_url} alt="Product image" className={cn("w-42 h-42")} />
 
                 <ProductInfo product={product} />
 

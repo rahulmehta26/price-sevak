@@ -7,6 +7,7 @@ import { memo, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '../../store/useToast';
 import { updateAlert } from '../../services/alerts';
+import ProductImage from '../../components/ui/ProductImage';
 
 interface AlertCardProps {
     alert: Alert;
@@ -61,15 +62,7 @@ const AlertCard: React.FC<AlertCardProps> = memo(({ alert }) => {
             )}
         >
 
-            <div
-                className={cn("w-20 h-20 rounded-sm shrink-0")}
-            >
-                <img
-                    src={alert?.image_url}
-                    className={cn("w-full h-full object-cover rounded-sm")}
-                    alt='Product image'
-                />
-            </div>
+            <ProductImage productImage={alert?.image_url} alt='Product image' />
 
             <div
                 className={cn("space-y-4")}

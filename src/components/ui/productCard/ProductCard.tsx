@@ -1,9 +1,9 @@
 import { cn } from "../../../utils/cn";
 import type { Product } from "../../../types/productTypes";
 import ActionButton from "./ActionButton";
-import ProductImage from "./ProductImage";
 import ProductInfo from "./ProductInfo";
 import { memo } from "react";
+import ProductImage from "../ProductImage";
 
 const ProductCard = memo(({ product }: { product: Product }) => {
     return (
@@ -16,7 +16,10 @@ const ProductCard = memo(({ product }: { product: Product }) => {
             )}
         >
             <div className={cn("flex justify-start items-center gap-4")}>
-                <ProductImage productImage={product?.image_url} />
+                <ProductImage
+                    productImage={product?.image_url}
+                    alt="Product image"
+                />
 
                 <ProductInfo product={product} />
             </div>
