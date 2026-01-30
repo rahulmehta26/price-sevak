@@ -3,14 +3,15 @@ import Button from '../Button'
 import Bell from '../../icons/Bell'
 import ChevronRight from '../../icons/ChevronRight'
 import { cn } from '../../../utils/cn'
+import { useCallback } from 'react'
 
 const ActionButton = ({ productId }: { productId: string }) => {
 
     const navigate = useNavigate();
 
-    const handleDetailNavigation = () => {
+    const handleDetailNavigation = useCallback(() => {
         navigate(`/product-detail/${productId}`)
-    }
+    }, [navigate, productId]);
 
     const handleAlertNavigation = () => {
         navigate("/alerts")
