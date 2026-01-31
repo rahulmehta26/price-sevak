@@ -111,7 +111,7 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
                         as="p"
                         variant="para"
                         className={cn(
-                            "text-foreground font-mono",
+                            "text-foreground text-xs md:text-md font-mono",
                         )}
                     >
                         {
@@ -125,7 +125,7 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
                                 as="p"
                                 variant="para"
                                 className={cn(
-                                    "text-sm mt-1 text-foreground",
+                                    "text-xs md:text-sm mt-1 text-foreground",
                                 )}
                             >
                                 {
@@ -138,7 +138,10 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
 
                 <CloseButton
                     onClick={() => handleRemoveToast(toast?.id)}
-                    className={cn("opacity-60 hover:opacity-100 transition-colors duration-300 top-1.5 right-2")}
+                    className={cn(
+                        "absolute right-2 top-1/2 -translate-y-1/2",
+                        "opacity-60 hover:opacity-100 transition-colors duration-300"
+                    )}
                 />
 
             </div>
