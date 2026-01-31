@@ -7,6 +7,7 @@ import TrendDown from "../../components/icons/TrendDown";
 import { useAlert } from "../../hooks/useAlert";
 import { calculatePriceChange } from "../../utils/priceCalculation";
 import { useProducts } from "../../hooks/useProducts";
+import AnimatedItem from "../../components/ui/AnimatedItem";
 
 const OverviewHeader = () => {
     const { data: products = [] } = useProducts();
@@ -30,7 +31,8 @@ const OverviewHeader = () => {
     }, [products, alerts]);
 
     return (
-        <section
+        <AnimatedItem
+            as="section"
             className={cn(
                 "w-fit p-4",
                 "border shadow hover:shadow-sm rounded-sm",
@@ -128,7 +130,7 @@ const OverviewHeader = () => {
                     </div>
                 </div>
             </div>
-        </section>
+        </AnimatedItem>
     );
 };
 

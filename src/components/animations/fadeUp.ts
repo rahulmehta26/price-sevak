@@ -5,12 +5,24 @@ export const fadeUp: Variants = {
     opacity: 0,
     y: 20,
   },
-  visible: (delay = 0) => ({
+  visible: {
     opacity: 1,
     y: 0,
     transition: {
-      delay,
-      duration: 0.5,
+      type: "spring",
+      stiffness: 300,
+      damping: 15,
+      mass: 0.8,
     },
-  }),
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 10,
+      mass: 0.9,
+    },
+  },
 };

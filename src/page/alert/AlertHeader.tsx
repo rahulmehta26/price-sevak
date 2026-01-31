@@ -5,6 +5,7 @@ import type { SelectOption } from '../../components/ui/Select'
 import Bell from '../../components/icons/Bell'
 import Text from '../../components/ui/Text'
 import type { Alert } from '../../types/productTypes'
+import AnimatedItem from '../../components/ui/AnimatedItem'
 
 const filterOptions: SelectOption[] = [
     { label: "All Alerts", value: "all" },
@@ -26,7 +27,8 @@ const AlertHeader: React.FC<AlertHeaderProps> = ({ alerts, filter, onFilterChang
     }), [alerts])
 
     return (
-        <section
+        <AnimatedItem
+            as='section'
             className={cn(
                 "w-full p-4",
                 "border shadow hover:shadow-sm rounded-sm",
@@ -68,7 +70,7 @@ const AlertHeader: React.FC<AlertHeaderProps> = ({ alerts, filter, onFilterChang
                 options={filterOptions}
             />
 
-        </section>
+        </AnimatedItem>
     )
 }
 

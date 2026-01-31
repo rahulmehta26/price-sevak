@@ -5,13 +5,14 @@ import type { Activity } from "../../types/productTypes";
 import EmptyState from "../../components/ui/EmptyState";
 import Loader from "../../components/ui/Loader";
 import ActivityItem from "../../components/ui/activity/ActivityItem";
+import AnimatedItem from "../../components/ui/AnimatedItem";
 
 const formatTimeAgo = (dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 3600000);
+    const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffMs / 86400000);
 
     if (diffMins < 1) return "Just now";
@@ -24,7 +25,8 @@ const formatTimeAgo = (dateString: string): string => {
 const ActivityTimeline = ({ className }: { className?: string }) => {
     const { data: activities = [], isLoading } = useActivity();
     return (
-        <section
+        <AnimatedItem
+            as="section"
             className={cn(
                 " p-3 md:p-4 py-4 w-full",
                 "bg-foreground/10 backdrop-blur-2xl rounded-sm ",
@@ -85,7 +87,7 @@ const ActivityTimeline = ({ className }: { className?: string }) => {
                     ))}
                 </div>
             )}
-        </section>
+        </AnimatedItem>
     );
 };
 

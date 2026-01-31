@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '../../store/useToast';
 import { updateAlert } from '../../services/alerts';
 import ProductImage from '../../components/ui/ProductImage';
+import AnimatedItem from '../../components/ui/AnimatedItem';
 
 interface AlertCardProps {
     alert: Alert;
@@ -53,7 +54,8 @@ const AlertCard: React.FC<AlertCardProps> = memo(({ alert }) => {
     }
     return (
 
-        <section
+        <AnimatedItem
+            as='section'
             className={cn(
                 "p-4",
                 "bg-foreground/10 border rounded-sm",
@@ -112,7 +114,7 @@ const AlertCard: React.FC<AlertCardProps> = memo(({ alert }) => {
 
             </div>
 
-        </section>
+        </AnimatedItem>
     )
 });
 export default AlertCard

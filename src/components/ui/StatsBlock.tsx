@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { cn } from '../../utils/cn'
 import Text from './Text'
+import AnimatedItem from './AnimatedItem';
 
 interface StatsBlockProps {
     title: string;
@@ -11,7 +12,8 @@ interface StatsBlockProps {
 
 const StatsBlock = memo(({ title, value, titleStyle, valueStyle }: StatsBlockProps) => {
     return (
-        <div
+        <AnimatedItem
+            as='section'
             className={cn(
                 "p-4 space-y-3",
                 "border rounded-sm ",
@@ -35,7 +37,7 @@ const StatsBlock = memo(({ title, value, titleStyle, valueStyle }: StatsBlockPro
                 {value}
             </Text>
 
-        </div>
+        </AnimatedItem>
     )
 });
 

@@ -4,10 +4,12 @@ import ActionButton from "./ActionButton";
 import ProductInfo from "./ProductInfo";
 import { memo } from "react";
 import ProductImage from "../ProductImage";
+import AnimatedItem from "../AnimatedItem";
 
 const ProductCard = memo(({ product }: { product: Product }) => {
     return (
-        <div
+        <AnimatedItem
+            as="div"
             className={cn(
                 "relative z-10",
                 "w-full mx-auto h-auto p-3 md:p-4 lg:p-4 space-y-6",
@@ -25,7 +27,7 @@ const ProductCard = memo(({ product }: { product: Product }) => {
             </div>
 
             <ActionButton productId={product?.id} />
-        </div>
+        </AnimatedItem>
     );
 });
 

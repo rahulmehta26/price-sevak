@@ -15,6 +15,7 @@ import Loader from "../Loader"
 import EmptyState from "../EmptyState"
 import { getPriceHistory } from "../../../services/products"
 import { useToast } from "../../../store/useToast"
+import AnimatedItem from "../AnimatedItem"
 
 interface PriceChartProps {
     productId: string
@@ -122,7 +123,9 @@ const PriceChart = ({
         )
 
     return (
-        <section className={cn("w-full space-y-4")}>
+        <AnimatedItem
+            as="section"
+            className={cn("w-full space-y-4")}>
             <Text as="h4" variant="subHeading" className={cn("text-sm text-foreground md:text-lg")}>
                 Price History
             </Text>
@@ -210,7 +213,7 @@ const PriceChart = ({
                     />
                 </LineChart>
             </ResponsiveContainer>
-        </section>
+        </AnimatedItem>
     )
 }
 

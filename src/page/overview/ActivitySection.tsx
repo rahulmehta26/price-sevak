@@ -2,14 +2,16 @@ import { cn } from '../../utils/cn'
 import Text from '../../components/ui/Text'
 import HoverSlideButton from '../../components/ui/HoverSlideButton'
 import ActivityTimeline from './ActivityTimeline'
+import AnimatedItem from '../../components/ui/AnimatedItem'
 
 const ActivitySection = ({ handleActivityNavigation }: { handleActivityNavigation: () => void }) => {
 
     return (
-        <div
+        <section
             className={cn("space-y-4")}
         >
-            <div
+            <AnimatedItem
+                as='div'
                 className={cn("flex justify-between items-center")}
             >
                 <Text
@@ -21,10 +23,10 @@ const ActivitySection = ({ handleActivityNavigation }: { handleActivityNavigatio
                 </Text>
 
                 <HoverSlideButton onClick={handleActivityNavigation} />
-            </div>
+            </AnimatedItem>
 
             <ActivityTimeline />
-        </div>
+        </section>
     )
 }
 

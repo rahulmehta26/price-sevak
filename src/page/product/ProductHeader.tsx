@@ -9,6 +9,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '../../store/useToast'
 import X from '../../components/icons/X'
 import { useProducts } from '../../hooks/useProducts'
+import AnimatedItem from '../../components/ui/AnimatedItem'
+import { AnimatePresence, motion } from 'motion/react'
 
 const RATE_LIMIT_MS = 5000;
 
@@ -84,7 +86,8 @@ const ProductHeader = () => {
     return (
 
         <>
-            <section
+            <AnimatedItem
+                as='section'
                 className={cn("flex justify-between items-center flex-wrap gap-4")}
             >
                 <div
@@ -116,30 +119,51 @@ const ProductHeader = () => {
                     leftIconStyle={cn("stroke-2")}
                     onClick={() => setIsHidden(prev => !prev)}
                 />
-            </section>
+            </AnimatedItem>
 
-            {
-                isHidden && (
+            <div
+                className='relative w-full'
+            >
+                <AnimatePresence initial={false} >
 
-                    <section
-                        className={cn(
-                            "p-4 w-full",
-                            "bg-foreground/10 backdrop-blur-md rounded-sm",
-                            "shadow hover:shadow-sm",
-                            "flex justify-between items-center gap-4"
-                        )}
-                    >
-                        <Input
-                            value={url}
-                            placeholder='Paste product URL here...'
-                            onChange={setUrl}
-                            showButton
-                            onSubmit={handleSubmit}
-                            isLoading={mutation.isPending}
-                        />
-                    </section>
-                )
-            }
+                    {
+                        isHidden && (
+
+                            <motion.div
+                                key="add-product"
+                                layout
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.25 }}
+                                className="w-full h-full"
+                            >
+
+                                <AnimatedItem
+                                    as="div"
+                                    className={cn(
+                                        "p-4 w-full",
+                                        "bg-foreground/10 backdrop-blur-md rounded-sm",
+                                        "shadow hover:shadow-sm",
+                                        "flex justify-between items-center gap-4"
+                                    )}
+                                >
+                                    <Input
+                                        value={url}
+                                        placeholder='Paste product URL here...'
+                                        onChange={setUrl}
+                                        showButton
+                                        onSubmit={handleSubmit}
+                                        isLoading={mutation.isPending}
+                                    />
+                                </AnimatedItem>
+                            </motion.div>
+
+                        )
+                    }
+                </AnimatePresence>
+            </div>
+
 
         </>
     )

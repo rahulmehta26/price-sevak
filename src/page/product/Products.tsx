@@ -6,10 +6,10 @@ import Filter from "../../components/ui/Filter";
 import type { SelectOption } from "../../components/ui/Select";
 import ProductCard from "../../components/ui/productCard/ProductCard";
 import { useProducts } from "../../hooks/useProducts";
-import Loader from "../../components/ui/Loader";
 import EmptyState from "../../components/ui/EmptyState";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import { useToast } from "../../store/useToast.ts";
+import AnimatedItem from "../../components/ui/AnimatedItem.tsx";
 
 const filterOptions: SelectOption[] = [
     { label: "All Products", value: "all" },
@@ -22,11 +22,21 @@ const Products = () => {
     const [search, setSearch] = useState<string>("");
     const [filter, setFilter] = useState<string>("all");
 
-    const { data: products = [], isLoading, error } = useProducts();
+    const { data: products = [], error } = useProducts();
 
     const addToast = useToast((s) => s.addToast);
 
     const debouncedSearch = useDebounce(search, 300);
+
+    useEffect(() => {
+        if (error) {
+            addToast({
+                title: "Failed to load products",
+                description: "Please refresh the page",
+                type: "error",
+            });
+        }
+    }, [error, addToast]);
 
     const filteredProducts = useMemo(() => {
         let result = products.filter((p) =>
@@ -49,30 +59,15 @@ const Products = () => {
         }
 
         return result;
-    }, [products, search, filter]);
-
-    if (isLoading)
-        return (
-            <div className={cn("flex justify-center items-center h-screen")}>
-                <Loader text="Loading products..." />
-            </div>
-        );
-
-    useEffect(() => {
-        if (error) {
-            addToast({
-                title: "Failed to load products",
-                description: "Please refresh the page",
-                type: "error",
-            });
-        }
-    }, [error, addToast]);
+    }, [products, debouncedSearch, filter]);
 
     return (
         <section className={cn("page-container")}>
+
             <ProductHeader />
 
-            <section
+            <AnimatedItem
+                as="section"
                 className={cn(
                     "p-4 w-full",
                     "bg-foreground/10 rounded-sm",
@@ -86,10 +81,16 @@ const Products = () => {
                     onChange={setSearch}
                 />
 
-                <Filter value={filter} onChange={setFilter} options={filterOptions} />
-            </section>
+                <Filter
+                    value={filter}
+                    onChange={setFilter}
+                    options={filterOptions}
+                />
+            </AnimatedItem>
 
-            <div className={cn("pt-6", "grid gap-6 md:grid-cols-2 lg:grid-cols-2 ")}>
+            <div
+                className={cn("pt-6", "grid gap-6 md:grid-cols-2 lg:grid-cols-2 ")}
+            >
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
                         <ProductCard key={product?.id} product={product} />

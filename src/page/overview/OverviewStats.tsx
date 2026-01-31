@@ -1,6 +1,7 @@
 import { cn } from '../../utils/cn'
 import StatsBlock from '../../components/ui/StatsBlock'
 import { formatCurrency } from '../../utils/priceCalculation'
+import AnimatedItem from '../../components/ui/AnimatedItem';
 
 interface StatsProps {
     avgSavings: number;
@@ -15,7 +16,9 @@ interface StatsBlockProps {
 
 const OverviewStats = ({ stats, trackingSince }: StatsBlockProps) => {
     return (
-        <div className={cn("flex justify-start items-center flex-wrap gap-4")}>
+        <AnimatedItem
+            as='section'
+            className={cn("flex justify-start items-center flex-wrap gap-4")}>
             <StatsBlock
                 title="Avg. Savings"
                 value={`₹${formatCurrency(stats.avgSavings)}`}
@@ -39,7 +42,7 @@ const OverviewStats = ({ stats, trackingSince }: StatsBlockProps) => {
                 value={trackingSince}
                 valueStyle={cn("font-bold")}
             />
-        </div>
+        </AnimatedItem>
     )
 }
 

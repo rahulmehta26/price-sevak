@@ -16,6 +16,7 @@ import ProductInfo from "./ProductInfo";
 import PriceHistoryLog from "./PriceHistoryLog";
 import BackButton from "./BackButton";
 import ProductImage from "../../../components/ui/ProductImage";
+import AnimatedItem from "../../../components/ui/AnimatedItem";
 
 const ProductDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -62,7 +63,8 @@ const ProductDetail = () => {
         <section className={cn("page-container")}>
             <BackButton />
 
-            <div
+            <AnimatedItem
+                as="div"
                 className={cn(
                     "p-4",
                     "bg-foreground/10 border rounded-sm",
@@ -74,12 +76,13 @@ const ProductDetail = () => {
 
                 <ProductInfo product={product} />
 
-            </div>
+            </AnimatedItem>
 
             <div className={cn(
                 "flex flex-col justify-between items-center lg:flex-row flex-wrap gap-10"
             )}>
-                <div
+                <AnimatedItem
+                    as="div"
                     className={cn(
                         "p-4 w-full flex-1",
                         "bg-foreground/10 border rounded-sm",
@@ -87,20 +90,25 @@ const ProductDetail = () => {
                     )}
                 >
                     {product?.id && <PriceChart productId={product.id} />}
-                </div>
+                </AnimatedItem>
 
                 <ProductStats product={product} stats={priceStats} />
             </div>
 
             <div className=" border-b-4 border-foreground border-dashed my-12 " />
 
-            <Text
-                as="h4"
-                variant="subHeading"
-                className={cn("text-foreground text-md md:text-lg")}
+            <AnimatedItem
+                as="div"
             >
-                Price Change Log
-            </Text>
+
+                <Text
+                    as="h4"
+                    variant="subHeading"
+                    className={cn("text-foreground text-md md:text-lg")}
+                >
+                    Price Change Log
+                </Text>
+            </AnimatedItem>
 
             <PriceHistoryLog priceHistory={priceHistory} />
 

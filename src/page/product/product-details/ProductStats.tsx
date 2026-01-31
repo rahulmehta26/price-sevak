@@ -11,7 +11,7 @@ const ProductStats = ({
     stats: any;
 }) => {
     return (
-        <div className={cn(
+        <section className={cn(
             "flex flex-row lg:flex-col justify-center items-center gap-4 flex-wrap "
         )}>
             <StatsBlock
@@ -31,7 +31,7 @@ const ProductStats = ({
                 value={`₹${formatCurrency(stats.average || product.current_price)}`}
                 valueStyle="text-foreground/60"
             />
-        </div>
+        </section>
     )
 }
 

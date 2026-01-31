@@ -15,7 +15,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
     };
 
     return (
-        <div className={cn("space-y-2")}>
+        <section className={cn("space-y-2")}>
             <Text
                 as="p"
                 variant="para"
@@ -59,7 +59,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
                 handleExternalLink={handleExternalLink}
                 storeName={storeName}
             />
-        </div>
+        </section>
     );
 };
 

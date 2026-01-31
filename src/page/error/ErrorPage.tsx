@@ -4,6 +4,8 @@ import Text from '../../components/ui/Text'
 import Button from '../../components/ui/Button'
 import Error from '../../components/icons/Error';
 import { useNavigate } from 'react-router-dom';
+import Home from '../../components/icons/Home';
+import Refresh from '../../components/icons/Refresh';
 
 interface ErrorPageProps {
     error: Error;
@@ -20,12 +22,12 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
     };
 
     return (
-        <div
+        <section
             className={cn(
-                "min-h-screen w-full",
+                "w-full",
                 "bg-background",
                 "flex items-center justify-center",
-                "p-8"
+                "pt-28 pb-10 "
             )}
         >
             <motion.div
@@ -39,8 +41,9 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                 }}
                 className={cn(
                     "max-w-2xl w-full",
-                    "bg-secondary rounded-lg",
-                    "p-12 space-y-8",
+                    "p-4 md:p-12 space-y-8",
+                    "bg-foreground/10  rounded-sm",
+                    "shadow hover:shadow-sm",
                     "text-center"
                 )}
             >
@@ -58,12 +61,12 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                     <Text
                         as="h1"
                         variant="heading"
-                        className="text-4xl font-extrabold text-black"
+                        className="text-2xl md:text-4xl font-extrabold text-foreground"
                     >
                         Oops! Something Went Wrong
                     </Text>
 
-                    <Text as="p" variant="para" className="text-black/60 text-lg">
+                    <Text as="p" variant="para" className="text-foreground/60 text-sm md:text-lg">
                         We encountered an unexpected error. Don't worry, we're working
                         on fixing it.
                     </Text>
@@ -80,18 +83,21 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                         variant="primary"
                         className="px-8"
                         onClick={resetError}
+                        leftIcon={Refresh}
                     />
 
                     <Button
                         title="Go to Home"
                         variant="outline"
-                        className="px-8 border-black hover:bg-primary/20"
-                        textStyle="text-black"
+                        className="px-8 "
+                        textStyle="text-foreground"
                         onClick={goHome}
+                        leftIcon={Home}
+                        leftIconStyle={cn('stroke-foreground ')}
                     />
                 </div>
 
-                {import.meta.env.DEV && error && (
+                {/* {import.meta.env.DEV && error && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
@@ -135,16 +141,16 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
                             )}
                         </div>
                     </motion.div>
-                )}
+                )} */}
 
-                <div className="pt-4 border-t-2 border-black/50">
-                    <Text as="p" variant="para" className="text-black/60 text-sm">
+                <div className="pt-4 border-t-2 border-dashed border-foreground/50">
+                    <Text as="p" variant="para" className="text-foreground/60 text-sm">
                         If this problem persists,
                         refreshing the page.
                     </Text>
                 </div>
             </motion.div>
-        </div>
+        </section>
     )
 }
 

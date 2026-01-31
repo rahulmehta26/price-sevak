@@ -1,6 +1,7 @@
 import Text from "../../components/ui/Text"
 import { FEATURES, type FeatureProps } from "../../constant/features"
 import { cn } from "../../utils/cn"
+import AnimatedItem from "../../components/ui/AnimatedItem"
 
 
 const Features = () => {
@@ -12,7 +13,8 @@ const Features = () => {
             )}
         >
 
-            <div
+            <AnimatedItem
+                as="div"
                 className={cn(
                     "w-full",
                     "flex flex-col justify-center items-center space-y-5"
@@ -35,18 +37,19 @@ const Features = () => {
                 >
                     Powerful features for smarter buying and better Bachat.
                 </Text>
-            </div>
+            </AnimatedItem>
 
             <div
                 className={cn(
                     "grid gap-6 px-4 md:grid-cols-2 lg:grid-cols-3 ",
                 )}
             >
-
                 {
                     FEATURES?.map(({ desc, icon: Icon, id, title }: FeatureProps) => {
                         return (
-                            <div
+
+                            <AnimatedItem
+                                as="div"
                                 key={id}
                                 className={cn(
                                     "h-auto p-6",
@@ -75,7 +78,7 @@ const Features = () => {
                                 <Text as='p' variant='para' className={cn('text-foreground/70 text-start font-light')} >
                                     {desc}
                                 </Text>
-                            </div>
+                            </AnimatedItem>
 
                         )
                     })

@@ -13,6 +13,7 @@ import OverviewStats from "./OverviewStats"
 import PageHeader from "../../components/ui/PageHeader"
 import ActivitySection from "./ActivitySection"
 import { useProducts } from "../../hooks/useProducts"
+import AnimatedItem from "../../components/ui/AnimatedItem"
 
 const Overview = () => {
 
@@ -61,9 +62,9 @@ const Overview = () => {
 
             <OverviewHeader />
 
-            <div>
+            <div >
 
-                <div
+                <AnimatedItem as="div"
                     className={cn("flex flex-col md:flex-row justify-between md:items-center space-y-6 md:space-y-0 ")}
                 >
 
@@ -83,7 +84,7 @@ const Overview = () => {
                     </div>
 
                     <HoverSlideButton onClick={handleProductNavigation} />
-                </div>
+                </AnimatedItem>
 
                 {products.length === 0 ? (
                     <EmptyState

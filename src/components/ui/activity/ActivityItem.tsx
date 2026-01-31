@@ -3,6 +3,7 @@ import { ACTIVITY_META, type ActivityType } from "../../../config/activity.confi
 import type { Activity } from "../../../types/productTypes"
 import { cn } from "../../../utils/cn"
 import Text from "../Text"
+import AnimatedItem from "../AnimatedItem";
 
 interface ActivityItemProps {
     activity: Activity;
@@ -14,7 +15,8 @@ const ActivityItem = memo(({ activity, time }: ActivityItemProps) => {
     const { icon: Icon, color } = ACTIVITY_META[activity.type as ActivityType]
 
     return (
-        <div
+        <AnimatedItem
+            as="section"
             className={cn("flex justify-between items-center")}
         >
             <div
@@ -83,7 +85,7 @@ const ActivityItem = memo(({ activity, time }: ActivityItemProps) => {
             >
                 {time}
             </Text>
-        </div>
+        </AnimatedItem>
     )
 });
 

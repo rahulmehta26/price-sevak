@@ -6,6 +6,7 @@ import EmptyState from "../../components/ui/EmptyState";
 import Loader from "../../components/ui/Loader";
 import PageHeader from "../../components/ui/PageHeader";
 import ActivityItem from "../../components/ui/activity/ActivityItem";
+import AnimatedItem from "../../components/ui/AnimatedItem";
 
 const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -42,11 +43,11 @@ const Activity = () => {
 
     if (isLoading) {
         return (
-            <section
+            <div
                 className={cn("flex items-center justify-center h-screen")}
             >
                 <Loader text="Loading activities..." />
-            </section>
+            </div>
         );
     }
 
@@ -68,7 +69,7 @@ const Activity = () => {
             ) : (
                 <>
                     {groupedActivities.map((group, groupIndex) => (
-                        <div key={group.date}>
+                        <AnimatedItem as="div" key={group.date}>
                             <Text
                                 as="span"
                                 variant="tags"
@@ -98,7 +99,7 @@ const Activity = () => {
                             {groupIndex < groupedActivities.length - 1 && (
                                 <div className="border-b-4 border-foreground border-dashed my-12" />
                             )}
-                        </div>
+                        </AnimatedItem>
                     ))}
                 </>
             )}

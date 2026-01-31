@@ -1,4 +1,16 @@
 import { cn } from "../../utils/cn";
+import { motion, type Variants } from "motion/react";
+
+const rotateVariants: Variants = {
+    initial: { rotate: 0 },
+    hover: {
+        rotate: -180,
+        transition: {
+            duration: 0.5,
+            ease: "linear",
+        },
+    },
+};
 
 const Refresh = ({ className }: { className?: string }) => {
     return (
@@ -12,9 +24,14 @@ const Refresh = ({ className }: { className?: string }) => {
             strokeLinejoin="round"
             className={cn("icon", className)}
         >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
-            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+            <motion.g
+                variants={rotateVariants}
+                style={{ transformOrigin: "50% 50%" }}
+            >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+            </motion.g>
         </svg>
     );
 };

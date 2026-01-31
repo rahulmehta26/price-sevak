@@ -1,9 +1,10 @@
 import Text from './Text'
 import { cn } from '../../utils/cn'
+import AnimatedItem from './AnimatedItem'
 
 const PageHeader = ({ title, subTitle }: { title: string, subTitle?: string }) => {
     return (
-        <section>
+        <AnimatedItem as="section">
             <Text
                 as="h4"
                 variant="heading"
@@ -19,7 +20,7 @@ const PageHeader = ({ title, subTitle }: { title: string, subTitle?: string }) =
             >
                 {subTitle}
             </Text>
-        </section>
+        </AnimatedItem>
     )
 }
 
