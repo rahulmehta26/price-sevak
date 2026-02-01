@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { cn } from '../../utils/cn'
 import Button from '../../components/ui/Button'
 import Plus from '../../components/icons/Plus'
@@ -20,6 +20,7 @@ const ProductHeader = () => {
     const [isHidden, setIsHidden] = useState<boolean>(false);
 
     const rateLimitRef = useRef(false);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const addToast = useToast((s) => s.addToast)
 
@@ -75,13 +76,24 @@ const ProductHeader = () => {
 
         rateLimitRef.current = true;
 
-        setTimeout(() => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
             rateLimitRef.current = false;
         }, RATE_LIMIT_MS);
 
         mutation.mutate(url);
     };
 
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
 
     return (
 
