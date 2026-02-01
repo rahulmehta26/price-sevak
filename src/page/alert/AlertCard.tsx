@@ -27,7 +27,9 @@ const AlertCard: React.FC<AlertCardProps> = memo(({ alert }) => {
             return await updateAlert(alert.id, { is_active: newState });
         },
         onMutate: async (newState: boolean) => {
+            const previousState = isOn;
             setIsOn(newState);
+            return { previousState };
         },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['alerts'] });
@@ -40,8 +42,10 @@ const AlertCard: React.FC<AlertCardProps> = memo(({ alert }) => {
                 type: 'success'
             })
         },
-        onError: (previousState) => {
-            setIsOn(!previousState);
+        onError: (_error, _variables, context) => {
+            if (context?.previousState !== undefined) {
+                setIsOn(context.previousState);
+            }
             addToast({
                 title: "Failed to update alert",
                 type: "error"
