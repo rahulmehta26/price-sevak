@@ -6,16 +6,20 @@ export const loginWithGoogle = async () => {
   try {
     const { origin } = window.location;
 
-    await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: origin },
     });
-  } catch {
+
+    if (error) throw error;
+  } catch (error) {
     useToast.getState().addToast({
       title: "Login failed",
       description: "Unable to sign in with Google.",
       type: "error",
     });
+
+    throw error;
   }
 };
 
@@ -28,10 +32,12 @@ export const logout = async () => {
       title: "Signed out",
       type: "success",
     });
-  } catch {
+  } catch (error) {
     useToast.getState().addToast({
       title: "Logout failed",
       type: "error",
     });
+
+    throw error;
   }
 };
