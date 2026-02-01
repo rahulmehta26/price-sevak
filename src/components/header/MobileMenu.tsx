@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "../../utils/cn";
 import Signout from "../icons/Signout";

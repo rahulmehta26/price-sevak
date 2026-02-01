@@ -38,7 +38,10 @@ const Header = () => {
 
         if (isLoggingIn) return;
 
-        if (!user) return open();
+        if (!user) {
+            open();
+            return;
+        };
 
         setIsLoggingIn(true);
 
@@ -47,11 +50,7 @@ const Header = () => {
             await loginWithGoogle();
 
         } catch (error) {
-            addToast({
-                title: "Login Failed",
-                description: "Please try again",
-                type: "error"
-            })
+
         } finally {
             setIsLoggingIn(false);
         }

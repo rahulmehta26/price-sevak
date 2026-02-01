@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { cn } from "../../utils/cn";
 import { useMobileMenu } from "../../store/useMobileMenu";
 

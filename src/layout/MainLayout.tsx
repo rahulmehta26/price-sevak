@@ -19,7 +19,7 @@ const MainLayout = () => {
                 "w-[18rem] md:w-2xl lg:w-4xl xl:w-5xl"
             )}
         >
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
                 {isOpen && <Authmodal />}
             </AnimatePresence>
 
