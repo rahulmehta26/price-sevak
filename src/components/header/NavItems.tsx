@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { motion } from "motion/react";
 import { NavLink } from "react-router-dom";
 import { navItems } from "../../constant/navItems";
 import { cn } from "../../utils/cn";
@@ -6,7 +8,6 @@ import Button from "../ui/Button";
 import Signout from "../icons/Signout";
 import MobileMenuButton from "./MobileMenuButton";
 import { logout } from "../../services/auth";
-import { useRef } from "react";
 
 const routePreloadMap: Record<string, () => Promise<unknown>> = {
     "/overview": () => import("../../page/overview/Overview"),
@@ -27,6 +28,7 @@ const NavItems = () => {
 
         if (!preLoad) return;
 
+        preLoad();
         preLoadedRef.current.add(path);
     }
 
@@ -39,7 +41,7 @@ const NavItems = () => {
                         key={item.id}
                         to={item.href}
                         className={cn(
-                            "relative px-4 py-2",
+                            "relative px-3 py-2",
                             "rounded-sm group"
                         )}
                         onMouseEnter={() => handlerMouseEnter(item.href)}
@@ -49,18 +51,30 @@ const NavItems = () => {
                             <>
                                 {!isActive && <span className="hover-slide-bg" />}
 
-                                <Text
-                                    as="span"
-                                    variant="base"
-                                    className={cn(
-                                        "font-bold tracking-normal font-mono relative z-10",
-                                        isActive
-                                            ? "text-background bg-primary px-2 py-2 rounded-sm"
-                                            : "text-foreground group-hover:text-primary"
-                                    )}
-                                >
-                                    {item.name}
-                                </Text>
+                                <motion.div
+                                    animate={{
+                                        y: isActive ? -2 : 0,
+                                        opacity: isActive ? 1 : 0.85,
+                                    }}
+                                    transition={{
+                                        duration: 0.18,
+                                        ease: "easeOut"
+                                    }}>
+
+                                    <Text
+                                        as="span"
+                                        variant="base"
+                                        className={cn(
+                                            "font-bold tracking-normal font-mono relative z-10",
+                                            isActive
+                                                ? "text-background bg-primary px-3 py-2 rounded-sm"
+                                                : "text-foreground group-hover:text-primary"
+                                        )}
+                                    >
+                                        {item.name}
+                                    </Text>
+                                </motion.div>
+
                             </>
                         )}
                     </NavLink>
