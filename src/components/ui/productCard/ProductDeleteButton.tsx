@@ -10,9 +10,11 @@ const ProductDeleteButton = ({ productId }: { productId: string }) => {
     return (
         <motion.button
             onClick={() => mutate(productId)}
+            whileHover="hover"
             className={cn(
                 "w-7 h-7 md:w-10 md:h-10",
                 "bg-destructive/10 border rounded-sm",
+                "cursor-pointer",
                 "flex justify-center items-center"
             )}
         >
