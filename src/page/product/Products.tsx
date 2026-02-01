@@ -24,19 +24,17 @@ const Products = () => {
 
     const { data: products = [], error } = useProducts();
 
-    const addToast = useToast((s) => s.addToast);
-
     const debouncedSearch = useDebounce(search, 300);
 
     useEffect(() => {
         if (error) {
-            addToast({
+            useToast.getState().addToast({
                 title: "Failed to load products",
                 description: "Please refresh the page",
                 type: "error",
             });
         }
-    }, [error, addToast]);
+    }, [error]);
 
     const filteredProducts = useMemo(() => {
         let result = products.filter((p) =>
