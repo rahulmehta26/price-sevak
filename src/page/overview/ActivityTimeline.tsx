@@ -8,22 +8,24 @@ import Loader from "../../components/ui/Loader";
 import ActivityItem from "../../components/ui/activity/ActivityItem";
 import AnimatedItem from "../../components/ui/AnimatedItem";
 
-const formatTimeAgo = useCallback((dateString: string): string => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    return `${diffDays}d ago`;
-}, []);
-
 const ActivityTimeline = ({ className }: { className?: string }) => {
+
+    const formatTimeAgo = useCallback((dateString: string): string => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now.getTime() - date.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffMs / 86400000);
+
+        if (diffMins < 1) return "Just now";
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        return `${diffDays}d ago`;
+    }, []);
+
     const { data: activities = [], isLoading } = useActivity();
+
     return (
         <AnimatedItem
             as="section"
