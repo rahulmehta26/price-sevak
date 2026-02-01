@@ -3,7 +3,7 @@ import { useToast, type Toast } from "../../../store/useToast"
 import { cn } from "../../../utils/cn";
 import Text from "../Text";
 import CloseButton from "../CloseButton";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const typeStyle = {
     success: "border-green-500 bg-linear-to-l from-green-500/30 via-green-500/20 to-green-500/10 text-green-400",
@@ -30,12 +30,12 @@ const ToastItems = ({ toast }: { toast: Toast }) => {
 
     const [isPaused, setIsPaused] = useState<boolean>(false);
 
-    const clearTimer = () => {
+    const clearTimer = useCallback(() => {
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
-            timeoutRef.current = null
+            timeoutRef.current = null;
         }
-    }
+    }, []);
 
     const startTimer = () => {
 

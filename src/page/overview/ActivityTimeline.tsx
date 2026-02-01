@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { cn } from "../../utils/cn";
 import Text from "../../components/ui/Text";
 import { useActivity } from "../../hooks/useActivity";
@@ -7,7 +8,7 @@ import Loader from "../../components/ui/Loader";
 import ActivityItem from "../../components/ui/activity/ActivityItem";
 import AnimatedItem from "../../components/ui/AnimatedItem";
 
-const formatTimeAgo = (dateString: string): string => {
+const formatTimeAgo = useCallback((dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -18,9 +19,8 @@ const formatTimeAgo = (dateString: string): string => {
     if (diffMins < 1) return "Just now";
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
-
     return `${diffDays}d ago`;
-};
+}, []);
 
 const ActivityTimeline = ({ className }: { className?: string }) => {
     const { data: activities = [], isLoading } = useActivity();
