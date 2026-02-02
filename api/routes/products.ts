@@ -138,17 +138,19 @@ router.delete("/", async (req, res) => {
       return res.status(400).json({ error: "Product ID is required" });
     }
 
-    const { error } = await supabase
+    const { error, data } = await supabase
       .from("products")
       .delete()
       .eq("id", id)
-      .eq("user_id", user.id);
+      .eq("user_id", user.id)
+      .select()
+      .single();
 
-    if (error) {
-      return res.status(500).json({ error });
+    if (error || !data) {
+      return res
+        .status(500)
+        .json({ error: "'Product not found or already deleted'" });
     }
-
-    if (error) throw error;
 
     return res.json({ success: true });
   } catch (error: any) {
