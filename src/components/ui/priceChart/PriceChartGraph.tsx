@@ -49,7 +49,11 @@ const PriceChartGraph = ({
                     tickFormatter={(v) => `₹${v}`}
                 />
 
-                <Tooltip content={<PriceChartTooltip />} />
+                <Tooltip
+                    cursor={{ stroke: "#8884d8", strokeWidth: 1 }}
+                    allowEscapeViewBox={{ x: true, y: true }}
+                    content={<PriceChartTooltip />}
+                />
 
                 <Area type="monotone" dataKey="down" fill="url(#greenGradient)" />
                 <Line type="monotone" dataKey="down" stroke="#22c55e" dot={false} />
