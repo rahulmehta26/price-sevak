@@ -1,6 +1,8 @@
 import { cn } from "../../utils/cn";
+import ProductImage from "../ui/ProductImage";
 import SocialLinks from "../ui/SocialLinks";
 import Text from "../ui/Text";
+import PriceSevak from "../../assets/price-sevak-logo.svg"
 
 const Footer = () => {
     return (
@@ -16,13 +18,25 @@ const Footer = () => {
             >
 
                 <div>
-                    <Text
-                        as="span"
-                        variant="heading"
-                        className={cn("font-quintessential text-foreground font-extrabold")}
+
+                    <div
+                        className={cn("flex items-center gap-2")}
                     >
-                        Price Sevak
-                    </Text>
+
+                        <ProductImage
+                            productImage={PriceSevak}
+                            alt="Price Sevak Logo"
+                            className={cn("w-10 h-10 border-0")}
+                        />
+
+                        <Text
+                            as="span"
+                            variant="heading"
+                            className={cn("font-quintessential text-foreground font-extrabold")}
+                        >
+                            Price Sevak
+                        </Text>
+                    </div>
 
                     <Text
                         as="p"

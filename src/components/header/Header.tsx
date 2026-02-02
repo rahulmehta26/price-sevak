@@ -7,8 +7,9 @@ import { useAuthModal } from "../../store/useAuthModal";
 import { useAuthState } from "../../store/useAuthStore";
 import RightArrow from "../icons/RightArrow";
 import NavItems from "./NavItems";
-import { useToast } from "../../store/useToast";
 import { loginWithGoogle } from "../../services/auth";
+import ProductImage from "../ui/ProductImage";
+import PriceSeva from "../../assets/price-sevak-logo.svg"
 
 const Header = () => {
     const [isHidden, setIsHidden] = useState<boolean>(false);
@@ -31,8 +32,6 @@ const Header = () => {
     const open = useAuthModal((s) => s.open);
 
     const user = useAuthState((s) => s.user);
-
-    const addToast = useToast((s) => s.addToast);
 
     const handleLogin = async () => {
 
@@ -80,10 +79,18 @@ const Header = () => {
                     "flex justify-between items-center"
                 )}
             >
-                <div>
+                <div
+                    className={cn("flex items-center gap-2 md:gap-4")}
+                >
+
+                    <ProductImage
+                        productImage={PriceSeva}
+                        alt="Price Seva Logo"
+                        className="w-8 h-8 md:w-12 md:h-12 border-0 "
+                    />
                     <span
                         className={cn(
-                            "md:font-extrabold font-normal font-oswald tracking-wider text-md md:text-2xl"
+                            "md:font-extrabold font-normal font-oswald tracking-wider text-lg md:text-3xl"
                         )}
                     >
                         Price Sevak
