@@ -10,10 +10,13 @@ import NavItems from "./NavItems";
 import { loginWithGoogle } from "../../services/auth";
 import ProductImage from "../ui/ProductImage";
 import PriceSeva from "../../assets/price-sevak-logo.svg"
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
     const [isHidden, setIsHidden] = useState<boolean>(false);
     const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     const lastYPosition = useRef<number>(0);
 
@@ -80,7 +83,12 @@ const Header = () => {
                 )}
             >
                 <div
-                    className={cn("flex items-center gap-2 md:gap-4")}
+                    className={cn(
+                        "flex items-center gap-2 md:gap-4",
+                        "cursor-pointer"
+                    )}
+
+                    onClick={() => navigate("/")}
                 >
 
                     <ProductImage
