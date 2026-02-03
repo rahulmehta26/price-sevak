@@ -1,4 +1,4 @@
-# Price Sevak (Price सेवक) 💰
+# Price Sevak (Price सेवक) ![](price-sevak-logo.png)
 
 > **Smarter prices, better Bachat.**
 
