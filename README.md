@@ -1,4 +1,4 @@
-# Price Sevak (Price सेवक) ![](price-sevak-logo.png)
+# <h1 style="display:flex; align-items:center; gap:8px;" > Price Sevak (Price सेवक) <img src="price-sevak-logo.png" width="60" style="vertical-align: middle; margin-left: 8px;" /></h1>
 
 > **Smarter prices, better Bachat.**
 
